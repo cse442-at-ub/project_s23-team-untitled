@@ -167,6 +167,7 @@ class POWERUP:
         self.position = Vector2(random.randint(0, cell_number - 1), random.randint(0, cell_number - 1))
         self.color = (255, 0, 0)
         self.image = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
+        self.number = 0
 
 
 class MAIN:
@@ -175,6 +176,7 @@ class MAIN:
         self.wall = WALL(self.snake)
         self.apple = POWERUP()
         self.powerups = []
+        self.score = 0
 
     def update(self):
         self.snake.move_snake()
@@ -243,8 +245,10 @@ if __name__ == '__main__':
     pygame.time.set_timer(SCREEN_UPDATE, 200)
 
     main_game = MAIN()
+    powerup = POWERUP()
 
     while True:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -266,9 +270,11 @@ if __name__ == '__main__':
                         main_game.snake.direction = Vector2(-1, 0)
 
         # Generate a random power-up once in a while
+
         if random.random() < 0.1:  # 调整随机生成 power-up 的概率
-            powerup = POWERUP()
-            main_game.powerups.append(powerup)
+            if powerup.number <= 10:
+                main_game.powerups.append(powerup)
+                powerup.number += 1
 
         screen.fill((179, 207, 178))
         main_game.draw_elements()
