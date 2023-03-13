@@ -99,7 +99,21 @@ class SNAKE:
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(0, 0)
 
-
+# class FOOD:
+#     # 食物
+#     food_x = 0
+#     food_y = 0
+#
+#     def _create_food():
+#         nonlocal food_x, food_y
+#         food_x = random.randint(scope_x[0], scope_x[1])
+#         food_y = random.randint(scope_y[0], scope_y[1])
+#         while (food_x, food_y) in snake:
+#             # 为了防止食物出到蛇身上
+#             food_x = random.randint(scope_x[0], scope_x[1])
+#             food_y = random.randint(scope_y[0], scope_y[1])
+#
+#     _create_food()
 class WALL:
     def __init__(self, snake):
         self.snake = snake
@@ -161,11 +175,19 @@ class WALL:
             wall_square = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment, wall_square)
 
+class FOOD:
+    def __init__(self):
+        self.position = Vector2(random.randint(0, cell_number - 1), random.randint(0, cell_number - 1))
+        self.color = (255, 0, 0)
+        self.image = pygame.image.load('Graphics/banana.png').convert_alpha()
+
 
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
         self.wall = WALL(self.snake)
+        self.score =0
+        self.foods = []
 
     def update(self):
         self.snake.move_snake()
@@ -176,7 +198,16 @@ class MAIN:
         self.draw_grass()
         self.snake.draw_snake()
         self.wall.draw_wall()
+        self.draw_food()
 
+    def draw_scoreboard(self):
+        score_surface = game_font.render('Score: {}'.format(self.score), True, (56, 74, 12))
+        screen.blit(score_surface, (10, 10))
+
+    def draw_food(self):
+        for food in self.foods:
+            screen.blit(food.image, (int(food.position.x * cell_size),
+                                        int(food.position.y * cell_size)))
     def check_collision(self):
         return
 
@@ -191,6 +222,9 @@ class MAIN:
         for block in self.wall.wall_blocks:
             if block == self.snake.body[0]:
                 self.game_over()
+
+
+
 
     def game_over(self):
         self.snake.reset()
@@ -223,6 +257,7 @@ if __name__ == '__main__':
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
     wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
     turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
+    banana = pygame.image.load('Graphics/banana.png').convert_alpha()
 
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 200)
@@ -250,9 +285,22 @@ if __name__ == '__main__':
                     if main_game.snake.direction.x != 1:
                         main_game.snake.direction = Vector2(-1, 0)
 
+         # Generate a random power-up once in a while
+        if random.random() < 0.1:  # 调整随机生成 power-up 的概率
+            food = FOOD()
+            main_game.foods.append(food)
+
         screen.fill((179, 207, 178))
         main_game.draw_elements()
+        main_game.draw_scoreboard()
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Snaking')
         pygame.display.update()
         clock.tick(60)
+        # root_sf = pygame.display.set_mode((10,5))
+        # print(pygame.font.get_fonts())
+        # font_name = pygame.font.match_font('arial')
+        # font = pygame.font.Font(font_name,20)
+        # font_surface = font.render('SCORE',True,'white')
+        # root_sf.blit(font_surface,(1,5))
+
