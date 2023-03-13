@@ -1,10 +1,14 @@
-import pygame,sys,random
+import random
+import sys
+
+import pygame
 from pygame.math import Vector2
+
 
 class SNAKE:
     def __init__(self):
-        self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
-        self.direction = Vector2(0,0)
+        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
+        self.direction = Vector2(0, 0)
         self.new_block = False
 
         self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
@@ -25,86 +29,94 @@ class SNAKE:
         self.body_bl = pygame.image.load('Graphics/body_tr.png').convert_alpha()
         self.body_br = pygame.image.load('Graphics/body_tl.png').convert_alpha()
 
-
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
 
-        for index,block in enumerate(self.body):
+        for index, block in enumerate(self.body):
             x_pos = int(block.x * cell_size)
             y_pos = int(block.y * cell_size)
-            block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
+            block_rect = pygame.Rect(x_pos, y_pos, cell_size, cell_size)
 
-            if index ==0:
-                screen.blit(self.head,block_rect)
+            if index == 0:
+                screen.blit(self.head, block_rect)
             elif index == len(self.body) - 1:
-                screen.blit(self.tail,block_rect)
+                screen.blit(self.tail, block_rect)
             else:
                 previous_block = self.body[index + 1] - block
-                next_block = self.body [index - 1] - block
+                next_block = self.body[index - 1] - block
                 if previous_block.x == next_block.x:
-                    screen.blit(self.body_vertical,block_rect)
+                    screen.blit(self.body_vertical, block_rect)
                 elif previous_block.y == next_block.y:
-                    screen.blit(self.body_horizontal,block_rect)
+                    screen.blit(self.body_horizontal, block_rect)
                 else:
                     if previous_block.x == -1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == -1:
-                        screen.blit(self.body_tl,block_rect)
+                        screen.blit(self.body_tl, block_rect)
                     elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1:
-                        screen.blit(self.body_bl,block_rect)
+                        screen.blit(self.body_bl, block_rect)
                     elif previous_block.x == 1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == 1:
-                        screen.blit(self.body_tr,block_rect)
+                        screen.blit(self.body_tr, block_rect)
                     elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
-                        screen.blit(self.body_br,block_rect)
+                        screen.blit(self.body_br, block_rect)
 
     def update_head_graphics(self):
         head_relation = self.body[1] - self.body[0]
-        if head_relation == Vector2(1,0): self.head = self.head_left
-        elif head_relation == Vector2(-1,0): self.head = self.head_right
-        elif head_relation == Vector2(0,1): self.head = self.head_up
-        elif head_relation == Vector2(0,-1): self.head = self.head_down
-    
+        if head_relation == Vector2(1, 0):
+            self.head = self.head_left
+        elif head_relation == Vector2(-1, 0):
+            self.head = self.head_right
+        elif head_relation == Vector2(0, 1):
+            self.head = self.head_up
+        elif head_relation == Vector2(0, -1):
+            self.head = self.head_down
+
     def update_tail_graphics(self):
         tail_relation = self.body[-2] - self.body[-1]
-        if tail_relation == Vector2(1,0): self.tail = self.tail_left
-        elif tail_relation == Vector2(-1,0): self.tail = self.tail_right
-        elif tail_relation == Vector2(0,1): self.tail = self.tail_up
-        elif tail_relation == Vector2(0,-1): self.tail = self.tail_down 
+        if tail_relation == Vector2(1, 0):
+            self.tail = self.tail_left
+        elif tail_relation == Vector2(-1, 0):
+            self.tail = self.tail_right
+        elif tail_relation == Vector2(0, 1):
+            self.tail = self.tail_up
+        elif tail_relation == Vector2(0, -1):
+            self.tail = self.tail_down
 
     def move_snake(self):
         if self.new_block == True:
             body_copy = self.body[:]
-            body_copy.insert(0,body_copy[0] + self.direction)
+            body_copy.insert(0, body_copy[0] + self.direction)
             self.body = body_copy[:]
             self.new_block = False
         else:
             body_copy = self.body[:-1]
-            body_copy.insert(0,body_copy[0] + self.direction)
+            body_copy.insert(0, body_copy[0] + self.direction)
             self.body = body_copy[:]
 
     def add_block(self):
-        self.new_block = True 
+        self.new_block = True
 
     def reset(self):
-        self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
-        self.direction = Vector2(0,0)
+        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
+        self.direction = Vector2(0, 0)
 
 
 class WALL:
-    def __init__(self,snake):
+    def __init__(self, snake):
         self.snake = snake
         self.wall_blocks = []
         self.randomize()
 
     def randomize(self):
         self.wall_blocks = []
-        wall_numbers = 2
+        wall_numbers = 1  # how many wall groups
         for i in range(wall_numbers):
             # Generate first wall
             start_x = random.randint(1, cell_number - 3)
             start_y = random.randint(1, cell_number - 3)
             direction = random.choice([Vector2(1, 0), Vector2(0, 1)])
-            wall_shape = random.choice(["line", "L_shape"])
-            num_walls = random.randint(3, 5)
+            wall_shape = "line"
+            # wall_shape = random.choice(["line", "L_shape"])
+            num_walls = random.randint(1, 2)
 
             if wall_shape == "line":
                 for i in range(num_walls):
@@ -115,39 +127,40 @@ class WALL:
                         direction = random.choice([Vector2(1, 0), Vector2(0, 1)])
                         obstacle_pos = Vector2(start_x, start_y) + i * direction
                     self.wall_blocks.append(obstacle_pos)
-            else: # "L_shape"
-                if direction == Vector2(1, 0):
-                    for i in range(num_walls):
-                        if i == 0:
-                            obstacle_pos = Vector2(start_x, start_y)
-                        elif i == 1:
-                            obstacle_pos = Vector2(start_x, start_y + 1)
-                        else:
-                            obstacle_pos = Vector2(start_x + i - 1, start_y + 1)
-                        while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
-                            start_x = random.randint(1, cell_number - 3)
-                            start_y = random.randint(1, cell_number - 3)
-                            obstacle_pos = Vector2(start_x, start_y + 1)
-                        self.wall_blocks.append(obstacle_pos)
-                else: # direction == Vector2(0, 1)
-                    for i in range(num_walls):
-                        if i == 0:
-                            obstacle_pos = Vector2(start_x, start_y)
-                        elif i == 1:
-                            obstacle_pos = Vector2(start_x + 1, start_y)
-                        else:
-                            obstacle_pos = Vector2(start_x + 1, start_y + i - 1)
-                        while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
-                            start_x = random.randint(1, cell_number - 3)
-                            start_y = random.randint(1, cell_number - 3)
-                            obstacle_pos = Vector2(start_x + 1, start_y)
-                        self.wall_blocks.append(obstacle_pos)
+            #   "L_shape"
+            # else:
+            #     if direction == Vector2(1, 0):
+            #         for i in range(num_walls):
+            #             if i == 0:
+            #                 obstacle_pos = Vector2(start_x, start_y)
+            #             elif i == 1:
+            #                 obstacle_pos = Vector2(start_x, start_y + 1)
+            #             else:
+            #                 obstacle_pos = Vector2(start_x + i - 1, start_y + 1)
+            #             while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
+            #                 start_x = random.randint(1, cell_number - 3)
+            #                 start_y = random.randint(1, cell_number - 3)
+            #                 obstacle_pos = Vector2(start_x, start_y + 1)
+            #             self.wall_blocks.append(obstacle_pos)
+            #     else: # direction == Vector2(0, 1)
+            #         for i in range(num_walls):
+            #             if i == 0:
+            #                 obstacle_pos = Vector2(start_x, start_y)
+            #             elif i == 1:
+            #                 obstacle_pos = Vector2(start_x + 1, start_y)
+            #             else:
+            #                 obstacle_pos = Vector2(start_x + 1, start_y + i - 1)
+            #             while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
+            #                 start_x = random.randint(1, cell_number - 3)
+            #                 start_y = random.randint(1, cell_number - 3)
+            #                 obstacle_pos = Vector2(start_x + 1, start_y)
+            #             self.wall_blocks.append(obstacle_pos)
 
     def draw_wall(self):
         for block in self.wall_blocks:
-            wall_suqre = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
-            screen.blit(wall_segment,wall_suqre)
-                
+            wall_square = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
+            screen.blit(wall_segment, wall_square)
+
 
 class MAIN:
     def __init__(self):
@@ -163,8 +176,6 @@ class MAIN:
         self.draw_grass()
         self.snake.draw_snake()
         self.wall.draw_wall()
-
-
 
     def check_collision(self):
         return
@@ -185,61 +196,63 @@ class MAIN:
         self.snake.reset()
 
     def draw_grass(self):
-        grass_color = (201,223,201)
-        for row in range (cell_number):
-            if row % 2 ==0:
+        grass_color = (201, 223, 201)
+        for row in range(cell_number):
+            if row % 2 == 0:
                 for col in range(cell_number):
                     if col % 2 == 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size,cell_size,cell_size)
-                        pygame.draw.rect(screen,grass_color,grass_rec)
+                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rec)
             else:
                 for col in range(cell_number):
-                    if col %2 != 0:
-                        grass_rec = pygame.Rect(col * cell_size, row*cell_size, cell_size, cell_size)
-                        pygame.draw.rect(screen,grass_color,grass_rec)
+                    if col % 2 != 0:
+                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rec)
 
-pygame.mixer.pre_init(44100,-16,2,512)
-pygame.init()
-cell_size = 40
-cell_number = 20
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
-icon = pygame.image.load('Graphics/snake.png')
-clock = pygame.time.Clock()
-apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
-game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
-wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
-turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 
-SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE,200) 
+if __name__ == '__main__':
 
-main_game = MAIN()
+    pygame.mixer.pre_init(44100, -16, 2, 512)
+    pygame.init()
+    cell_size = 40
+    cell_number = 20
+    screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
+    icon = pygame.image.load('Graphics/snake.png')
+    clock = pygame.time.Clock()
+    apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
+    game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
+    wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+    turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == SCREEN_UPDATE:
-            main_game.update()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                if main_game.snake.direction.y != 1:
-                    main_game.snake.direction = Vector2(0,-1)
-            if event.key == pygame.K_RIGHT:
-                if main_game.snake.direction.x != -1:
-                    main_game.snake.direction = Vector2(1,0)
-            if event.key == pygame.K_DOWN:
-                if main_game.snake.direction.y != -1:
-                    main_game.snake.direction = Vector2(0,1)
-            if event.key == pygame.K_LEFT:
-                if main_game.snake.direction.x != 1:
-                    main_game.snake.direction = Vector2(-1,0)
+    SCREEN_UPDATE = pygame.USEREVENT
+    pygame.time.set_timer(SCREEN_UPDATE, 200)
 
-    screen.fill((179,207,178))
-    main_game.draw_elements()
-    pygame.display.set_icon(icon)
-    pygame.display.set_caption('Snaking')
-    pygame.display.update()
-    clock.tick(60)
- 
+    main_game = MAIN()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == SCREEN_UPDATE:
+                main_game.update()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    if main_game.snake.direction.y != 1:
+                        main_game.snake.direction = Vector2(0, -1)
+                if event.key == pygame.K_RIGHT:
+                    if main_game.snake.direction.x != -1:
+                        main_game.snake.direction = Vector2(1, 0)
+                if event.key == pygame.K_DOWN:
+                    if main_game.snake.direction.y != -1:
+                        main_game.snake.direction = Vector2(0, 1)
+                if event.key == pygame.K_LEFT:
+                    if main_game.snake.direction.x != 1:
+                        main_game.snake.direction = Vector2(-1, 0)
+
+        screen.fill((179, 207, 178))
+        main_game.draw_elements()
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption('Snaking')
+        pygame.display.update()
+        clock.tick(60)
