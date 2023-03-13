@@ -165,13 +165,31 @@ class WALL:
 class POWERUP:
     def __init__(self):
         self.position = Vector2(random.randint(0, cell_number - 1), random.randint(0, cell_number - 1))
-        self.color = (255, 0, 0)  # 可以根据需要自定义属性，比如颜色、形状等
+        self.color = (255, 0, 0)
+        self.image = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
+
+
+def draw_grass():
+    grass_color = (201, 223, 201)
+    for row in range(cell_number):
+        if row % 2 == 0:
+            for col in range(cell_number):
+                if col % 2 == 0:
+                    grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                    pygame.draw.rect(screen, grass_color, grass_rec)
+        else:
+            for col in range(cell_number):
+                if col % 2 != 0:
+                    grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                    pygame.draw.rect(screen, grass_color, grass_rec)
 
 
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
         self.wall = WALL(self.snake)
+        self.apple = POWERUP()
+        self.powerups = []
 
     def update(self):
         self.snake.move_snake()
@@ -179,9 +197,10 @@ class MAIN:
         self.check_fail()
 
     def draw_elements(self):
-        self.draw_grass()
+        draw_grass()
         self.snake.draw_snake()
         self.wall.draw_wall()
+        self.draw_powerups()
 
     def check_collision(self):
         return
@@ -201,19 +220,12 @@ class MAIN:
     def game_over(self):
         self.snake.reset()
 
-    def draw_grass(self):
-        grass_color = (201, 223, 201)
-        for row in range(cell_number):
-            if row % 2 == 0:
-                for col in range(cell_number):
-                    if col % 2 == 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-                        pygame.draw.rect(screen, grass_color, grass_rec)
-            else:
-                for col in range(cell_number):
-                    if col % 2 != 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-                        pygame.draw.rect(screen, grass_color, grass_rec)
+    def draw_powerups(self):
+        # 其他绘制代码
+        for powerup in self.powerups:
+            pygame.draw.circle(screen, powerup.color, (int(powerup.position.x * cell_size + cell_size / 2),
+                                                       int(powerup.position.y * cell_size + cell_size / 2)),
+                               cell_size // 2)
 
 
 if __name__ == '__main__':
@@ -256,9 +268,15 @@ if __name__ == '__main__':
                     if main_game.snake.direction.x != 1:
                         main_game.snake.direction = Vector2(-1, 0)
 
+        # 每隔一段时间随机生成一个 power-up
+        if random.random() < 0.1:  # 调整随机生成 power-up 的概率
+            powerup = POWERUP()
+            main_game.powerups.append(powerup)
+
         screen.fill((179, 207, 178))
         main_game.draw_elements()
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Snaking')
         pygame.display.update()
         clock.tick(60)
+        screen.fill((179, 207, 178))
