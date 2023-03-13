@@ -7,24 +7,23 @@ class SNAKE:
         self.direction = Vector2(0,0)
         self.new_block = False
 
+        self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
+        self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
+        self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
+        self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
 
-        self.head_up = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_u.png').convert_alpha()
-        self.head_down = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_d.png').convert_alpha()
-        self.head_right = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_r.png').convert_alpha()
-        self.head_left = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_l.png').convert_alpha()
+        self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
+        self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
+        self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
+        self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
 
-        self.tail_up = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_d.png').convert_alpha()
-        self.tail_down = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_u.png').convert_alpha()
-        self.tail_right = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_l.png').convert_alpha()
-        self.tail_left = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_r.png').convert_alpha()
+        self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
+        self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
 
-        self.body_vertical = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/body_v.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/body_h.png').convert_alpha()
-
-        self.body_tr = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_br.png').convert_alpha()
-        self.body_tl = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_bl.png').convert_alpha()
-        self.body_bl = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_tr.png').convert_alpha()
-        self.body_br = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_tl.png').convert_alpha()
+        self.body_tr = pygame.image.load('Graphics/body_br.png').convert_alpha()
+        self.body_tl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
+        self.body_bl = pygame.image.load('Graphics/body_tr.png').convert_alpha()
+        self.body_br = pygame.image.load('Graphics/body_tl.png').convert_alpha()
 
 
     def draw_snake(self):
@@ -204,12 +203,12 @@ pygame.init()
 cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
-icon = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/snake.png')
+icon = pygame.image.load('Graphics/snake.png')
 clock = pygame.time.Clock()
-apple = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/apple_39.png').convert_alpha()
-game_font = pygame.font.Font('E:/CSE/cse442/snake/demo/Font/bahnschrift.ttf',25)
-wall_segment = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/wall_segment.png').convert_alpha()
-turtle = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/turtle.png').convert_alpha()
+apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
+game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
+wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,200) 
