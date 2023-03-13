@@ -146,9 +146,9 @@ class WALL:
             screen.blit(wall_segment,wall_suqre)
 
 class FRUIT:
-    def __init__(self, wall, snake):
-        self.wall = wall
+    def __init__(self, snake, wall):
         self.snake = snake
+        self.wall = wall
         self.randomize()
 
     def draw_fruit(self):
@@ -157,51 +157,68 @@ class FRUIT:
         # pygame.draw.rect(screen,(126,166,114),fruit_rec)
 
     def randomize(self):
-        while True:
-            self.x = random.randint(0, cell_number - 1)
-            self.y = random.randint(0, cell_number - 1)
-            self.pos = Vector2(self.x, self.y)
-            # make sure the fruit is not generated on snake body or wall
-            if self.pos not in self.wall.wall_blocks and self.pos not in self.snake.body:
-                break
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
+        self.pos = Vector2(self.x, self.y)
 
-class POWERUP:
-    def __init__(self, wall, snake):
-        self.wall = wall
+
+class PLATE:
+    def __init__(self, snake, wall):
         self.snake = snake
+        self.wall = wall
         self.randomize()
 
-    def draw_powerup(self):
+    def draw_plate(self):
         fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
-        screen.blit(powerup_src, fruit_rec)
+        screen.blit(plate_src, fruit_rec)
         # pygame.draw.rect(screen,(126,166,114),fruit_rec)
 
     def randomize(self):
-        while True:
-            self.x = random.randint(0, cell_number - 1)
-            self.y = random.randint(0, cell_number - 1)
-            self.pos = Vector2(self.x, self.y)
-            # make sure the fruit is not generated on snake body or wall
-            if self.pos not in self.wall.wall_blocks and self.pos not in self.snake.body:
-                break
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
+        self.pos = Vector2(self.x, self.y)
+
+class TURTLE:
+    def __init__(self, snake, wall):
+        self.snake = snake
+        self.wall = wall
+        self.randomize()
+
+    def draw_turtle(self):
+        fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        screen.blit(turtle, fruit_rec)
+        # pygame.draw.rect(screen,(126,166,114),fruit_rec)
+
+    def randomize(self):
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
+        self.pos = Vector2(self.x, self.y)
 
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
         self.wall = WALL(self.snake)
-        self.fruit = FRUIT(self.wall, self.snake)
-        self.powerup = POWERUP(self.wall, self.snake)
+        self.fruit = FRUIT(self.snake, self.wall)
+        self.plate = PLATE(self.snake, self.wall)
+        self.turtle = TURTLE(self.snake, self.wall)
 
     def update(self):
         self.snake.move_snake()
-        self.check_collision()
+        if self.snake.score % 10 == 5:
+            self.check_collision_plate()
+        elif self.snake.score % 10 == 9:
+            self.check_collision_turtle()
+        else:
+            self.check_collision_fruit()
         self.check_fail()
 
     def draw_elements(self):
         self.draw_grass()
-        # generate powerup
-        if self.snake.score % 10 == 9:
-            self.powerup.draw_powerup()
+        # generate fruit plate
+        if self.snake.score % 10 == 5:
+            self.plate.draw_plate()
+        elif self.snake.score % 10 == 9:
+            self.turtle.draw_turtle()
         else:
             self.fruit.draw_fruit()
         self.snake.draw_snake()
@@ -210,15 +227,42 @@ class MAIN:
 
 
 
-    def check_collision(self):
+    def check_collision_fruit(self):
         if self.fruit.pos == self.snake.body[0]:
-            self.snake.score +=1
+            self.snake.score += 1
             self.fruit.randomize()
             self.snake.add_block()
-        elif self.powerup.pos == self.snake.body[0]:
+
+        combine_list = self.snake.body[1:] + self.wall.wall_blocks
+        for block in combine_list:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
+
+
+    def check_collision_plate(self):
+        if self.plate.pos == self.snake.body[0]:
             self.snake.score += 3
-            self.powerup.randomize()
+            self.plate.randomize()
             self.snake.add_block()
+        combine_list = self.snake.body[1:] + self.wall.wall_blocks
+        for block in combine_list:
+            if block == self.plate.pos:
+                self.plate.randomize()
+
+    def check_collision_turtle(self):
+        if self.turtle.pos == self.snake.body[0]:
+            self.snake.score += 1
+            self.turtle.randomize()
+            self.snake.add_block()
+            # random_speed
+            random_speed = [130, 280]
+            pygame.time.set_timer(SCREEN_UPDATE, random.choice(random_speed))
+
+        combine_list = self.snake.body[1:] + self.wall.wall_blocks
+        for block in combine_list:
+            if block == self.turtle.pos:
+                self.turtle.randomize()
+
 
     def check_fail(self):
         if (not 0 <= self.snake.body[0].x < cell_number) or (not 0 <= self.snake.body[0].y < cell_number):
@@ -268,14 +312,13 @@ icon = pygame.image.load('Graphics/snake.png')
 clock = pygame.time.Clock()
 apple = 'Graphics/apple_39.png'
 food_src = pygame.image.load(apple).convert_alpha()
-powerup_src = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
-game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
+plate_src = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
+game_font = pygame.font.Font('Font/bahnschrift.ttf',30)
 wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,200)
-# fruit = FRUIT()
 main_game = MAIN()
 
 while True:
