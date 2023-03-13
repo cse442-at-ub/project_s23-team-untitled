@@ -221,11 +221,9 @@ class MAIN:
         self.snake.reset()
 
     def draw_powerups(self):
-        # 其他绘制代码
         for powerup in self.powerups:
-            pygame.draw.circle(screen, powerup.color, (int(powerup.position.x * cell_size + cell_size / 2),
-                                                       int(powerup.position.y * cell_size + cell_size / 2)),
-                               cell_size // 2)
+            screen.blit(turtle, (int(powerup.position.x * cell_size),
+                                 int(powerup.position.y * cell_size)))
 
 
 if __name__ == '__main__':
