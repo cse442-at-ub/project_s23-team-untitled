@@ -162,6 +162,12 @@ class WALL:
             screen.blit(wall_segment, wall_square)
 
 
+class POWERUP:
+    def __init__(self):
+        self.position = Vector2(random.randint(0, cell_number - 1), random.randint(0, cell_number - 1))
+        self.color = (255, 0, 0)  # 可以根据需要自定义属性，比如颜色、形状等
+
+
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
