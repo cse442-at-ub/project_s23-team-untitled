@@ -1,30 +1,32 @@
 import pygame,sys,random
+import time
 from pygame.math import Vector2
 
 class SNAKE:
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
-        self.direction = Vector2(0,0)
+        self.direction = Vector2(1,0)
         self.new_block = False
+        self.score = 0
 
 
-        self.head_up = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_u.png').convert_alpha()
-        self.head_down = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_d.png').convert_alpha()
-        self.head_right = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_r.png').convert_alpha()
-        self.head_left = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/head_l.png').convert_alpha()
+        self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
+        self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
+        self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
+        self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
 
-        self.tail_up = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_d.png').convert_alpha()
-        self.tail_down = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_u.png').convert_alpha()
-        self.tail_right = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_l.png').convert_alpha()
-        self.tail_left = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/tail_r.png').convert_alpha()
+        self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
+        self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
+        self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
+        self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
 
-        self.body_vertical = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/body_v.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/body_h.png').convert_alpha()
+        self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
+        self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
 
-        self.body_tr = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_br.png').convert_alpha()
-        self.body_tl = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_bl.png').convert_alpha()
-        self.body_bl = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_tr.png').convert_alpha()
-        self.body_br = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics//body_tl.png').convert_alpha()
+        self.body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
+        self.body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
+        self.body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
+        self.body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
 
 
     def draw_snake(self):
@@ -63,13 +65,13 @@ class SNAKE:
         elif head_relation == Vector2(-1,0): self.head = self.head_right
         elif head_relation == Vector2(0,1): self.head = self.head_up
         elif head_relation == Vector2(0,-1): self.head = self.head_down
-    
+
     def update_tail_graphics(self):
         tail_relation = self.body[-2] - self.body[-1]
         if tail_relation == Vector2(1,0): self.tail = self.tail_left
         elif tail_relation == Vector2(-1,0): self.tail = self.tail_right
         elif tail_relation == Vector2(0,1): self.tail = self.tail_up
-        elif tail_relation == Vector2(0,-1): self.tail = self.tail_down 
+        elif tail_relation == Vector2(0,-1): self.tail = self.tail_down
 
     def move_snake(self):
         if self.new_block == True:
@@ -83,12 +85,7 @@ class SNAKE:
             self.body = body_copy[:]
 
     def add_block(self):
-        self.new_block = True 
-
-    def reset(self):
-        self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
-        self.direction = Vector2(0,0)
-
+        self.new_block = True
 
 class WALL:
     def __init__(self,snake):
@@ -97,7 +94,6 @@ class WALL:
         self.randomize()
 
     def randomize(self):
-        self.wall_blocks = []
         wall_numbers = 2
         for i in range(wall_numbers):
             # Generate first wall
@@ -148,12 +144,53 @@ class WALL:
         for block in self.wall_blocks:
             wall_suqre = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment,wall_suqre)
-                
+
+class FRUIT:
+    def __init__(self, wall, snake):
+        self.wall = wall
+        self.snake = snake
+        self.randomize()
+
+    def draw_fruit(self):
+        fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        screen.blit(food_src, fruit_rec)
+        # pygame.draw.rect(screen,(126,166,114),fruit_rec)
+
+    def randomize(self):
+        while True:
+            self.x = random.randint(0, cell_number - 1)
+            self.y = random.randint(0, cell_number - 1)
+            self.pos = Vector2(self.x, self.y)
+            # make sure the fruit is not generated on snake body or wall
+            if self.pos not in self.wall.wall_blocks and self.pos not in self.snake.body:
+                break
+
+class POWERUP:
+    def __init__(self, wall, snake):
+        self.wall = wall
+        self.snake = snake
+        self.randomize()
+
+    def draw_powerup(self):
+        fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        screen.blit(powerup_src, fruit_rec)
+        # pygame.draw.rect(screen,(126,166,114),fruit_rec)
+
+    def randomize(self):
+        while True:
+            self.x = random.randint(0, cell_number - 1)
+            self.y = random.randint(0, cell_number - 1)
+            self.pos = Vector2(self.x, self.y)
+            # make sure the fruit is not generated on snake body or wall
+            if self.pos not in self.wall.wall_blocks and self.pos not in self.snake.body:
+                break
 
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
         self.wall = WALL(self.snake)
+        self.fruit = FRUIT(self.wall, self.snake)
+        self.powerup = POWERUP(self.wall, self.snake)
 
     def update(self):
         self.snake.move_snake()
@@ -162,13 +199,26 @@ class MAIN:
 
     def draw_elements(self):
         self.draw_grass()
+        # generate powerup
+        if self.snake.score % 10 == 9:
+            self.powerup.draw_powerup()
+        else:
+            self.fruit.draw_fruit()
         self.snake.draw_snake()
         self.wall.draw_wall()
+        self.draw_score()
 
 
 
     def check_collision(self):
-        return
+        if self.fruit.pos == self.snake.body[0]:
+            self.snake.score +=1
+            self.fruit.randomize()
+            self.snake.add_block()
+        elif self.powerup.pos == self.snake.body[0]:
+            self.snake.score += 3
+            self.powerup.randomize()
+            self.snake.add_block()
 
     def check_fail(self):
         if (not 0 <= self.snake.body[0].x < cell_number) or (not 0 <= self.snake.body[0].y < cell_number):
@@ -183,7 +233,8 @@ class MAIN:
                 self.game_over()
 
     def game_over(self):
-        self.snake.reset()
+        pygame.quit()
+        sys.exit()
 
     def draw_grass(self):
         grass_color = (201,223,201)
@@ -199,21 +250,32 @@ class MAIN:
                         grass_rec = pygame.Rect(col * cell_size, row*cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen,grass_color,grass_rec)
 
+    def draw_score(self):
+        score_text = str(self.snake.score)
+        score_surface = game_font.render(score_text, True, (56, 74, 12))
+        score_x = int(cell_size * cell_number-740)
+        score_y = int(cell_size * cell_number-740)
+        score_rect = score_surface.get_rect(center=(score_x, score_y))
+        screen.blit(score_surface, score_rect)
+        pygame.draw.rect(screen,(201,223,201), score_rect,2)
+
 pygame.mixer.pre_init(44100,-16,2,512)
 pygame.init()
 cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
-icon = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/snake.png')
+icon = pygame.image.load('Graphics/snake.png')
 clock = pygame.time.Clock()
-apple = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/apple_39.png').convert_alpha()
-game_font = pygame.font.Font('E:/CSE/cse442/snake/demo/Font/bahnschrift.ttf',25)
-wall_segment = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/wall_segment.png').convert_alpha()
-turtle = pygame.image.load('E:/CSE/cse442/snake/demo/Graphics/turtle.png').convert_alpha()
+apple = 'Graphics/apple_39.png'
+food_src = pygame.image.load(apple).convert_alpha()
+powerup_src = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
+game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
+wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 
 SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE,200) 
-
+pygame.time.set_timer(SCREEN_UPDATE,200)
+# fruit = FRUIT()
 main_game = MAIN()
 
 while True:
@@ -242,5 +304,3 @@ while True:
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Snaking')
     pygame.display.update()
-    clock.tick(60)
- 
