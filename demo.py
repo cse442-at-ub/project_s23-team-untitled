@@ -169,21 +169,6 @@ class POWERUP:
         self.image = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
 
 
-def draw_grass():
-    grass_color = (201, 223, 201)
-    for row in range(cell_number):
-        if row % 2 == 0:
-            for col in range(cell_number):
-                if col % 2 == 0:
-                    grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-                    pygame.draw.rect(screen, grass_color, grass_rec)
-        else:
-            for col in range(cell_number):
-                if col % 2 != 0:
-                    grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-                    pygame.draw.rect(screen, grass_color, grass_rec)
-
-
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
@@ -197,7 +182,7 @@ class MAIN:
         self.check_fail()
 
     def draw_elements(self):
-        draw_grass()
+        self.draw_grass()
         self.snake.draw_snake()
         self.wall.draw_wall()
         self.draw_powerups()
@@ -222,8 +207,22 @@ class MAIN:
 
     def draw_powerups(self):
         for powerup in self.powerups:
-            screen.blit(turtle, (int(powerup.position.x * cell_size),
-                                 int(powerup.position.y * cell_size)))
+            screen.blit(powerup.image, (int(powerup.position.x * cell_size),
+                                        int(powerup.position.y * cell_size)))
+
+    def draw_grass(self):
+        grass_color = (201, 223, 201)
+        for row in range(cell_number):
+            if row % 2 == 0:
+                for col in range(cell_number):
+                    if col % 2 == 0:
+                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rec)
+            else:
+                for col in range(cell_number):
+                    if col % 2 != 0:
+                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rec)
 
 
 if __name__ == '__main__':
@@ -266,7 +265,7 @@ if __name__ == '__main__':
                     if main_game.snake.direction.x != 1:
                         main_game.snake.direction = Vector2(-1, 0)
 
-        # 每隔一段时间随机生成一个 power-up
+        # Generate a random power-up once in a while
         if random.random() < 0.1:  # 调整随机生成 power-up 的概率
             powerup = POWERUP()
             main_game.powerups.append(powerup)
