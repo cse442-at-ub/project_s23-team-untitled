@@ -255,6 +255,7 @@ class MAIN:
         self.snake.reset()
         self.score = 0
 
+
     def draw_grass(self):
         grass_color = (201, 223, 201)
         for row in range(cell_number):
