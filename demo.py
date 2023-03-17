@@ -1,6 +1,7 @@
-import pygame
 import random
 import sys
+
+import pygame
 from pygame.math import Vector2
 
 
@@ -200,6 +201,7 @@ class MAIN:
         self.fruit = FRUIT()
         self.wall = WALL(self.snake)
         self.powerup = POWERUP()
+        self.score = 0
 
     def update(self):
         self.snake.move_snake()
@@ -218,6 +220,7 @@ class MAIN:
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
             self.snake.add_block()
+            self.score += 1
 
         for block in self.snake.body[1:]:
             if block == self.fruit.pos:
@@ -226,6 +229,7 @@ class MAIN:
         if self.powerup.pos == self.snake.body[0]:
             self.powerup.randomize()
             self.snake.add_block()
+            self.score += 3
 
         for block in self.snake.body[1:]:
             if block == self.powerup.pos:
@@ -261,7 +265,7 @@ class MAIN:
                         pygame.draw.rect(screen, grass_color, grass_rec)
 
     def draw_score(self):
-        score_text = str(len(self.snake.body) - 3)
+        score_text = str(self.score)
         # print(score_text)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 700)
