@@ -174,7 +174,6 @@ class FRUIT:
     def draw_fruit(self):
         fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         screen.blit(apple, fruit_rec)
-        # pygame.draw.rect(screen,(126,166,114),fruit_rec)
 
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)
@@ -202,7 +201,7 @@ class MAIN:
         self.wall = WALL(self.snake)
         self.powerup = POWERUP()
         self.score = 0
-        self.random_num = 0.6
+        self.random_num = 0.4
 
     def update(self):
         self.snake.move_snake()
@@ -224,6 +223,7 @@ class MAIN:
             self.fruit.randomize()
             self.snake.add_block()
             self.score += 1
+            self.random_num = random.random()
 
         for block in self.snake.body[1:]:
             if block == self.fruit.pos:
@@ -233,7 +233,6 @@ class MAIN:
             self.powerup.randomize()
             self.snake.add_block()
             self.score += 3
-            self.random_num = random.random()
 
         for block in self.snake.body[1:]:
             if block == self.powerup.pos:
