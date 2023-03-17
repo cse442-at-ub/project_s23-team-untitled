@@ -137,7 +137,6 @@ class SNAKE:
         elif head_relation == Vector2(0, -1):
             self.head = self.head_down
 
-
     def update_tail_graphics(self):
         tail_relation = self.body[-2] - self.body[-1]
         if tail_relation == Vector2(1, 0):
