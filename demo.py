@@ -202,6 +202,7 @@ class MAIN:
         self.wall = WALL(self.snake)
         self.powerup = POWERUP()
         self.score = 0
+        self.random_num = 0.6
 
     def update(self):
         self.snake.move_snake()
@@ -211,10 +212,12 @@ class MAIN:
     def draw_elements(self):
         self.draw_grass()
         self.fruit.draw_fruit()
-        self.powerup.draw_powerup()
         self.snake.draw_snake()
         self.draw_score()
         self.wall.draw_wall()
+
+    def draw_powerup(self):
+        self.powerup.draw_powerup()
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -230,6 +233,7 @@ class MAIN:
             self.powerup.randomize()
             self.snake.add_block()
             self.score += 3
+            self.random_num = random.random()
 
         for block in self.snake.body[1:]:
             if block == self.powerup.pos:
@@ -322,8 +326,9 @@ while True:
                     main_game.snake.direction = Vector2(-1, 0)
 
     screen.fill((179, 207, 178))
-
     main_game.draw_elements()
+    if main_game.random_num > 0.5:
+        main_game.draw_powerup()
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Snaking')
     pygame.display.update()
