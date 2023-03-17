@@ -253,6 +253,7 @@ class MAIN:
 
     def game_over(self):
         self.snake.reset()
+        self.score = 0
 
     def draw_grass(self):
         grass_color = (201, 223, 201)
@@ -307,7 +308,6 @@ main_game = MAIN()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            main_game.score = 0
             pygame.quit()
             sys.exit()
         if event.type == SCREEN_UPDATE:
