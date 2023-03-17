@@ -85,10 +85,10 @@ class SNAKE:
         self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
         self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
 
-        self.body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
-        self.body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
-        self.body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
-        self.body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
+        self.body_tr = pygame.image.load('Graphics/body_br.png').convert_alpha()
+        self.body_tl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
+        self.body_bl = pygame.image.load('Graphics/body_tr.png').convert_alpha()
+        self.body_br = pygame.image.load('Graphics/body_tl.png').convert_alpha()
 
     def draw_snake(self):
         # for block in self.body:
