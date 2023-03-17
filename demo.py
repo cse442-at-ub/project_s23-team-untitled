@@ -28,34 +28,6 @@ class WALL:
                         direction = random.choice([Vector2(1, 0), Vector2(0, 1)])
                         obstacle_pos = Vector2(start_x, start_y) + i * direction
                     self.wall_blocks.append(obstacle_pos)
-            #   "L_shape"
-            # else:
-            #     if direction == Vector2(1, 0):
-            #         for i in range(num_walls):
-            #             if i == 0:
-            #                 obstacle_pos = Vector2(start_x, start_y)
-            #             elif i == 1:
-            #                 obstacle_pos = Vector2(start_x, start_y + 1)
-            #             else:
-            #                 obstacle_pos = Vector2(start_x + i - 1, start_y + 1)
-            #             while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
-            #                 start_x = random.randint(1, cell_number - 3)
-            #                 start_y = random.randint(1, cell_number - 3)
-            #                 obstacle_pos = Vector2(start_x, start_y + 1)
-            #             self.wall_blocks.append(obstacle_pos)
-            #     else: # direction == Vector2(0, 1)
-            #         for i in range(num_walls):
-            #             if i == 0:
-            #                 obstacle_pos = Vector2(start_x, start_y)
-            #             elif i == 1:
-            #                 obstacle_pos = Vector2(start_x + 1, start_y)
-            #             else:
-            #                 obstacle_pos = Vector2(start_x + 1, start_y + i - 1)
-            #             while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
-            #                 start_x = random.randint(1, cell_number - 3)
-            #                 start_y = random.randint(1, cell_number - 3)
-            #                 obstacle_pos = Vector2(start_x + 1, start_y)
-            #             self.wall_blocks.append(obstacle_pos)
 
     def draw_wall(self):
         for block in self.wall_blocks:
@@ -87,11 +59,7 @@ class SNAKE:
         self.body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
 
     def draw_snake(self):
-        # for block in self.body:
-        #     x_pos = int(block.x * cell_size)
-        #     y_pos = int(block.y * cell_size)
-        #     block_rect = pygame.Rect(x_pos,y_pos,cell_size,cell_size)
-        #     pygame.draw.rect(screen,(183,111,122),block_rect)
+
         self.update_head_graphics()
         self.update_tail_graphics()
 
@@ -260,8 +228,7 @@ apple = pygame.image.load('Graphics/banana.png').convert_alpha()
 score = pygame.image.load('Graphics/score.png').convert_alpha()
 game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
 wall_segment =pygame.image.load('Graphics/wall_segment.png').convert_alpha()
-# fruit = FRUIT()
-# snake = SNAKE()
+
 
 
 SCREEN_UPDATE = pygame.USEREVENT
