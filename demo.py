@@ -1,5 +1,8 @@
-import pygame, sys, random
+import pygame
+import random
+import sys
 from pygame.math import Vector2
+
 
 class WALL:
     def __init__(self, snake):
@@ -177,12 +180,27 @@ class FRUIT:
         self.y = random.randint(0, cell_number - 1)
         self.pos = Vector2(self.x, self.y)
 
+class POWERUP:
+    def __init__(self):
+        self.randomize()
+
+    def draw_powerup(self):
+        powerup_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        screen.blit(fruit_plate, powerup_rec)
+
+    def randomize(self):
+        self.x = random.randint(0, cell_number - 1)
+        self.y = random.randint(0, cell_number - 1)
+        self.pos = Vector2(self.x, self.y)
+
 
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
         self.fruit = FRUIT()
         self.wall = WALL(self.snake)
+        self.powerup = POWERUP()
+
     def update(self):
         self.snake.move_snake()
         self.check_collision()
@@ -191,6 +209,7 @@ class MAIN:
     def draw_elements(self):
         self.draw_grass()
         self.fruit.draw_fruit()
+        self.powerup.draw_powerup()
         self.snake.draw_snake()
         self.draw_score()
         self.wall.draw_wall()
@@ -203,6 +222,14 @@ class MAIN:
         for block in self.snake.body[1:]:
             if block == self.fruit.pos:
                 self.fruit.randomize()
+
+        if self.powerup.pos == self.snake.body[0]:
+            self.powerup.randomize()
+            self.snake.add_block()
+
+        for block in self.snake.body[1:]:
+            if block == self.powerup.pos:
+                self.powerup.randomize()
 
     def check_fail(self):
         if (not 0 <= self.snake.body[0].x < cell_number) or (not 0 <= self.snake.body[0].y < cell_number):
@@ -257,11 +284,11 @@ screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_si
 icon = pygame.image.load('Graphics/snake.png')
 clock = pygame.time.Clock()
 apple = pygame.image.load('Graphics/banana.png').convert_alpha()
+fruit_plate = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
 score = pygame.image.load('Graphics/score.png').convert_alpha()
 game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
 wall_segment =pygame.image.load('Graphics/wall_segment.png').convert_alpha()
-# fruit = FRUIT()
-# snake = SNAKE()
+
 
 
 SCREEN_UPDATE = pygame.USEREVENT
@@ -291,8 +318,7 @@ while True:
                     main_game.snake.direction = Vector2(-1, 0)
 
     screen.fill((179, 207, 178))
-    # fruit.draw_fruit()
-    # snake.draw_snake()
+
     main_game.draw_elements()
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Snaking')
