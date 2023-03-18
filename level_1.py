@@ -237,6 +237,14 @@ class MAIN:
             if block == self.powerup.pos:
                 self.powerup.randomize()
 
+        # eat on the wall, NO
+        for block in self.wall.wall_blocks:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
+        for block in self.wall.wall_blocks:
+            if block == self.powerup.pos:
+                self.powerup.randomize()
+
     def check_fail(self):
         if (not 0 <= self.snake.body[0].x < cell_number) or (not 0 <= self.snake.body[0].y < cell_number):
             self.game_over()
