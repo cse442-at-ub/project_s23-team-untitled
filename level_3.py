@@ -16,7 +16,7 @@ game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
 wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 fruit_plate = pygame.image.load('Graphics/fruit_plate.png').convert_alpha()
-highest_scores = []
+
 
 class SNAKE:
     def __init__(self):
@@ -132,7 +132,7 @@ class WALL:
 
     def randomize(self):
         self.wall_blocks = []
-        wall_numbers = 2
+        wall_numbers = 4
         for i in range(wall_numbers):
             # Generate first wall
             start_x = random.randint(1, cell_number - 3)
@@ -302,13 +302,16 @@ class MAIN:
             self.draw_score()
             self.slowpower.draw()
             self.fruit_plate.draw()
-
+        else:
+            self.game_over_screen(main_game)
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
                 self.fruit.randomize()
                 self.snake.add_block()
                 self.snake.food_gain += 1
+                if self.fruit.pos in self.wall.wall_blocks:
+                    self.fruit.randomize()
 
         elif self.slowpower.pos == self.snake.body[0] and not self.slowpower.active :
             self.slowpower.active = True
@@ -352,7 +355,77 @@ class MAIN:
             if block == self.snake.body[0]:
                 self.game_over_flag = True 
 
+    def game_over_screen(self, main_game):
+        if self.game_over_flag:
+            # Load game over image and resize it to fit background rectangle size
+            game_over_image = pygame.image.load('Graphics/game_over.png').convert_alpha()
+            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            bg_rect = game_over_rect.copy()
+            #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
+            game_over_rect.y -= 150 # Move the game over image up 
+             # Move the game over image to the right
 
+
+
+            # Load restart and main menu buttons
+            restart_button = pygame.image.load('Buttons/restart.png').convert_alpha()
+            restart_highlighted_button = pygame.image.load('Buttons/restart_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_rect.y += 80  # Move the restart button down 
+            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted = False
+
+            main_menu_button = pygame.image.load('Buttons/main_menu.png').convert_alpha()
+            main_menu_highlighted_button = pygame.image.load('Buttons/main_menu_hightlight.png').convert_alpha()
+            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_rect.y += 200  # Move the main menu button down 
+            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            main_menu_highlighted = False
+
+            # Create background rectangle
+            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+            bg_rect.inflate_ip(70, 80)  # Expand the background rectangle to fit the buttons
+            bg_rect.center = screen.get_rect().center
+
+            # Draw background rectangle, game over image, and buttons
+            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            screen.blit(game_over_image, game_over_rect)
+            screen.blit(restart_button, restart_rect)
+            screen.blit(main_menu_button, main_menu_rect)
+            pygame.display.update()
+            
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                        main_game.__init__()
+                        return
+                    
+                    mouse_pos = pygame.mouse.get_pos()
+                    if restart_rect.collidepoint(mouse_pos):
+                        restart_highlighted = True
+                    else:
+                        restart_highlighted = False
+
+                    if main_menu_rect.collidepoint(mouse_pos):
+                        main_menu_highlighted = True
+                    else:
+                        main_menu_highlighted = False
+              
+                    if restart_highlighted:
+                        screen.blit(restart_highlighted_button,restart_highlighted_rect)
+                    else:
+                        screen.blit(restart_button, restart_rect)
+
+                    if main_menu_highlighted:
+                        screen.blit(main_menu_highlighted_button,main_menu_highlighted_button_rec)
+                    else:
+                        screen.blit(main_menu_button, main_menu_rect)
+
+                pygame.display.update()
 
     def draw_grass(self):
         grass_color = (201,223,201)
@@ -406,4 +479,4 @@ while True:
     pygame.display.set_caption('Snaking')
     pygame.display.update()
     clock.tick(60) #auto reset after 60s
-  
+ 
