@@ -16,7 +16,7 @@ game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
 wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 fruit_plate = pygame.image.load('Graphics/fruit_plate.png').convert_alpha()
-
+highest_scores = []
 
 class SNAKE:
     def __init__(self):
@@ -356,7 +356,11 @@ class MAIN:
                 self.game_over_flag = True 
 
     def game_over_screen(self, main_game):
+        global highest_scores
         if self.game_over_flag:
+            highest_scores.append(self.snake.food_gain)
+            highest_scores.sort(reverse=True)
+            highest_scores = highest_scores[:5]
             # Load game over image and resize it to fit background rectangle size
             game_over_image = pygame.image.load('Graphics/game_over.png').convert_alpha()
             game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
