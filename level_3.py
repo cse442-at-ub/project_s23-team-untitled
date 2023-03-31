@@ -16,6 +16,8 @@ game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
 wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
 fruit_plate = pygame.image.load('Graphics/fruit_plate.png').convert_alpha()
+score = pygame.image.load('Graphics/score.png').convert_alpha()
+
 highest_scores = []
 
 class SNAKE:
@@ -438,15 +440,16 @@ class MAIN:
     def draw_score(self):
         score_text = str(self.snake.food_gain)
         score_surface = game_font.render(score_text, True, (56,74,12))
-        score_rect = score_surface.get_rect(bottomright=(cell_number * cell_size - 10, cell_number * cell_size - 10))
-        padding = 5
-        bg_rect = pygame.Rect(score_rect.left - padding, score_rect.top - padding,
-                            score_rect.width + padding * 2, score_rect.height + padding * 2)
-        bg_surface = pygame.Surface((bg_rect.width, bg_rect.height), pygame.SRCALPHA)
-        bg_surface.fill((0, 0, 0, 0))
-        pygame.draw.rect(bg_surface, (201, 223, 201, 10), bg_surface.get_rect(), border_radius=10)
-        screen.blit(bg_surface, bg_rect)
+        score_x = int(cell_size * cell_number - 700)
+        score_y = int(cell_size * cell_number -750)
+        score_rect = score_surface.get_rect(center=(score_x, score_y))
+        apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
+        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
+                              apple_rect.height)
+        pygame.draw.rect(screen, (201, 223, 201), bg_rect)
         screen.blit(score_surface, score_rect)
+        screen.blit(score, apple_rect)
+        pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 main_game = MAIN()
 
