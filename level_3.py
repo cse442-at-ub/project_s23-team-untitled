@@ -439,17 +439,18 @@ class MAIN:
 
     def draw_score(self):
         score_text = str(self.snake.food_gain)
-        score_surface = game_font.render(score_text, True, (56,74,12))
+        score_surface = game_font.render(score_text, True, (56, 74, 12, 128))
         score_x = int(cell_size * cell_number - 700)
-        score_y = int(cell_size * cell_number -750)
+        score_y = int(cell_size * cell_number - 750)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
-        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
-                              apple_rect.height)
-        pygame.draw.rect(screen, (201, 223, 201), bg_rect)
+        bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6, apple_rect.height)
+        bg_surface = pygame.Surface((bg_rect.width, bg_rect.height), pygame.SRCALPHA)
+        bg_surface.fill((201, 223, 201, 128))
+        pygame.draw.rect(bg_surface, (56, 74, 12), bg_surface.get_rect(), 2)
+        screen.blit(bg_surface, bg_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
-        pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 main_game = MAIN()
 
