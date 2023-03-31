@@ -307,6 +307,7 @@ class MAIN:
                 self.fruit.randomize()
                 self.snake.add_block()
                 self.snake.food_gain += 1
+                #stop fruit from generating on wall segments
                 if self.fruit.pos in self.wall.wall_blocks:
                     self.fruit.randomize()
 
