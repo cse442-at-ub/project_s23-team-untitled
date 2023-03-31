@@ -430,6 +430,10 @@ class MAIN:
     def draw_grass(self):
         grass_color = (201,223,201)
         grass = [[grass_color if (row+col)%2==0 else (179,207,179) for col in range(cell_number)] for row in range(cell_number)]
+
+        # Change the color of the first row to (179,207,178)
+ #       grass[0] = [(179,207,178) for _ in range(cell_number)]
+
         grass_surface = pygame.Surface((cell_number*cell_size, cell_number*cell_size))
         for row, cols in enumerate(grass):
             for col, color in enumerate(cols):
@@ -440,8 +444,11 @@ class MAIN:
     def draw_score(self):
         score_text = str(self.snake.food_gain)
         score_surface = game_font.render(score_text, True, (56, 74, 12, 128))
+
         score_x = int(cell_size * cell_number - 700)
-        score_y = int(cell_size * cell_number - 750)
+        # Set the score_y value to cell_size/2 to center it in the first row
+        score_y = int(cell_size/2)
+
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6, apple_rect.height)
