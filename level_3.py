@@ -261,7 +261,6 @@ class FruitPlate:
         self.flag = False
         self.pos = None
 
-
 class ScreenUpdate:
     def __init__(self,time):
         self.time = time
@@ -272,7 +271,6 @@ class ScreenUpdate:
         self.time = time
         pygame.time.set_timer(self.screen_updates, self.time)
     
-
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
@@ -290,8 +288,7 @@ class MAIN:
         self.check_collision()
         self.check_fail()
         self.slowpower.update()
-        self.fruit_plate.update()
-        
+        self.fruit_plate.update()    
 
     def draw_elements(self):
         self.draw_grass()
@@ -331,8 +328,6 @@ class MAIN:
                 self.screen_update_in_main.set_update_time(self.screen_parameter)
                 self.slowpower.reset()
         
-            
-
         for block in self.snake.body[1:]:
             if block == self.fruit.pos:
                 self.fruit.randomize()
@@ -368,8 +363,6 @@ class MAIN:
             #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
             game_over_rect.y -= 150 # Move the game over image up 
              # Move the game over image to the right
-
-
 
             # Load restart and main menu buttons
             restart_button = pygame.image.load('Buttons/restart.png').convert_alpha()
@@ -482,5 +475,5 @@ while True:
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Snaking')
     pygame.display.update()
-    clock.tick(60) #auto reset after 60s
+    clock.tick(60) 
  
