@@ -18,7 +18,6 @@ level1_button = pygame.image.load('Graphics/level1_sample.png')
 level2_button = pygame.image.load('Graphics/level2_sample.png')
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
-click = False
 
 
 def selection_background(screen):
@@ -38,6 +37,9 @@ def selection_background(screen):
                     pygame.draw.rect(screen, grass_color, grass_rec)
 
 
+click = False
+
+
 def selection():
 
     while True:
@@ -45,18 +47,37 @@ def selection():
         selection_background(screen)
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Snaking')
-        pygame.display.update()
-        clock.tick(60)
+        level1_image = pygame.transform.scale(level1_button, (200, 50))
+        level2_image = pygame.transform.scale(level2_button, (200, 50))
+        level1_rect = level1_image.get_rect()
+        level1_rect.x = 300
+        level1_rect.y = 200
+        level2_rect = level2_image.get_rect()
+        level2_rect.x = 300
+        level2_rect.y = 400
 
-        mouse_pos = pygame.mouse.get_pos()
+        pos = pygame.mouse.get_pos()
+        if level1_rect.collidepoint(pos):
+            if click:
+                print("level1")
+        if level2_rect.collidepoint(pos):
+            if click:
+                print("level2")
 
-        button_1 = pygame.Rect(50, 100, 200, 50)
-        button_2 = pygame.Rect(50, 200, 200, 50)
+        screen.blit(level1_image, level1_rect)
+        screen.blit(level2_image, level2_rect)
 
+        click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()
+        clock.tick(60)
 
 
 if __name__ == "__main__":
