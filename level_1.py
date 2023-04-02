@@ -5,7 +5,7 @@ import pygame
 from pygame.math import Vector2
 
 
-class WALL:
+class WALL1:
     def __init__(self, snake):
         self.snake = snake
         self.wall_blocks = []
@@ -70,7 +70,7 @@ class WALL:
             screen.blit(wall_segment, wall_square)
 
 
-class SNAKE:
+class SNAKE1:
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(1, 0)
@@ -179,7 +179,7 @@ class SNAKE:
         self.new_block = True
 
 
-class FRUIT:
+class FRUIT1:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -196,7 +196,7 @@ class FRUIT:
         self.pos = Vector2(self.x, self.y)
 
 
-class PLATE:
+class PLATE1:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -213,7 +213,7 @@ class PLATE:
         self.pos = Vector2(self.x, self.y)
 
 
-class TURTLE:
+class TURTLE1:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -230,13 +230,13 @@ class TURTLE:
         self.pos = Vector2(self.x, self.y)
 
 
-class MAIN:
+class MAIN1:
     def __init__(self):
-        self.snake = SNAKE()
-        self.wall = WALL(self.snake)
-        self.fruit = FRUIT(self.snake, self.wall)
-        self.plate = PLATE(self.snake, self.wall)
-        self.turtle = TURTLE(self.snake, self.wall)
+        self.snake = SNAKE1()
+        self.wall = WALL1(self.snake)
+        self.fruit = FRUIT1(self.snake, self.wall)
+        self.plate = PLATE1(self.snake, self.wall)
+        self.turtle = TURTLE1(self.snake, self.wall)
         self.score = 0
         self.if_powerup_exist = True
 
@@ -346,52 +346,54 @@ class MAIN:
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 
-if __name__ == "__main__":
-    pygame.mixer.pre_init(44100, -16, 2, 512)
-    pygame.init()
-    cell_size = 40
-    cell_number = 20
-    screen = pygame.display.set_mode(
-        (cell_number * cell_size, cell_number * cell_size))
-    icon = pygame.image.load('Graphics/snake.png')
-    clock = pygame.time.Clock()
-    apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
-    fruit_plate = pygame.image.load(
-        'Graphics/fruit_basket.png').convert_alpha()
-    turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
-    score = pygame.image.load('Graphics/score.png').convert_alpha()
-    game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
-    wall_segment = pygame.image.load(
-        'Graphics/wall_segment.png').convert_alpha()
+# if __name__ == "__main__":
+pygame.mixer.pre_init(44100, -16, 2, 512)
+pygame.init()
+cell_size = 40
+cell_number = 20
+screen = pygame.display.set_mode(
+    (cell_number * cell_size, cell_number * cell_size))
+icon = pygame.image.load('Graphics/snake.png')
+clock = pygame.time.Clock()
+apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
+fruit_plate = pygame.image.load(
+    'Graphics/fruit_basket.png').convert_alpha()
+turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
+score = pygame.image.load('Graphics/score.png').convert_alpha()
+game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
+wall_segment = pygame.image.load(
+    'Graphics/wall_segment.png').convert_alpha()
 
-    SCREEN_UPDATE = pygame.USEREVENT
-    pygame.time.set_timer(SCREEN_UPDATE, 150)
+SCREEN_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(SCREEN_UPDATE, 150)
 
-    main_game = MAIN()
+main_game = MAIN1()
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == SCREEN_UPDATE:
-                main_game.update()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    if main_game.snake.direction.y != 1:
-                        main_game.snake.direction = Vector2(0, -1)
-                if event.key == pygame.K_RIGHT:
-                    if main_game.snake.direction.x != -1:
-                        main_game.snake.direction = Vector2(1, 0)
-                if event.key == pygame.K_DOWN:
-                    if main_game.snake.direction.y != -1:
-                        main_game.snake.direction = Vector2(0, 1)
-                if event.key == pygame.K_LEFT:
-                    if main_game.snake.direction.x != 1:
-                        main_game.snake.direction = Vector2(-1, 0)
+while True:
 
-        screen.fill((179, 207, 178))
-        main_game.draw_elements()
-        pygame.display.set_icon(icon)
-        pygame.display.set_caption('Snaking')
-        pygame.display.update()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == SCREEN_UPDATE:
+            main_game.update()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                if main_game.snake.direction.y != 1:
+                    main_game.snake.direction = Vector2(0, -1)
+            if event.key == pygame.K_RIGHT:
+                if main_game.snake.direction.x != -1:
+                    main_game.snake.direction = Vector2(1, 0)
+            if event.key == pygame.K_DOWN:
+                if main_game.snake.direction.y != -1:
+                    main_game.snake.direction = Vector2(0, 1)
+            if event.key == pygame.K_LEFT:
+                if main_game.snake.direction.x != 1:
+                    main_game.snake.direction = Vector2(-1, 0)
+
+    screen.fill((179, 207, 178))
+    main_game.draw_elements()
+    pygame.display.set_icon(icon)
+    pygame.display.set_caption('Snaking')
+    pygame.display.update()
+    clock.tick(60)

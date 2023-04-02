@@ -5,10 +5,10 @@ import time
 from pygame.math import Vector2
 
 
-class SNAKE:
+class SNAKE2:
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
-        self.direction = Vector2(1, 0)
+        self.direction = Vector2(0, 0)
         self.new_block = False
         self.score = 0
 
@@ -109,7 +109,7 @@ class SNAKE:
         self.new_block = True
 
 
-class WALL:
+class WALL2:
     def __init__(self, snake):
         self.snake = snake
         self.wall_blocks = []
@@ -173,7 +173,7 @@ class WALL:
             screen.blit(wall_segment, wall_suqre)
 
 
-class FRUIT:
+class FRUIT2:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -191,7 +191,7 @@ class FRUIT:
         self.pos = Vector2(self.x, self.y)
 
 
-class PLATE:
+class PLATE2:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -209,7 +209,7 @@ class PLATE:
         self.pos = Vector2(self.x, self.y)
 
 
-class TURTLE:
+class TURTLE2:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -227,13 +227,14 @@ class TURTLE:
         self.pos = Vector2(self.x, self.y)
 
 
-class MAIN:
+class MAIN2:
     def __init__(self):
-        self.snake = SNAKE()
-        self.wall = WALL(self.snake)
-        self.fruit = FRUIT(self.snake, self.wall)
-        self.plate = PLATE(self.snake, self.wall)
-        self.turtle = TURTLE(self.snake, self.wall)
+        self.snake = SNAKE2()
+        self.wall = WALL2(self.snake)
+        self.fruit = FRUIT2(self.snake, self.wall)
+        self.plate = PLATE2(self.snake, self.wall)
+        self.turtle = TURTLE2(self.snake, self.wall)
+        self.game_over_flag = False
 
     def update(self):
         self.snake.move_snake()
@@ -360,9 +361,10 @@ score = pygame.image.load('Graphics/score.png').convert_alpha()
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 200)
-main_game = MAIN()
+main_game = MAIN2()
 
 while True:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -388,3 +390,4 @@ while True:
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Snaking')
     pygame.display.update()
+    clock.tick(60)
