@@ -1,23 +1,6 @@
-# from level_1_exe import *
-# from level_2_exe import *
-import pygame
-import sys
-import random
-import time
-from pygame.math import Vector2
-
-pygame.mixer.pre_init(44100, -16, 2, 512)
-pygame.init()
-cell_size = 40
-cell_number = 20
-screen = pygame.display.set_mode(
-    (cell_number * cell_size, cell_number * cell_size))
-icon = pygame.image.load('Graphics/snake.png')
-clock = pygame.time.Clock()
-level1_button = pygame.image.load('Graphics/level1_sample.png')
-level2_button = pygame.image.load('Graphics/level2_sample.png')
-SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 150)
+from level_1_exe import *
+from level_2_exe import *
+from game_elements import *
 
 
 def selection_background(screen):
@@ -37,9 +20,6 @@ def selection_background(screen):
                     pygame.draw.rect(screen, grass_color, grass_rec)
 
 
-click = False
-
-
 def selection():
 
     while True:
@@ -56,25 +36,20 @@ def selection():
         level2_rect.x = 300
         level2_rect.y = 400
 
-        pos = pygame.mouse.get_pos()
-        if level1_rect.collidepoint(pos):
-            if click:
-                print("level1")
-        if level2_rect.collidepoint(pos):
-            if click:
-                print("level2")
-
         screen.blit(level1_image, level1_rect)
         screen.blit(level2_image, level2_rect)
 
-        click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
+
+            pos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN and level1_rect.collidepoint(pos):
+                game1()
+
+            if event.type == pygame.MOUSEBUTTONDOWN and level2_rect.collidepoint(pos):
+                game2()
 
         pygame.display.update()
         clock.tick(60)
