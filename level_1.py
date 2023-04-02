@@ -73,8 +73,9 @@ class WALL1:
 class SNAKE1:
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
-        self.direction = Vector2(1, 0)
+        self.direction = Vector2(0, 0)
         self.new_block = False
+        self.score = 0
 
         self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
         self.head_down = pygame.image.load(
@@ -178,6 +179,11 @@ class SNAKE1:
     def add_block(self):
         self.new_block = True
 
+    def reset(self):
+        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
+        self.direction = Vector2(0, 0)
+        self.score = 0
+
 
 class FRUIT1:
     def __init__(self, snake, wall):
@@ -237,14 +243,13 @@ class MAIN1:
         self.fruit = FRUIT1(self.snake, self.wall)
         self.plate = PLATE1(self.snake, self.wall)
         self.turtle = TURTLE1(self.snake, self.wall)
-        self.score = 0
         self.if_powerup_exist = True
 
     def update(self):
         self.snake.move_snake()
-        if self.score % 10 == 5:
+        if self.snake.score % 10 == 5:
             self.check_collision_plate()
-        elif self.score % 10 == 9:
+        elif self.snake.score % 10 == 9:
             self.check_collision_turtle()
         else:
             self.check_collision_fruit()
@@ -252,9 +257,9 @@ class MAIN1:
 
     def draw_elements(self):
         self.draw_grass()
-        if self.score % 10 == 5:
+        if self.snake.score % 10 == 5:
             self.plate.draw_plate()
-        elif self.score % 10 == 9:
+        elif self.snake.score % 10 == 9:
             self.turtle.draw_turtle()
         else:
             self.fruit.draw_fruit()
@@ -264,7 +269,7 @@ class MAIN1:
 
     def check_collision_fruit(self):
         if self.fruit.pos == self.snake.body[0]:
-            self.score += 1
+            self.snake.score += 1
             self.fruit.randomize()
             self.snake.add_block()
 
@@ -275,7 +280,7 @@ class MAIN1:
 
     def check_collision_plate(self):
         if self.plate.pos == self.snake.body[0]:
-            self.score += 3
+            self.snake.score += 3
             self.plate.randomize()
             self.snake.add_block()
         combine_list = self.snake.body[1:] + self.wall.wall_blocks
@@ -285,7 +290,7 @@ class MAIN1:
 
     def check_collision_turtle(self):
         if self.turtle.pos == self.snake.body[0]:
-            self.score += 1
+            self.snake.score += 1
             self.turtle.randomize()
             self.snake.add_block()
             # random_speed
@@ -310,8 +315,7 @@ class MAIN1:
                 self.game_over()
 
     def game_over(self):
-        pygame.quit()
-        sys.exit()
+        self.snake.reset()
 
     def draw_grass(self):
         grass_color = (201, 223, 201)
@@ -330,7 +334,7 @@ class MAIN1:
                         pygame.draw.rect(screen, grass_color, grass_rec)
 
     def draw_score(self):
-        score_text = str(self.score)
+        score_text = str(self.snake.score)
         # print(score_text)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 700)

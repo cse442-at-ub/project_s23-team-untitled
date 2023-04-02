@@ -108,6 +108,11 @@ class SNAKE2:
     def add_block(self):
         self.new_block = True
 
+    def reset(self):
+        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
+        self.direction = Vector2(0, 0)
+        self.score = 0
+
 
 class WALL2:
     def __init__(self, snake):
@@ -307,8 +312,7 @@ class MAIN2:
                 self.game_over()
 
     def game_over(self):
-        pygame.quit()
-        sys.exit()
+        self.snake.reset()
 
     def draw_grass(self):
         grass_color = (201, 223, 201)
