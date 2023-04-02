@@ -4,6 +4,27 @@ import sys
 import pygame
 from pygame.math import Vector2
 
+# if __name__ == "__main__":
+pygame.mixer.pre_init(44100, -16, 2, 512)
+pygame.init()
+cell_size = 40
+cell_number = 20
+screen = pygame.display.set_mode(
+    (cell_number * cell_size, cell_number * cell_size))
+icon = pygame.image.load('Graphics/snake.png')
+clock = pygame.time.Clock()
+apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
+fruit_plate = pygame.image.load(
+    'Graphics/fruit_basket.png').convert_alpha()
+turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
+score = pygame.image.load('Graphics/score.png').convert_alpha()
+game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
+wall_segment = pygame.image.load(
+    'Graphics/wall_segment.png').convert_alpha()
+
+SCREEN_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(SCREEN_UPDATE, 150)
+
 
 class WALL1:
     def __init__(self, snake):
@@ -349,27 +370,6 @@ class MAIN1:
         screen.blit(score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
-
-# if __name__ == "__main__":
-pygame.mixer.pre_init(44100, -16, 2, 512)
-pygame.init()
-cell_size = 40
-cell_number = 20
-screen = pygame.display.set_mode(
-    (cell_number * cell_size, cell_number * cell_size))
-icon = pygame.image.load('Graphics/snake.png')
-clock = pygame.time.Clock()
-apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
-fruit_plate = pygame.image.load(
-    'Graphics/fruit_basket.png').convert_alpha()
-turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
-score = pygame.image.load('Graphics/score.png').convert_alpha()
-game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
-wall_segment = pygame.image.load(
-    'Graphics/wall_segment.png').convert_alpha()
-
-SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 150)
 
 main_game = MAIN1()
 
