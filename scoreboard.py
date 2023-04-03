@@ -73,7 +73,7 @@ class SETTINGS:
         y = 170
         x = 280
         for i, score in enumerate(scores):
-            text = f'{i + 1}    {score}'
+            text = f'{i + 1}     {score}'
             surface = settings.font.render(text, True, settings.black)
             screen.blit(surface, (x, y))
             y += settings.font_size + 10
