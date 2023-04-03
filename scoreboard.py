@@ -19,6 +19,12 @@ image_easy = pygame.transform.scale(image_easy, (int(image_easy.get_width()/2), 
 image_medium = pygame.image.load("Graphics/title_score_medium.png")
 image_medium = pygame.transform.scale(image_medium, (int(image_medium.get_width()/2), int(image_medium.get_height())/2))
 title = image_easy
+image_score1 = pygame.image.load("Graphics/score_1.png")
+image_score2 = pygame.image.load("Graphics/score_2.png")
+image_score3 = pygame.image.load("Graphics/score_3.png")
+image_score4 = pygame.image.load("Graphics/score_4.png")
+image_score5 = pygame.image.load("Graphics/score_5.png")
+
 
 rect_1 = pygame.Rect(265, 10, 300, 100)
 
@@ -38,7 +44,7 @@ class SETTINGS:
         self.black = (0, 0, 0)
 
         # Font
-        self.font_size = 50
+        self.font_size = 80
         self.font = pygame.font.SysFont("Font/bahnschrift.ttf", self.font_size)
 
     def draw_grass(self):
@@ -59,9 +65,9 @@ class SETTINGS:
 
     def draw_scoreboard(self):
         y = 170
-        x = 100
+        x = 280
         for i, score in enumerate(scores):
-            text = f'{i + 1}. {score}'
+            text = f'{i + 1}.    {score}'
             surface = settings.font.render(text, True, settings.black)
             screen.blit(surface, (x, y))
             y += settings.font_size + 10
