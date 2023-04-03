@@ -20,10 +20,16 @@ image_medium = pygame.image.load("Graphics/title_score_medium.png")
 image_medium = pygame.transform.scale(image_medium, (int(image_medium.get_width()/2), int(image_medium.get_height())/2))
 title = image_easy
 image_score1 = pygame.image.load("Graphics/score_1.png")
+image_score1 = pygame.transform.scale(image_score1, (100, 100))
 image_score2 = pygame.image.load("Graphics/score_2.png")
+image_score2 = pygame.transform.scale(image_score2, (100, 100))
 image_score3 = pygame.image.load("Graphics/score_3.png")
+image_score3 = pygame.transform.scale(image_score3, (100, 100))
 image_score4 = pygame.image.load("Graphics/score_4.png")
+image_score4 = pygame.transform.scale(image_score4, (100, 100))
 image_score5 = pygame.image.load("Graphics/score_5.png")
+image_score5 = pygame.transform.scale(image_score5, (100, 100))
+
 
 
 rect_1 = pygame.Rect(265, 10, 300, 100)
@@ -67,7 +73,7 @@ class SETTINGS:
         y = 170
         x = 280
         for i, score in enumerate(scores):
-            text = f'{i + 1}.    {score}'
+            text = f'{i + 1}    {score}'
             surface = settings.font.render(text, True, settings.black)
             screen.blit(surface, (x, y))
             y += settings.font_size + 10
@@ -112,6 +118,13 @@ if __name__ == "__main__":
         # Draw title
         # pygame.draw.rect(screen, settings.white, rect_1)
         screen.blit(title, (250, 10))
+
+        # Draw ranking
+        screen.blit(image_score1, (250, 145))
+        screen.blit(image_score2, (250, 145+90))
+        screen.blit(image_score3, (250, 145+90*2))
+        # screen.blit(image_score4, (250, 445))
+        # screen.blit(image_score5, (250, 545))
 
         # Update display
         pygame.display.update()
