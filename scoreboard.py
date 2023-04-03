@@ -71,7 +71,7 @@ class SETTINGS:
 
     def draw_scoreboard(self):
         y = 170
-        x = 280
+        x = 300
         for i, score in enumerate(scores):
             text = f'{i + 1}     {score}'
             surface = settings.font.render(text, True, settings.black)
@@ -120,9 +120,9 @@ if __name__ == "__main__":
         screen.blit(title, (250, 10))
 
         # Draw ranking
-        screen.blit(image_score1, (250, 145))
-        screen.blit(image_score2, (250, 145+90))
-        screen.blit(image_score3, (250, 145+90*2))
+        screen.blit(image_score1, (269, 145))
+        screen.blit(image_score2, (269, 145+90))
+        screen.blit(image_score3, (269, 145+90*2))
         # screen.blit(image_score4, (250, 445))
         # screen.blit(image_score5, (250, 545))
 
