@@ -66,6 +66,7 @@ class WALL:
             wall_square = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment, wall_square)
 
+
 class SNAKE:
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
@@ -179,6 +180,7 @@ class FRUIT:
         self.x = random.randint(0, cell_number - 1)
         self.y = random.randint(0, cell_number - 1)
         self.pos = Vector2(self.x, self.y)
+
 
 class POWERUP:
     def __init__(self):
