@@ -478,6 +478,4 @@ def game3():
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Snaking')
         pygame.display.update()
-        clock.tick(60) 
- 
-def game_over(class):
+        clock.tick(60)

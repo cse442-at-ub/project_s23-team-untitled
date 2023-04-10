@@ -52,7 +52,8 @@ def selection():
 
             pos = pygame.mouse.get_pos()
             if event.type == pygame.MOUSEBUTTONDOWN and level1_rect.collidepoint(pos):
-                game1()
+                main_game = MAIN1()
+                main_game.game()
 
             if event.type == pygame.MOUSEBUTTONDOWN and level2_rect.collidepoint(pos):
                 game2()
