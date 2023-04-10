@@ -403,6 +403,9 @@ class MAIN:
                     elif event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
                         main_game.__init__()
                         return
+                    elif event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                        sys.exit()
+
                     
                     mouse_pos = pygame.mouse.get_pos()
                     if restart_rect.collidepoint(mouse_pos):
