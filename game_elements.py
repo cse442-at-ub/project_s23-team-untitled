@@ -16,10 +16,11 @@ turtle_src = pygame.image.load('Graphics/turtle.png').convert_alpha()
 game_font = pygame.font.Font('Font/bahnschrift.ttf', 30)
 wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 score = pygame.image.load('Graphics/score.png').convert_alpha()
-
+highest_scores = []
 # buttons for selection page
 level1_button = pygame.image.load('Graphics/level1_sample.png')
 level2_button = pygame.image.load('Graphics/level2_sample.png')
+level3_button = pygame.image.load('Graphics/level3_sample.png')
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 200)
