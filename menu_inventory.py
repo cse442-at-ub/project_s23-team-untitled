@@ -245,7 +245,7 @@ class InventoryMenu:
         # if self.sn_skin_selection != 1 or self.fr_skin_selection != 1:
         # print(self.saved)
         global saved
-        if saved is not None:
+        if (self.sn_skin_selection != saved[0]) or (self.fr_skin_selection != saved[1]):
             self.buttons_visible = True
             # print(self.save_button_enabled)
             # print(self.undo_button_enabled)
