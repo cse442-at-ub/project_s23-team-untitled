@@ -271,7 +271,7 @@ class MAIN3:
         self.back_to_menu_flag = False
 
     def update(self):
-        self.game_over_screen()
+        # self.game_over_screen()
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
@@ -280,15 +280,15 @@ class MAIN3:
 
     def draw_elements(self):
         self.draw_grass()
-        if not self.game_over_flag:
-            self.fruit.draw_fruit()
-            self.snake.draw_snake()
-            self.wall.draw_wall()
-            self.draw_score()
-            self.slowpower.draw()
-            self.fruit_plate.draw()
-        else:
-            self.game_over_screen()
+        # if not self.game_over_flag:
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+        self.wall.draw_wall()
+        self.draw_score()
+        self.slowpower.draw()
+        self.fruit_plate.draw()
+        # else:
+        #     self.game_over_screen()
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -341,80 +341,80 @@ class MAIN3:
 
     def game_over_screen(self):
         global highest_scores
-        if self.game_over_flag:
-            highest_scores.append(self.snake.food_gain)
-            highest_scores.sort(reverse=True)
-            highest_scores = highest_scores[:5]
-            # Load game over image and resize it to fit background rectangle size
-            game_over_image = pygame.image.load('Graphics/game_over.png').convert_alpha()
-            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
-            bg_rect = game_over_rect.copy()
-            #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
-            game_over_rect.y -= 150 # Move the game over image up 
-             # Move the game over image to the right
+        # if self.game_over_flag:
+        highest_scores.append(self.snake.food_gain)
+        highest_scores.sort(reverse=True)
+        highest_scores = highest_scores[:5]
+        # Load game over image and resize it to fit background rectangle size
+        game_over_image = pygame.image.load('Graphics/game_over.png').convert_alpha()
+        game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+        bg_rect = game_over_rect.copy()
+        #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
+        game_over_rect.y -= 150 # Move the game over image up 
+        # Move the game over image to the right
 
-            # Load restart and main menu buttons
-            restart_button = pygame.image.load('Buttons/restart.png').convert_alpha()
-            restart_highlighted_button = pygame.image.load('Buttons/restart_highlight.png').convert_alpha()
-            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
-            restart_rect.y += 80  # Move the restart button down 
-            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
-            restart_highlighted = False
+        # Load restart and main menu buttons
+        restart_button = pygame.image.load('Buttons/restart.png').convert_alpha()
+        restart_highlighted_button = pygame.image.load('Buttons/restart_highlight.png').convert_alpha()
+        restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+        restart_rect.y += 80  # Move the restart button down 
+        restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+        restart_highlighted = False
 
-            main_menu_button = pygame.image.load('Buttons/main_menu.png').convert_alpha()
-            main_menu_highlighted_button = pygame.image.load('Buttons/main_menu_hightlight.png').convert_alpha()
-            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
-            main_menu_rect.y += 200  # Move the main menu button down 
-            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
-            main_menu_highlighted = False
+        main_menu_button = pygame.image.load('Buttons/main_menu.png').convert_alpha()
+        main_menu_highlighted_button = pygame.image.load('Buttons/main_menu_hightlight.png').convert_alpha()
+        main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+        main_menu_rect.y += 200  # Move the main menu button down 
+        main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+        main_menu_highlighted = False
 
-            # Create background rectangle
-            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
-            bg_rect.inflate_ip(70, 80)  # Expand the background rectangle to fit the buttons
-            bg_rect.center = screen.get_rect().center
+        # Create background rectangle
+        bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+        bg_rect.inflate_ip(70, 80)  # Expand the background rectangle to fit the buttons
+        bg_rect.center = screen.get_rect().center
 
-            # Draw background rectangle, game over image, and buttons
-            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
-            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
-            screen.blit(game_over_image, game_over_rect)
-            screen.blit(restart_button, restart_rect)
-            screen.blit(main_menu_button, main_menu_rect)
+        # Draw background rectangle, game over image, and buttons
+        pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+        pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+        screen.blit(game_over_image, game_over_rect)
+        screen.blit(restart_button, restart_rect)
+        screen.blit(main_menu_button, main_menu_rect)
+        pygame.display.update()
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                    self.__init__()
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                    self.back_to_menu_flag = True
+                    return
+                
+                mouse_pos = pygame.mouse.get_pos()
+                if restart_rect.collidepoint(mouse_pos):
+                    restart_highlighted = True
+                else:
+                    restart_highlighted = False
+
+                if main_menu_rect.collidepoint(mouse_pos):
+                    main_menu_highlighted = True
+                else:
+                    main_menu_highlighted = False
+        
+                if restart_highlighted:
+                    screen.blit(restart_highlighted_button,restart_highlighted_rect)
+                else:
+                    screen.blit(restart_button, restart_rect)
+
+                if main_menu_highlighted:
+                    screen.blit(main_menu_highlighted_button,main_menu_highlighted_button_rec)
+                else:
+                    screen.blit(main_menu_button, main_menu_rect)
+
             pygame.display.update()
-            
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
-                        self.__init__()
-                        return
-                    if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
-                        self.back_to_menu_flag = True
-                        return
-                    
-                    mouse_pos = pygame.mouse.get_pos()
-                    if restart_rect.collidepoint(mouse_pos):
-                        restart_highlighted = True
-                    else:
-                        restart_highlighted = False
-
-                    if main_menu_rect.collidepoint(mouse_pos):
-                        main_menu_highlighted = True
-                    else:
-                        main_menu_highlighted = False
-              
-                    if restart_highlighted:
-                        screen.blit(restart_highlighted_button,restart_highlighted_rect)
-                    else:
-                        screen.blit(restart_button, restart_rect)
-
-                    if main_menu_highlighted:
-                        screen.blit(main_menu_highlighted_button,main_menu_highlighted_button_rec)
-                    else:
-                        screen.blit(main_menu_button, main_menu_rect)
-
-                pygame.display.update()
 
     def draw_grass(self):
         grass_color = (201,223,201)
@@ -455,8 +455,10 @@ class MAIN3:
                     sys.exit()
                 if event.type == self.screen_update_in_main.screen_updates:
                     self.update()
-                    if self.back_to_menu_flag:
-                        return
+                    if self.game_over_flag:
+                        self.game_over_screen()
+                        if self.back_to_menu_flag:
+                            return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         if self.snake.direction.y != 1:
