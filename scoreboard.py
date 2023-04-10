@@ -18,6 +18,8 @@ image_easy = pygame.image.load("Graphics/title_score_easy.png")
 image_easy = pygame.transform.scale(image_easy, (int(image_easy.get_width()/2), int(image_easy.get_height())/2))
 image_medium = pygame.image.load("Graphics/title_score_medium.png")
 image_medium = pygame.transform.scale(image_medium, (int(image_medium.get_width()/2), int(image_medium.get_height())/2))
+image_hard = pygame.image.load("Graphics/title_score_hard.png")
+image_hard = pygame.transform.scale(image_hard, (int(image_hard.get_width()/2), int(image_hard.get_height())/2))
 title = image_easy
 image_score1 = pygame.image.load("Graphics/score_1.png")
 image_score1 = pygame.transform.scale(image_score1, (100, 100))
@@ -36,6 +38,7 @@ rect_1 = pygame.Rect(265, 10, 300, 100)
 
 score_easy = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
 score_medium = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
+score_hard = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
 scores = score_easy
 
 
@@ -101,6 +104,9 @@ if __name__ == "__main__":
                     if title == image_easy:
                         title = image_medium
                         scores = score_medium
+                    elif title == image_medium:
+                        title = image_hard
+                        scores = score_hard
                     else:
                         title = image_easy
                         scores = score_easy
