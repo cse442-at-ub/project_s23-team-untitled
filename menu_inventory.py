@@ -3,9 +3,7 @@ from pygame.math import Vector2
 #global initialization
 pygame.mixer.pre_init(44100,-16,2,512)
 pygame.init()
-
-sn_selection =1
-fr_selection =1
+saved = None
 cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
@@ -17,9 +15,11 @@ class InventoryMenu:
     def __init__(self):
         # Load images for buttons
         self.save_button = pygame.image.load('Buttons/button_save.png').convert_alpha()
+        self.save_button_highlight = pygame.image.load('Buttons/button_save_highlight.png').convert_alpha()
         self.undo_button = pygame.image.load('Buttons/button_undo.png').convert_alpha()
         self.return_button = pygame.image.load('Buttons/button_return.png').convert_alpha()
         self.inventory_title = pygame.image.load('Buttons/title_inventory.png').convert_alpha()
+
 
         # Load images for skins
         self.sn_skin1_image = pygame.image.load('Skins/sn_skin1.png').convert_alpha()
@@ -59,10 +59,28 @@ class InventoryMenu:
         # Set initial selection
         self.sn_skin_selection = 1
         self.fr_skin_selection = 1
-        # Set initial button state
-        self.save_button_enabled = False
-        self.undo_button_enabled = False
+        self.load_skin_selections()
 
+        # Set initial button state
+        self.buttons_visible = False
+        self.saved_selections = False
+        
+
+
+    def load_skin_selections(self):
+        try:
+            with open('skin_selections.txt', 'r') as f:
+                lines = f.readlines()
+                if len(lines) == 2:
+                    self.sn_skin_selection = int(lines[0])
+                    self.fr_skin_selection = int(lines[1])
+            global saved
+            saved = (self.sn_skin_selection, self.fr_skin_selection)
+            # print(saved)
+        except:
+            print("Error loading skin selections")
+
+            
     def draw_elements(self):
 
         distance = 10
@@ -211,25 +229,54 @@ class InventoryMenu:
             pygame.draw.circle(screen, (0, 0, 0), self.fr_skin9_checkbox.center, 10)
 
         # Draw save, undo, and return buttons
-        if self.save_button_enabled:
-            screen.blit(self.save_button, self.save_button_rect)
-        if self.undo_button_enabled:
-            screen.blit(self.undo_button, self.undo_button_rect)
+        if self.buttons_visible:
+            mouse_pos = pygame.mouse.get_pos()
+            if self.save_button_rect.collidepoint(mouse_pos):
+                screen.blit(self.save_button_highlight, self.save_button_rect)
+                screen.blit(self.undo_button, self.undo_button_rect)
+            else: 
+                screen.blit(self.save_button, self.save_button_rect)
+                screen.blit(self.undo_button, self.undo_button_rect)
+            
         screen.blit(self.return_button, self.return_button_rect)
+        global saved
 
     def update_button_states(self):
-        global sn_selection,fr_selection
-        if self.sn_skin_selection != 1 or self.fr_skin_selection != 1:
-            self.save_button_enabled = True
-            self.undo_button_enabled = True
-            sn_selection = self.sn_skin_selection
-            fr_selection = self.fr_skin_selection
+        # if self.sn_skin_selection != 1 or self.fr_skin_selection != 1:
+        # print(self.saved)
+        global saved
+        if saved is not None:
+            self.buttons_visible = True
             # print(self.save_button_enabled)
             # print(self.undo_button_enabled)
         else:
-            self.save_button_enabled = False
-            self.undo_button_enabled = False
+            self.buttons_visible = False
+
        
+    def save_changes(self):
+        # Save the skin selections to a file (or database, or any other storage mechanism)
+        with open('skin_selections.txt', 'w') as f:
+            f.write(str(self.sn_skin_selection) + '\n')
+            f.write(str(self.fr_skin_selection) + '\n')
+        global saved
+        saved = (self.sn_skin_selection, self.fr_skin_selection)
+        
+
+    def undo_skin_selections(self):
+        with open('skin_selections.txt', 'r') as f:
+            lines = f.readlines()
+        self.sn_skin_selection = int(lines[0])
+        self.fr_skin_selection = int(lines[1])
+        self.saved_selections = True
+        
+
+    def handle_save_click(self):
+        self.save_changes()
+        self.saved_selections = True
+
+    def hide_buttons(self):
+        self.buttons_visible = False
+        
 
 
 class MAIN:
@@ -293,14 +340,25 @@ while True:
                 main_game.inventory_menu.fr_skin_selection = 9
             elif main_game.inventory_menu.save_button_rect.collidepoint(mouse_pos):
                 # Handle save button click
-                pass
+                # Draw the highlighted save button
+                main_game.inventory_menu.handle_save_click()
+                main_game.inventory_menu.hide_buttons()
             elif main_game.inventory_menu.undo_button_rect.collidepoint(mouse_pos):
                 # Handle undo button click
-                pass
+                main_game.inventory_menu.undo_skin_selections()
+                main_game.inventory_menu.hide_buttons()
             elif main_game.inventory_menu.return_button_rect.collidepoint(mouse_pos):
                 # Handle return button click
                 pass
+            else:
+                 # Draw the regular save button
+                 pass
             main_game.inventory_menu.update_button_states()
+            if main_game.inventory_menu.saved_selections:
+                main_game.inventory_menu.hide_buttons()
+                main_game.inventory_menu.saved_selections = False
+
+
 
     screen.fill((179,207,178))
     main_game.draw_elements()
