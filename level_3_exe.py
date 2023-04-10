@@ -1,26 +1,11 @@
-import pygame,sys,random
+import pygame
+import sys
+import random
 from pygame.math import Vector2
+from game_elements import *
 
 
-#global initialization
-pygame.mixer.pre_init(44100,-16,2,512)
-pygame.init()
-
-cell_size = 40
-cell_number = 20
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
-icon = pygame.image.load('Graphics/snake.png')
-clock = pygame.time.Clock()
-food_src = pygame.image.load('Graphics/apple_39.png').convert_alpha()
-game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
-wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
-turtle_src = pygame.image.load('Graphics/turtle.png').convert_alpha()
-plate_src = pygame.image.load('Graphics/fruit_plate.png').convert_alpha()
-score = pygame.image.load('Graphics/score.png').convert_alpha()
-
-highest_scores = []
-
-class SNAKE:
+class SNAKE3:
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(0,0)
@@ -107,7 +92,7 @@ class SNAKE:
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(0,0)       
 
-class FRUIT:
+class FRUIT3:
     def __init__(self,snake):
         self.snake = snake
         self.randomize()
@@ -124,7 +109,7 @@ class FRUIT:
             if self.pos not in self.snake.body:
                 break
 
-class WALL:
+class WALL3:
     def __init__(self,snake,fruit):
         self.snake = snake
         self.fruit = fruit
@@ -185,7 +170,7 @@ class WALL:
             wall_suqre = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment,wall_suqre)
 
-class SlowdownPowerUp:
+class SlowdownPowerUp3:
     def __init__(self, snake,wall):
         self.snake = snake
         self.wall = wall
@@ -224,7 +209,7 @@ class SlowdownPowerUp:
         self.limit = 0
         self.pos = None
 
-class FruitPlate:
+class FruitPlate3:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -263,7 +248,7 @@ class FruitPlate:
         self.flag = False
         self.pos = None
 
-class ScreenUpdate:
+class ScreenUpdate3:
     def __init__(self,time):
         self.time = time
         self.screen_updates = pygame.USEREVENT
@@ -273,19 +258,20 @@ class ScreenUpdate:
         self.time = time
         pygame.time.set_timer(self.screen_updates, self.time)
     
-class MAIN:
+class MAIN3:
     def __init__(self):
-        self.snake = SNAKE()
-        self.fruit = FRUIT(self.snake)
-        self.wall = WALL(self.snake,self.fruit)
-        self.slowpower = SlowdownPowerUp(self.snake,self.wall)
-        self.fruit_plate = FruitPlate(self.snake, self.wall)
+        self.snake = SNAKE3()
+        self.fruit = FRUIT3(self.snake)
+        self.wall = WALL3(self.snake,self.fruit)
+        self.slowpower = SlowdownPowerUp3(self.snake,self.wall)
+        self.fruit_plate = FruitPlate3(self.snake, self.wall)
         self.screen_parameter= 230
-        self.screen_update_in_main = ScreenUpdate(self.screen_parameter)
+        self.screen_update_in_main = ScreenUpdate3(self.screen_parameter)
         self.game_over_flag = False
+        self.back_to_menu_flag = False
 
     def update(self):
-        self.game_over_screen(main_game)
+        self.game_over_screen()
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
@@ -302,7 +288,7 @@ class MAIN:
             self.slowpower.draw()
             self.fruit_plate.draw()
         else:
-            self.game_over_screen(main_game)
+            self.game_over_screen()
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -353,7 +339,7 @@ class MAIN:
             if block == self.snake.body[0]:
                 self.game_over_flag = True 
 
-    def game_over_screen(self, main_game):
+    def game_over_screen(self):
         global highest_scores
         if self.game_over_flag:
             highest_scores.append(self.snake.food_gain)
@@ -400,8 +386,11 @@ class MAIN:
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
-                    elif event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
-                        main_game.__init__()
+                    if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                        self.__init__()
+                        return
+                    if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                        self.back_to_menu_flag = True
                         return
                     
                     mouse_pos = pygame.mouse.get_pos()
@@ -459,33 +448,36 @@ class MAIN:
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
 
-main_game = MAIN()
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        if event.type == main_game.screen_update_in_main.screen_updates:
-            main_game.update()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                if main_game.snake.direction.y != 1:
-                    main_game.snake.direction = Vector2(0,-1)
-            if event.key == pygame.K_RIGHT:
-                if main_game.snake.direction.x != -1:
-                    main_game.snake.direction = Vector2(1,0)
-            if event.key == pygame.K_DOWN:
-                if main_game.snake.direction.y != -1:
-                    main_game.snake.direction = Vector2(0,1)
-            if event.key == pygame.K_LEFT:
-                if main_game.snake.direction.x != 1:
-                    main_game.snake.direction = Vector2(-1,0)
-        
-    screen.fill((179,207,178))
-    main_game.draw_elements()
-    pygame.display.set_icon(icon)
-    pygame.display.set_caption('Snaking')
-    pygame.display.update()
-    clock.tick(60) 
+def game3():
+    main_game = MAIN3()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == main_game.screen_update_in_main.screen_updates:
+                main_game.update()
+                if main_game.back_to_menu_flag:
+                    return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    if main_game.snake.direction.y != 1:
+                        main_game.snake.direction = Vector2(0,-1)
+                if event.key == pygame.K_RIGHT:
+                    if main_game.snake.direction.x != -1:
+                        main_game.snake.direction = Vector2(1,0)
+                if event.key == pygame.K_DOWN:
+                    if main_game.snake.direction.y != -1:
+                        main_game.snake.direction = Vector2(0,1)
+                if event.key == pygame.K_LEFT:
+                    if main_game.snake.direction.x != 1:
+                        main_game.snake.direction = Vector2(-1,0)
+            
+        screen.fill((179,207,178))
+        main_game.draw_elements()
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption('Snaking')
+        pygame.display.update()
+        clock.tick(60) 
  
+def game_over(class):
