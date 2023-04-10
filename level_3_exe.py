@@ -447,35 +447,34 @@ class MAIN3:
         screen.blit(bg_surface, bg_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
+    def game(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == self.screen_update_in_main.screen_updates:
+                    self.update()
+                    if self.back_to_menu_flag:
+                        return
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        if self.snake.direction.y != 1:
+                            self.snake.direction = Vector2(0,-1)
+                    if event.key == pygame.K_RIGHT:
+                        if self.snake.direction.x != -1:
+                            self.snake.direction = Vector2(1,0)
+                    if event.key == pygame.K_DOWN:
+                        if self.snake.direction.y != -1:
+                            self.snake.direction = Vector2(0,1)
+                    if event.key == pygame.K_LEFT:
+                        if self.snake.direction.x != 1:
+                            self.snake.direction = Vector2(-1,0)
+                
+            screen.fill((179,207,178))
+            self.draw_elements()
+            pygame.display.set_icon(icon)
+            pygame.display.set_caption('Snaking')
+            pygame.display.update()
+            clock.tick(60)
 
-def game3():
-    main_game = MAIN3()
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == main_game.screen_update_in_main.screen_updates:
-                main_game.update()
-                if main_game.back_to_menu_flag:
-                    return
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    if main_game.snake.direction.y != 1:
-                        main_game.snake.direction = Vector2(0,-1)
-                if event.key == pygame.K_RIGHT:
-                    if main_game.snake.direction.x != -1:
-                        main_game.snake.direction = Vector2(1,0)
-                if event.key == pygame.K_DOWN:
-                    if main_game.snake.direction.y != -1:
-                        main_game.snake.direction = Vector2(0,1)
-                if event.key == pygame.K_LEFT:
-                    if main_game.snake.direction.x != 1:
-                        main_game.snake.direction = Vector2(-1,0)
-            
-        screen.fill((179,207,178))
-        main_game.draw_elements()
-        pygame.display.set_icon(icon)
-        pygame.display.set_caption('Snaking')
-        pygame.display.update()
-        clock.tick(60)

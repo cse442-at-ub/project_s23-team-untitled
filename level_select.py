@@ -56,10 +56,12 @@ def selection():
                 main_game.game()
 
             if event.type == pygame.MOUSEBUTTONDOWN and level2_rect.collidepoint(pos):
-                game2()
+                main_game = MAIN2()
+                main_game.game()
             
             if event.type == pygame.MOUSEBUTTONDOWN and level3_rect.collidepoint(pos):
-                game3()
+                main_game = MAIN3()
+                main_game.game()
 
         pygame.display.update()
         clock.tick(60)
