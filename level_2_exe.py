@@ -328,7 +328,7 @@ class MAIN2:
         # print(score_text)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 700)
-        score_y = int(cell_size * cell_number - 750)
+        score_y = int(cell_size/2)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = score.get_rect(
             midright=(score_rect.left, score_rect.centery))
