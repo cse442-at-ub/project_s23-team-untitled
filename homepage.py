@@ -2,7 +2,7 @@ import pygame
 import os
 
 pygame.init()
-
+#test
 
 WINDOW_SIZE = (800, 600)
 cell_size = 40
