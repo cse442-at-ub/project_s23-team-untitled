@@ -2,6 +2,7 @@ import pygame
 from level_select import *
 from game_elements import *
 from scoreboard import *
+from inventory import *
 
 def homepage():
     while True:
@@ -9,10 +10,10 @@ def homepage():
         selection_background(screen)
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Homepage')
-        game_button = pygame.transform.scale(pygame.image.load('Graphics/title_newgame.png'), (300, 100))
-        daily_challenge_button = pygame.transform.scale(pygame.image.load('Graphics/button_daily_highlight.png'), (300, 100))
-        scores_button = pygame.transform.scale(pygame.image.load('Graphics/button_score.png'), (300, 100))
-        inventory_button = pygame.transform.scale(pygame.image.load('Graphics/button_inventory.png'), (300, 100))
+        game_button = pygame.transform.scale(pygame.image.load('Buttons/button_newgame.png'), (300, 100))
+        daily_challenge_button = pygame.transform.scale(pygame.image.load('Buttons/button_daily.png'), (300, 100))
+        scores_button = pygame.transform.scale(pygame.image.load('Buttons/button_score.png'), (300, 100))
+        inventory_button = pygame.transform.scale(pygame.image.load('Buttons/button_inventory.png'), (300, 100))
         button_rect = game_button.get_rect()
         button_rect.centerx = screen.get_rect().centerx
         button_rect.centery = screen.get_rect().centery-100
@@ -25,7 +26,6 @@ def homepage():
         inventory_button_rect = inventory_button.get_rect()
         inventory_button_rect.centerx = screen.get_rect().centerx
         inventory_button_rect.centery = screen.get_rect().centery + 200
-        pygame.draw.rect(screen, (0, 0, 0), button_rect, 3)
         screen.blit(game_button, button_rect)
         screen.blit(daily_challenge_button, daily_challenge_button_rect)
         screen.blit(scores_button, scores_button_rect)
@@ -47,7 +47,7 @@ def homepage():
                 scoreboard()
 
             if event.type == pygame.MOUSEBUTTONDOWN and inventory_button_rect.collidepoint(pos):
-                pass
+                inventory()
         
         pygame.display.update()
         clock.tick(60)
