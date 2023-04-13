@@ -1,4 +1,4 @@
-('D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\PYZ-00.pyz',
+('D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\PYZ-00.pyz',
  [('__future__',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\__future__.py',
@@ -191,6 +191,9 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\email\\utils.py',
    'PYMODULE'),
+  ('food_src',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\food_src.py',
+   'PYMODULE'),
   ('fractions',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\fractions.py',
@@ -200,7 +203,7 @@
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\ftplib.py',
    'PYMODULE'),
   ('game_elements',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\game_elements.py',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\game_elements.py',
    'PYMODULE'),
   ('getopt',
    'C:\\Users\\Anton '
@@ -223,6 +226,9 @@
   ('hashlib',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\hashlib.py',
+   'PYMODULE'),
+  ('homepage',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\homepage.py',
    'PYMODULE'),
   ('html',
    'C:\\Users\\Anton '
@@ -327,17 +333,20 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\inspect.py',
    'PYMODULE'),
+  ('inventory',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\inventory.py',
+   'PYMODULE'),
   ('level_1_exe',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\level_1_exe.py',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\level_1_exe.py',
    'PYMODULE'),
   ('level_2_exe',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\level_2_exe.py',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\level_2_exe.py',
    'PYMODULE'),
   ('level_3_exe',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\level_3_exe.py',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\level_3_exe.py',
    'PYMODULE'),
   ('level_select',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\level_select.py',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\level_select.py',
    'PYMODULE'),
   ('logging',
    'C:\\Users\\Anton '
@@ -741,6 +750,9 @@
    'PYMODULE'),
   ('runpy',
    'C:\\Users\\Anton Yang\\AppData\\Local\\Programs\\python3.10\\lib\\runpy.py',
+   'PYMODULE'),
+  ('scoreboard',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\scoreboard.py',
    'PYMODULE'),
   ('selectors',
    'C:\\Users\\Anton '

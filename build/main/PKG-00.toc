@@ -1,4 +1,4 @@
-('D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\main.pkg',
+('D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\main.pkg',
  {'BINARY': True,
   'DATA': True,
   'EXECUTABLE': True,
@@ -8,22 +8,22 @@
   'PYZ': False,
   'SPLASH': True},
  [('PYZ-00.pyz',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\PYZ-00.pyz',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\PYZ-00.pyz',
    'PYZ'),
   ('struct',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\localpycs\\struct.pyc',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\localpycs\\struct.pyc',
    'PYMODULE'),
   ('pyimod01_archive',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod01_archive.pyc',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod01_archive.pyc',
    'PYMODULE'),
   ('pyimod02_importers',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod02_importers.pyc',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod02_importers.pyc',
    'PYMODULE'),
   ('pyimod03_ctypes',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod03_ctypes.pyc',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod03_ctypes.pyc',
    'PYMODULE'),
   ('pyimod04_pywin32',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod04_pywin32.pyc',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\localpycs\\pyimod04_pywin32.pyc',
    'PYMODULE'),
   ('pyiboot01_bootstrap',
    'C:\\Users\\Anton '
@@ -53,65 +53,31 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
    'PYSOURCE'),
-  ('main', 'D:\\MUS115\\exe3\\project_s23-team-untitled\\main.py', 'PYSOURCE'),
+  ('main',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\main.py',
+   'PYSOURCE'),
+  ('python310.dll',
+   'C:\\Users\\Anton Yang\\AppData\\Local\\Programs\\python3.10\\python310.dll',
+   'BINARY'),
   ('VCRUNTIME140.dll',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\VCRUNTIME140.dll',
    'BINARY'),
-  ('python310.dll',
-   'C:\\Users\\Anton Yang\\AppData\\Local\\Programs\\python3.10\\python310.dll',
-   'BINARY'),
-  ('SDL2_image.dll',
+  ('freetype.dll',
    'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2_image.dll',
-   'BINARY'),
-  ('libtiff-5.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libtiff-5.dll',
-   'BINARY'),
-  ('SDL2.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2.dll',
-   'BINARY'),
-  ('libogg-0.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libogg-0.dll',
-   'BINARY'),
-  ('portmidi.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\portmidi.dll',
-   'BINARY'),
-  ('zlib1.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\zlib1.dll',
-   'BINARY'),
-  ('libopusfile-0.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libopusfile-0.dll',
-   'BINARY'),
-  ('libopus-0.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libopus-0.dll',
-   'BINARY'),
-  ('libwebp-7.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libwebp-7.dll',
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\freetype.dll',
    'BINARY'),
   ('SDL2_ttf.dll',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2_ttf.dll',
    'BINARY'),
-  ('SDL2_mixer.dll',
+  ('SDL2_image.dll',
    'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2_mixer.dll',
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2_image.dll',
    'BINARY'),
-  ('pywin32_system32\\pywintypes310.dll',
+  ('libwebp-7.dll',
    'C:\\Users\\Anton '
-   'Yang\\AppData\\Roaming\\Python\\Python310\\site-packages\\pywin32_system32\\pywintypes310.dll',
-   'BINARY'),
-  ('libmodplug-1.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libmodplug-1.dll',
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libwebp-7.dll',
    'BINARY'),
   ('libjpeg-9.dll',
    'C:\\Users\\Anton '
@@ -121,13 +87,49 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Roaming\\Python\\Python310\\site-packages\\pywin32_system32\\pythoncom310.dll',
    'BINARY'),
-  ('freetype.dll',
+  ('zlib1.dll',
    'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\freetype.dll',
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\zlib1.dll',
+   'BINARY'),
+  ('libmodplug-1.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libmodplug-1.dll',
+   'BINARY'),
+  ('libopusfile-0.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libopusfile-0.dll',
+   'BINARY'),
+  ('libopus-0.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libopus-0.dll',
+   'BINARY'),
+  ('libtiff-5.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libtiff-5.dll',
    'BINARY'),
   ('libpng16-16.dll',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libpng16-16.dll',
+   'BINARY'),
+  ('libogg-0.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libogg-0.dll',
+   'BINARY'),
+  ('pywin32_system32\\pywintypes310.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Roaming\\Python\\Python310\\site-packages\\pywin32_system32\\pywintypes310.dll',
+   'BINARY'),
+  ('SDL2.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2.dll',
+   'BINARY'),
+  ('portmidi.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\portmidi.dll',
+   'BINARY'),
+  ('SDL2_mixer.dll',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2_mixer.dll',
    'BINARY'),
   ('_decimal.pyd',
    'C:\\Users\\Anton '
@@ -192,6 +194,10 @@
   ('unicodedata.pyd',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\DLLs\\unicodedata.pyd',
+   'EXTENSION'),
+  ('pygame\\math.cp310-win_amd64.pyd',
+   'C:\\Users\\Anton '
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\math.cp310-win_amd64.pyd',
    'EXTENSION'),
   ('pygame\\imageext.cp310-win_amd64.pyd',
    'C:\\Users\\Anton '
@@ -269,10 +275,6 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\display.cp310-win_amd64.pyd',
    'EXTENSION'),
-  ('pygame\\math.cp310-win_amd64.pyd',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\math.cp310-win_amd64.pyd',
-   'EXTENSION'),
   ('pygame\\bufferproxy.cp310-win_amd64.pyd',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\bufferproxy.cp310-win_amd64.pyd',
@@ -305,21 +307,17 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\SDL2.dll',
    'BINARY'),
-  ('pygame\\libjpeg-9.dll',
+  ('VCRUNTIME140_1.dll',
    'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libjpeg-9.dll',
-   'BINARY'),
-  ('pygame\\zlib1.dll',
-   'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\zlib1.dll',
+   'Yang\\AppData\\Local\\Programs\\python3.10\\VCRUNTIME140_1.dll',
    'BINARY'),
   ('pygame\\libopus-0.dll',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libopus-0.dll',
    'BINARY'),
-  ('VCRUNTIME140_1.dll',
+  ('pygame\\libogg-0.dll',
    'C:\\Users\\Anton '
-   'Yang\\AppData\\Local\\Programs\\python3.10\\VCRUNTIME140_1.dll',
+   'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\site-packages\\pygame\\libogg-0.dll',
    'BINARY'),
   ('libcrypto-1_1.dll',
    'C:\\Users\\Anton '
@@ -338,7 +336,7 @@
    'Yang\\AppData\\Local\\Programs\\python3.10\\DLLs\\libssl-1_1.dll',
    'BINARY'),
   ('base_library.zip',
-   'D:\\MUS115\\exe3\\project_s23-team-untitled\\build\\main\\base_library.zip',
+   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\build\\main\\base_library.zip',
    'DATA'),
   ('pygame\\freesansbold.ttf',
    'C:\\Users\\Anton '
