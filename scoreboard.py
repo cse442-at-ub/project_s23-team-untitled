@@ -1,3 +1,4 @@
+import csv
 import sys
 import random
 import pygame
@@ -32,14 +33,28 @@ image_score4 = pygame.transform.scale(image_score4, (100, 100))
 image_score5 = pygame.image.load("Graphics/score_5.png")
 image_score5 = pygame.transform.scale(image_score5, (100, 100))
 
-
-
 rect_1 = pygame.Rect(265, 10, 300, 100)
 
-score_easy = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
+# score_easy = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
+score_easy = []
 score_medium = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
 score_hard = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
 scores = score_easy
+
+# read 5 easy level scores from file
+with open('scores_easy.csv', 'r') as file:
+
+    reader = csv.reader(file)
+    next(reader)
+    count = 0
+    for row in file:
+        if count < 5:
+            row = row.split(',')
+            score_easy.append(int(row[1]))
+            count += 1
+        else:
+            break
+    score_easy.sort(reverse=True)
 
 
 class SETTINGS:

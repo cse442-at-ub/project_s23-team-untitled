@@ -1,6 +1,5 @@
 import random
 import sys
-
 import pygame
 from pygame.math import Vector2
 
@@ -282,7 +281,7 @@ class MAIN:
         # print(score_text)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 700)
-        score_y = int(cell_size * cell_number -750)
+        score_y = int(cell_size * cell_number - 750)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
@@ -305,7 +304,7 @@ if __name__ == "__main__":
     fruit_plate = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
     score = pygame.image.load('Graphics/score.png').convert_alpha()
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
-    wall_segment =pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+    wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 150)
