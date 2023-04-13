@@ -2,17 +2,17 @@ import pygame
 import os
 
 pygame.init()
-# 定义窗口大小和格子大小
+
 WINDOW_SIZE = (800, 600)
 cell_size = 40
 cell_number = WINDOW_SIZE[0] // cell_size
-# 定义颜色
+
 background_color = (175, 215, 70)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (201, 223, 201)
 
-# 定义窗口大小
+
 WINDOW_SIZE = (800, 600)
 
 # 创建窗口
@@ -42,6 +42,14 @@ level2_rect.y = 300
 level3_rect = level3_button.get_rect()
 level3_rect.centerx = screen.get_rect().centerx
 level3_rect.y = 400
+
+# 加载返回按钮图片
+return_button = pygame.transform.scale(pygame.image.load('Graphics/button_return.png'), (50, 50)).convert_alpha()
+
+# 创建返回按钮矩形
+return_rect = return_button.get_rect()
+return_rect.x = 20
+return_rect.y = 20
 def draw_grass():
     grass_color = (181, 206, 181)
     for row in range(cell_number):
@@ -65,6 +73,10 @@ while True:
             exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if return_rect.collidepoint(event.pos):
+                # 关闭窗口
+                pygame.quit()
+                exit()
             # 点击了关卡1按钮
             if level1_rect.collidepoint(event.pos):
                 # 加载level_1.py文件
@@ -92,6 +104,7 @@ while True:
     screen.blit(level2_button, level2_rect)
     # 绘制关卡3按钮
     screen.blit(level3_button, level3_rect)
+    screen.blit(return_button,return_rect)
 
     # 更新屏幕
     pygame.display.update()

@@ -84,6 +84,10 @@ while True:
 
                 os.system("python scoreboard.py")
 
+            if inventory_button_rect.collidepoint(event.pos):
+
+                os.system("python inventory_page.py")
+
 
     screen.fill(GREEN)
 

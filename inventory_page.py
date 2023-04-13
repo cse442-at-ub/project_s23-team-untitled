@@ -1,15 +1,17 @@
-import pygame,sys,random
+import pygame, sys, random
 from pygame.math import Vector2
-#global initialization
-pygame.mixer.pre_init(44100,-16,2,512)
+import os
+# global initialization
+pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
 saved = None
 cell_size = 40
 cell_number = 20
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
+screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 clock = pygame.time.Clock()
-game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
+game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
 icon = pygame.image.load('Graphics/snake.png')
+
 
 class InventoryMenu:
     def __init__(self):
@@ -19,7 +21,6 @@ class InventoryMenu:
         self.undo_button = pygame.image.load('Buttons/button_undo.png').convert_alpha()
         self.return_button = pygame.image.load('Buttons/button_return.png').convert_alpha()
         self.inventory_title = pygame.image.load('Buttons/title_inventory.png').convert_alpha()
-
 
         # Load images for skins
         self.sn_skin1_image = pygame.image.load('Skins/sn_skin1.png').convert_alpha()
@@ -54,7 +55,6 @@ class InventoryMenu:
         self.fr_skin7_checkbox = pygame.Rect(470, 400, 30, 30)
         self.fr_skin8_checkbox = pygame.Rect(540, 400, 30, 30)
         self.fr_skin9_checkbox = pygame.Rect(610, 400, 30, 30)
-        
 
         # Set initial selection
         self.sn_skin_selection = 1
@@ -64,8 +64,6 @@ class InventoryMenu:
         # Set initial button state
         self.buttons_visible = False
         self.saved_selections = False
-        
-
 
     def load_skin_selections(self):
         try:
@@ -80,7 +78,6 @@ class InventoryMenu:
         except:
             print("Error loading skin selections")
 
-            
     def draw_elements(self):
 
         distance = 10
@@ -92,15 +89,20 @@ class InventoryMenu:
 
         # Create buttons for save, undo, and return
         self.return_button_rect = self.return_button.get_rect(topleft=(20, 20))
-        self.save_button_rect = self.save_button.get_rect(midbottom=(screen.get_rect().centerx, screen.get_rect().bottom - 50))
-        self.undo_button_rect = self.undo_button.get_rect(center=(title_rect.right + distance*1.5, 70 ))
+        self.save_button_rect = self.save_button.get_rect(
+            midbottom=(screen.get_rect().centerx, screen.get_rect().bottom - 50))
+        self.undo_button_rect = self.undo_button.get_rect(center=(title_rect.right + distance * 1.5, 70))
 
         # Draw snake skin options
         sn_skin1_rect = self.sn_skin1_image.get_rect(center=(80, 230))
-        sn_skin2_rect = self.sn_skin2_image.get_rect(center=(sn_skin1_rect.right + distance + sn_skin1_rect.width/2, 230))
-        sn_skin3_rect = self.sn_skin3_image.get_rect(center=(sn_skin2_rect.right + distance + sn_skin2_rect.width/2, 230))
-        sn_skin4_rect = self.sn_skin4_image.get_rect(center=(sn_skin3_rect.right + distance + sn_skin3_rect.width/2, 230))
-        sn_skin5_rect = self.sn_skin5_image.get_rect(center=(sn_skin4_rect.right + distance + sn_skin4_rect.width/2, 230))
+        sn_skin2_rect = self.sn_skin2_image.get_rect(
+            center=(sn_skin1_rect.right + distance + sn_skin1_rect.width / 2, 230))
+        sn_skin3_rect = self.sn_skin3_image.get_rect(
+            center=(sn_skin2_rect.right + distance + sn_skin2_rect.width / 2, 230))
+        sn_skin4_rect = self.sn_skin4_image.get_rect(
+            center=(sn_skin3_rect.right + distance + sn_skin3_rect.width / 2, 230))
+        sn_skin5_rect = self.sn_skin5_image.get_rect(
+            center=(sn_skin4_rect.right + distance + sn_skin4_rect.width / 2, 230))
 
         screen.blit(self.sn_skin1_image, sn_skin1_rect)
         screen.blit(self.sn_skin2_image, sn_skin2_rect)
@@ -113,7 +115,7 @@ class InventoryMenu:
         sn_skin3_checkbox_center_x = sn_skin3_rect.centerx
         sn_skin4_checkbox_center_x = sn_skin4_rect.centerx
         sn_skin5_checkbox_center_x = sn_skin5_rect.centerx
-        
+
         sn_skin1_checkbox_center_y = sn_skin1_rect.centery + sn_skin1_rect.height // 2 + distance + self.sn_skin1_checkbox.height // 2
         sn_skin2_checkbox_center_y = sn_skin2_rect.centery + sn_skin2_rect.height // 2 + distance + self.sn_skin2_checkbox.height // 2
         sn_skin3_checkbox_center_y = sn_skin3_rect.centery + sn_skin3_rect.height // 2 + distance + self.sn_skin3_checkbox.height // 2
@@ -125,7 +127,6 @@ class InventoryMenu:
         self.sn_skin3_checkbox.center = (sn_skin3_checkbox_center_x, sn_skin3_checkbox_center_y)
         self.sn_skin4_checkbox.center = (sn_skin4_checkbox_center_x, sn_skin4_checkbox_center_y)
         self.sn_skin5_checkbox.center = (sn_skin5_checkbox_center_x, sn_skin5_checkbox_center_y)
-        
 
         pygame.draw.rect(screen, (255, 255, 255), self.sn_skin1_checkbox, 2)
         pygame.draw.rect(screen, (255, 255, 255), self.sn_skin2_checkbox, 2)
@@ -145,16 +146,24 @@ class InventoryMenu:
             pygame.draw.circle(screen, (0, 0, 0), self.sn_skin5_checkbox.center, 10)
 
         # Draw fruit skin options
-        distance =20 
+        distance = 20
         fr_skin1_rect = self.fr_skin1_image.get_rect(center=(100, 450))
-        fr_skin2_rect = self.fr_skin2_image.get_rect(center=(fr_skin1_rect.right + distance + fr_skin1_rect.width/2, 450))
-        fr_skin3_rect = self.fr_skin3_image.get_rect(center=(fr_skin2_rect.right + distance + fr_skin2_rect.width/2, 450))
-        fr_skin4_rect = self.fr_skin4_image.get_rect(center=(fr_skin3_rect.right + distance + fr_skin3_rect.width/2, 450))
-        fr_skin5_rect = self.fr_skin5_image.get_rect(center=(fr_skin4_rect.right + distance + fr_skin4_rect.width/2, 450))
-        fr_skin6_rect = self.fr_skin6_image.get_rect(center=(fr_skin5_rect.right + distance + fr_skin5_rect.width/2, 450))
-        fr_skin7_rect = self.fr_skin7_image.get_rect(center=(fr_skin6_rect.right + distance + fr_skin6_rect.width/2, 450))
-        fr_skin8_rect = self.fr_skin8_image.get_rect(center=(fr_skin7_rect.right + distance + fr_skin7_rect.width/2, 450))
-        fr_skin9_rect = self.fr_skin9_image.get_rect(center=(fr_skin8_rect.right + distance + fr_skin8_rect.width/2, 450))
+        fr_skin2_rect = self.fr_skin2_image.get_rect(
+            center=(fr_skin1_rect.right + distance + fr_skin1_rect.width / 2, 450))
+        fr_skin3_rect = self.fr_skin3_image.get_rect(
+            center=(fr_skin2_rect.right + distance + fr_skin2_rect.width / 2, 450))
+        fr_skin4_rect = self.fr_skin4_image.get_rect(
+            center=(fr_skin3_rect.right + distance + fr_skin3_rect.width / 2, 450))
+        fr_skin5_rect = self.fr_skin5_image.get_rect(
+            center=(fr_skin4_rect.right + distance + fr_skin4_rect.width / 2, 450))
+        fr_skin6_rect = self.fr_skin6_image.get_rect(
+            center=(fr_skin5_rect.right + distance + fr_skin5_rect.width / 2, 450))
+        fr_skin7_rect = self.fr_skin7_image.get_rect(
+            center=(fr_skin6_rect.right + distance + fr_skin6_rect.width / 2, 450))
+        fr_skin8_rect = self.fr_skin8_image.get_rect(
+            center=(fr_skin7_rect.right + distance + fr_skin7_rect.width / 2, 450))
+        fr_skin9_rect = self.fr_skin9_image.get_rect(
+            center=(fr_skin8_rect.right + distance + fr_skin8_rect.width / 2, 450))
 
         screen.blit(self.fr_skin1_image, fr_skin1_rect)
         screen.blit(self.fr_skin2_image, fr_skin2_rect)
@@ -167,16 +176,15 @@ class InventoryMenu:
         screen.blit(self.fr_skin9_image, fr_skin9_rect)
 
         checkbox_distance = 10
-        fr_skin1_checkbox_center_x = fr_skin1_rect.centerx-8
-        fr_skin2_checkbox_center_x = fr_skin2_rect.centerx-8
-        fr_skin3_checkbox_center_x = fr_skin3_rect.centerx-8
-        fr_skin4_checkbox_center_x = fr_skin4_rect.centerx-8
-        fr_skin5_checkbox_center_x = fr_skin5_rect.centerx-8
-        fr_skin6_checkbox_center_x = fr_skin6_rect.centerx-8
-        fr_skin7_checkbox_center_x = fr_skin7_rect.centerx-8
-        fr_skin8_checkbox_center_x = fr_skin8_rect.centerx-8
-        fr_skin9_checkbox_center_x = fr_skin9_rect.centerx-8
-    
+        fr_skin1_checkbox_center_x = fr_skin1_rect.centerx - 8
+        fr_skin2_checkbox_center_x = fr_skin2_rect.centerx - 8
+        fr_skin3_checkbox_center_x = fr_skin3_rect.centerx - 8
+        fr_skin4_checkbox_center_x = fr_skin4_rect.centerx - 8
+        fr_skin5_checkbox_center_x = fr_skin5_rect.centerx - 8
+        fr_skin6_checkbox_center_x = fr_skin6_rect.centerx - 8
+        fr_skin7_checkbox_center_x = fr_skin7_rect.centerx - 8
+        fr_skin8_checkbox_center_x = fr_skin8_rect.centerx - 8
+        fr_skin9_checkbox_center_x = fr_skin9_rect.centerx - 8
 
         fr_skin1_checkbox_center_y = fr_skin1_rect.centery + fr_skin1_rect.height // 2 + checkbox_distance + self.fr_skin1_checkbox.height // 2
         fr_skin2_checkbox_center_y = fr_skin2_rect.centery + fr_skin2_rect.height // 2 + checkbox_distance + self.fr_skin2_checkbox.height // 2
@@ -208,7 +216,6 @@ class InventoryMenu:
         pygame.draw.rect(screen, (255, 255, 255), self.fr_skin8_checkbox, 2)
         pygame.draw.rect(screen, (255, 255, 255), self.fr_skin9_checkbox, 2)
 
-
         if self.fr_skin_selection == 1:
             pygame.draw.circle(screen, (0, 0, 0), self.fr_skin1_checkbox.center, 10)
         elif self.fr_skin_selection == 2:
@@ -234,10 +241,10 @@ class InventoryMenu:
             if self.save_button_rect.collidepoint(mouse_pos):
                 screen.blit(self.save_button_highlight, self.save_button_rect)
                 screen.blit(self.undo_button, self.undo_button_rect)
-            else: 
+            else:
                 screen.blit(self.save_button, self.save_button_rect)
                 screen.blit(self.undo_button, self.undo_button_rect)
-            
+
         screen.blit(self.return_button, self.return_button_rect)
         global saved
 
@@ -252,7 +259,6 @@ class InventoryMenu:
         else:
             self.buttons_visible = False
 
-       
     def save_changes(self):
         # Save the skin selections to a file (or database, or any other storage mechanism)
         with open('skin_selections.txt', 'w') as f:
@@ -260,7 +266,6 @@ class InventoryMenu:
             f.write(str(self.fr_skin_selection) + '\n')
         global saved
         saved = (self.sn_skin_selection, self.fr_skin_selection)
-        
 
     def undo_skin_selections(self):
         with open('skin_selections.txt', 'r') as f:
@@ -268,7 +273,6 @@ class InventoryMenu:
         self.sn_skin_selection = int(lines[0])
         self.fr_skin_selection = int(lines[1])
         self.saved_selections = True
-        
 
     def handle_save_click(self):
         self.save_changes()
@@ -276,28 +280,28 @@ class InventoryMenu:
 
     def hide_buttons(self):
         self.buttons_visible = False
-        
 
 
 class MAIN:
     def __init__(self):
-        self.screen_parameter= 230
+        self.screen_parameter = 230
         self.inventory_menu = InventoryMenu()
 
     def draw_elements(self):
         self.draw_grass()
         self.inventory_menu.draw_elements()
-        
 
     def draw_grass(self):
-        grass_color = (201,223,201)
-        grass = [[grass_color if (row+col)%2==0 else (179,207,179) for col in range(cell_number)] for row in range(cell_number)]
-        grass_surface = pygame.Surface((cell_number*cell_size, cell_number*cell_size))
+        grass_color = (201, 223, 201)
+        grass = [[grass_color if (row + col) % 2 == 0 else (179, 207, 179) for col in range(cell_number)] for row in
+                 range(cell_number)]
+        grass_surface = pygame.Surface((cell_number * cell_size, cell_number * cell_size))
         for row, cols in enumerate(grass):
             for col, color in enumerate(cols):
                 grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
                 pygame.draw.rect(grass_surface, color, grass_rec)
         screen.blit(grass_surface, (0, 0))
+
 
 main_game = MAIN()
 
@@ -349,18 +353,16 @@ while True:
                 main_game.inventory_menu.hide_buttons()
             elif main_game.inventory_menu.return_button_rect.collidepoint(mouse_pos):
                 # Handle return button click
-                pass
+                exit()
             else:
-                 # Draw the regular save button
-                 pass
+                # Draw the regular save button
+                pass
             main_game.inventory_menu.update_button_states()
             if main_game.inventory_menu.saved_selections:
                 main_game.inventory_menu.hide_buttons()
                 main_game.inventory_menu.saved_selections = False
 
-
-
-    screen.fill((179,207,178))
+    screen.fill((179, 207, 178))
     main_game.draw_elements()
     pygame.display.set_icon(icon)
     pygame.display.set_caption('Snaking')
