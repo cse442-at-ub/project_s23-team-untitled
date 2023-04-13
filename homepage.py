@@ -1,7 +1,7 @@
 import pygame
-import os
 from level_select import *
 from game_elements import *
+from scoreboard import *
 
 def homepage():
     while True:
@@ -44,7 +44,7 @@ def homepage():
                 pass
 
             if event.type == pygame.MOUSEBUTTONDOWN and scores_button_rect.collidepoint(pos):
-                pass
+                scoreboard()
 
             if event.type == pygame.MOUSEBUTTONDOWN and inventory_button_rect.collidepoint(pos):
                 pass
@@ -54,31 +54,3 @@ def homepage():
 
 if __name__ == '__main__':
     homepage()
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #         # 关闭窗口
-    #         pygame.quit()
-    #         exit()
-
-    #     if event.type == pygame.MOUSEBUTTONDOWN:
-    #         # 点击了 "newgame" 按钮
-    #         if button_rect.collidepoint(event.pos):
-    #             # 加载 newgame_page.py 文件
-    #             os.system("python newgame_page.py")
-
-    #         if scores_button_rect.collidepoint(event.pos):
-
-    #             os.system("python scoreboard.py")
-
-    #         if inventory_button_rect.collidepoint(event.pos):
-
-    #             os.system("python inventory_page.py")
-
-
-    
-
-    
-
-
-    
-    pygame.display.update()
