@@ -1,8 +1,18 @@
+import pickle
 import random
 import sys
-
 import pygame
 from pygame.math import Vector2
+
+# create binary score file
+with open('scores_easy.bin', 'wb') as file:
+    pickle.dump([], file)
+
+with open('scores_medium.bin', 'wb') as file:
+    pickle.dump([], file)
+
+with open('scores_hard.bin', 'wb') as file:
+    pickle.dump([], file)
 
 
 class WALL:

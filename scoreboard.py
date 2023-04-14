@@ -1,4 +1,5 @@
 import csv
+import pickle
 import sys
 import random
 import pygame
@@ -37,24 +38,26 @@ rect_1 = pygame.Rect(265, 10, 300, 100)
 
 # score_easy = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
 score_easy = []
-score_medium = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
-score_hard = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
-scores = score_easy
+score_medium = []
+score_hard = []
 
-# read 5 easy level scores from file
-with open('scores_easy.csv', 'r') as file:
-
-    reader = csv.reader(file)
-    next(reader)
-    count = 0
-    for row in file:
-        if count < 5:
-            row = row.split(',')
-            score_easy.append(int(row[1]))
-            count += 1
-        else:
-            break
+# read scores from file
+with open('scores_easy.bin', 'rb') as file:
+    score_easy = [int(element[1]) for element in pickle.load(file)]
     score_easy.sort(reverse=True)
+    print(score_easy)
+
+with open('scores_medium.bin', 'rb') as file:
+    score_medium = [int(element[1]) for element in pickle.load(file)]
+    score_medium.sort(reverse=True)
+    print(score_medium)
+
+with open('scores_hard.bin', 'rb') as file:
+    score_hard = [int(element[1]) for element in pickle.load(file)]
+    score_hard.sort(reverse=True)
+    print(score_hard)
+
+scores = score_easy
 
 
 class SETTINGS:
