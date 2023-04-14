@@ -302,6 +302,10 @@ class MAIN:
         screen.blit(score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
+    def write_bin(self, filename, data):
+        with open(filename, 'wb') as file:
+            pickle.dump(data, file)
+
 
 if __name__ == "__main__":
     pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -325,6 +329,7 @@ if __name__ == "__main__":
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                main_game.write_bin('scores_easy.bin', [['player', main_game.score]])
                 pygame.quit()
                 sys.exit()
             if event.type == SCREEN_UPDATE:
