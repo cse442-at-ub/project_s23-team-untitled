@@ -1,54 +1,26 @@
-from easy import *
+from level_1 import *
 from level_2 import *
 from level_3 import *
+from homepage import *
 
-#global initialization
-pygame.mixer.pre_init(44100,-16,2,512)
-pygame.init()
-saved = None
-cell_size = 40
-cell_number = 20
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
-clock = pygame.time.Clock()
-game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
-icon = pygame.image.load('Graphics/snake.png')
-
-def background_grass(screen):
-    grass_color = (201, 223, 201)
-    for row in range(cell_number):
-        if row % 2 == 0:
-            for col in range(cell_number):
-                if col % 2 == 0:
-                    grass_rec = pygame.Rect(
-                        col * cell_size, row * cell_size, cell_size, cell_size)
-                    pygame.draw.rect(screen, grass_color, grass_rec)
-        else:
-            for col in range(cell_number):
-                if col % 2 != 0:
-                    grass_rec = pygame.Rect(
-                        col * cell_size, row * cell_size, cell_size, cell_size)
-                    pygame.draw.rect(screen, grass_color, grass_rec)
-
-def new_game():
-
-    button_easy = pygame.image.load('Buttons/button_easy.png').convert_alpha()
-    button_medium = pygame.image.load('Buttons/button_medium.png').convert_alpha()
-    button_hard = pygame.image.load('Buttons/button_hard.png').convert_alpha()
-
-    button_easy_highlight = pygame.image.load('Buttons/button_easy_highlight.png').convert_alpha()
-    button_medium_highlight = pygame.image.load('Buttons/button_medium_highlight.png').convert_alpha()
-    button_hard_highlight = pygame.image.load('Buttons/button_hard_highlight.png').convert_alpha()
-
-    newgame_title = pygame.image.load('Buttons/title_newgame.png').convert_alpha()
-    return_button = pygame.image.load('Buttons/button_return.png').convert_alpha()
-    
-    easybutton_visible = False
-    medbutton_visible = False
-    hardbutton_visible = False
-
+def selection():
     while True:
+        button_easy = pygame.image.load('Buttons/button_easy.png').convert_alpha()
+        button_medium = pygame.image.load('Buttons/button_medium.png').convert_alpha()
+        button_hard = pygame.image.load('Buttons/button_hard.png').convert_alpha()
+
+        button_easy_highlight = pygame.image.load('Buttons/button_easy_highlight.png').convert_alpha()
+        button_medium_highlight = pygame.image.load('Buttons/button_medium_highlight.png').convert_alpha()
+        button_hard_highlight = pygame.image.load('Buttons/button_hard_highlight.png').convert_alpha()
+
+        newgame_title = pygame.image.load('Buttons/title_newgame.png').convert_alpha()
+        return_button = pygame.image.load('Buttons/button_return.png').convert_alpha()
+        
+        easybutton_visible = False
+        medbutton_visible = False
+        hardbutton_visible = False
         screen.fill((179, 207, 178))
-        background_grass(screen)
+        selection_background(screen)
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Snaking')
 
@@ -100,24 +72,33 @@ def new_game():
         else:
             screen.blit(button_hard, level3_rect)
 
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-            
-            if event.type == pygame.MOUSEBUTTONDOWN and level1_rect.collidepoint(mouse_pos):
-                main_game = EASY_MAIN()
+            pos = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN and level1_rect.collidepoint(pos):
+                # for inventory
+                main_game = MAIN1()
                 main_game.game()
+                if main_game.back_to_menu_flag == True:
+                    return
 
-            if event.type == pygame.MOUSEBUTTONDOWN and level2_rect.collidepoint(mouse_pos):
-                main_game = MED_MAIN()
+            if event.type == pygame.MOUSEBUTTONDOWN and level2_rect.collidepoint(pos):
+                main_game = MAIN2()
                 main_game.game()
+                if main_game.back_to_menu_flag == True:
+                    return
             
-            if event.type == pygame.MOUSEBUTTONDOWN and level3_rect.collidepoint(mouse_pos):
-                main_game = HARD_MAIN()
+            if event.type == pygame.MOUSEBUTTONDOWN and level3_rect.collidepoint(pos):
+                main_game = MAIN3()
                 main_game.game()
+                if main_game.back_to_menu_flag == True:
+                    return
+
+            if event.type == pygame.MOUSEBUTTONDOWN and return_button_rect.collidepoint(pos):
+                return
 
         pygame.display.update()
         clock.tick(60)

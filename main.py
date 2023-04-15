@@ -1,4 +1,4 @@
-from menu_newgame import *
+from level_select import *
 
 
 if __name__ == "__main__":
