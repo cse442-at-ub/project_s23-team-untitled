@@ -330,6 +330,7 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 main_game.write_bin('scores_easy.bin', [['player', main_game.score]])
+                print(main_game.score)
                 pygame.quit()
                 sys.exit()
             if event.type == SCREEN_UPDATE:
