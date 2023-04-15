@@ -14,6 +14,8 @@ with open('scores_medium.bin', 'wb') as file:
 with open('scores_hard.bin', 'wb') as file:
     pickle.dump([], file)
 
+score = 0
+
 
 class WALL:
     def __init__(self, snake):
@@ -214,6 +216,8 @@ class MAIN:
         self.powerup = POWERUP()
         self.score = 0
         self.if_powerup_exist = True
+        self.score_list = []
+        self.score_stored = False
 
     def update(self):
         self.snake.move_snake()
@@ -271,6 +275,10 @@ class MAIN:
 
     def game_over(self):
         self.snake.reset()
+        if self.score_stored == False:
+            self.score_list.append(self.score)
+            self.score_stored = True
+            print(self.score_list)
         self.score = 0
 
     def draw_grass(self):
@@ -302,6 +310,11 @@ class MAIN:
         screen.blit(score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
+
+    def read_bin(self, filename):
+        with open(filename, 'rb') as file:
+            return pickle.load(file)
+
     def write_bin(self, filename, data):
         with open(filename, 'wb') as file:
             pickle.dump(data, file)
@@ -329,13 +342,17 @@ if __name__ == "__main__":
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                main_game.write_bin('scores_easy.bin', [['player', main_game.score]])
-                print(main_game.score)
+                score_data = main_game.read_bin('scores_easy.bin')
+                print(score_data)
+                for score in main_game.score_list:
+                    score_data.append(['player', score])
+                main_game.write_bin('scores_easy.bin', score_data)
                 pygame.quit()
                 sys.exit()
             if event.type == SCREEN_UPDATE:
                 main_game.update()
             if event.type == pygame.KEYDOWN:
+                main_game.score_stored = False
                 if event.key == pygame.K_UP:
                     if main_game.snake.direction.y != 1:
                         main_game.snake.direction = Vector2(0, -1)
