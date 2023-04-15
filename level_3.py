@@ -11,25 +11,23 @@ class SNAKE3:
         self.new_block = False
         self.food_gain = 0
 
-        #///////////////////////////////////////////////////////#
+        self.head_up = head_up
+        self.head_down = head_down
+        self.head_right = head_right
+        self.head_left =  head_left
 
-        self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
-        self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
-        self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
-        self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
+        self.tail_up = tail_up
+        self.tail_down =  tail_down
+        self.tail_right = tail_right
+        self.tail_left = tail_left
 
-        self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
-        self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
-        self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
-        self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
+        self.body_vertical = body_vertical
+        self.body_horizontal = body_horizontal
 
-        self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
-
-        self.body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
-        self.body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
-        self.body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
-        self.body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
+        self.body_tr = body_tr
+        self.body_tl = body_tl
+        self.body_bl = body_bl
+        self.body_br = body_br
 
     def draw_snake(self):
         self.update_head_graphics()
@@ -261,6 +259,71 @@ class ScreenUpdate3:
     
 class MAIN3:
     def __init__(self):
+        global head_up, head_down, head_right, head_left, tail_up, tail_down, tail_right, tail_left, body_vertical, body_horizontal, body_tr, body_tl, body_bl, body_br
+        with open('skin_selections.txt','r') as f:
+                lines = f.readlines()
+                if len(lines) == 2 :
+                    sn_skin_slection = int(lines[0])
+        if sn_skin_slection == 1:
+            head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
+            head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
+            head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
+            head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
+            tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
+            tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
+            tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
+            tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
+            body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
+            body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
+            body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
+            body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
+            body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
+            body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
+        elif sn_skin_slection == 2:
+            head_up = pygame.image.load('Graphics/head_u2.png').convert_alpha()
+            head_down = pygame.image.load('Graphics/head_d2.png').convert_alpha()
+            head_right = pygame.image.load('Graphics/head_r2.png').convert_alpha()
+            head_left = pygame.image.load('Graphics/head_l2.png').convert_alpha()
+            tail_up = pygame.image.load('Graphics/tail_d2.png').convert_alpha()
+            tail_down = pygame.image.load('Graphics/tail_u2.png').convert_alpha()
+            tail_right = pygame.image.load('Graphics/tail_l2.png').convert_alpha()
+            tail_left = pygame.image.load('Graphics/tail_r2.png').convert_alpha()
+            body_vertical = pygame.image.load('Graphics/body_v2.png').convert_alpha()
+            body_horizontal = pygame.image.load('Graphics/body_h2.png').convert_alpha()
+            body_tr = pygame.image.load('Graphics//body_br2.png').convert_alpha()
+            body_tl = pygame.image.load('Graphics//body_bl2.png').convert_alpha()
+            body_bl = pygame.image.load('Graphics//body_tr2.png').convert_alpha()
+            body_br = pygame.image.load('Graphics//body_tl2.png').convert_alpha()
+        elif sn_skin_slection == 3:
+            head_up = pygame.image.load('Graphics/head_u3.png').convert_alpha()
+            head_down = pygame.image.load('Graphics/head_d3.png').convert_alpha()
+            head_right = pygame.image.load('Graphics/head_r3.png').convert_alpha()
+            head_left = pygame.image.load('Graphics/head_l3.png').convert_alpha()
+            tail_up = pygame.image.load('Graphics/tail_d3.png').convert_alpha()
+            tail_down = pygame.image.load('Graphics/tail_u3.png').convert_alpha()
+            tail_right = pygame.image.load('Graphics/tail_l3.png').convert_alpha()
+            tail_left = pygame.image.load('Graphics/tail_r3.png').convert_alpha()
+            body_vertical = pygame.image.load('Graphics/body_v3.png').convert_alpha()
+            body_horizontal = pygame.image.load('Graphics/body_h3.png').convert_alpha()
+            body_tr = pygame.image.load('Graphics//body_br3.png').convert_alpha()
+            body_tl = pygame.image.load('Graphics//body_bl3.png').convert_alpha()
+            body_bl = pygame.image.load('Graphics//body_tr3.png').convert_alpha()
+            body_br = pygame.image.load('Graphics//body_tl3.png').convert_alpha()
+        else:
+            head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
+            head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
+            head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
+            head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
+            tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
+            tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
+            tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
+            tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
+            body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
+            body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
+            body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
+            body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
+            body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
+            body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
         self.snake = SNAKE3()
         self.fruit = FRUIT3(self.snake)
         self.wall = WALL3(self.snake,self.fruit)
