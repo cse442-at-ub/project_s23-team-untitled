@@ -88,14 +88,12 @@ def scoreboard():
                 mouse_pos = pygame.mouse.get_pos()
                 # check if mouse is in the area
                 if image_return.get_rect().collidepoint(mouse_pos):
-                    print('Returned to the main menu!')
                     return
                 elif rect_1.collidepoint(mouse_pos):
-                    print('Level changed!')
                     if title_sb == image_easy:
                         title_sb = image_medium
                         scores = score_medium
-                    if title_sb == image_medium:
+                    elif title_sb == image_medium:
                         title_sb = image_hard
                         scores = score_hard
                     else:

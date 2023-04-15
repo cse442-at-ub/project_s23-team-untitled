@@ -1,5 +1,5 @@
-from level_select import *
+from homepage import *
 
 
 if __name__ == "__main__":
-    new_game()
+    homepage()
