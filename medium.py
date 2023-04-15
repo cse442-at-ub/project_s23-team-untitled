@@ -105,7 +105,43 @@ class SNAKE:
             self.body_tl = pygame.image.load('Graphics//body_bl3.png').convert_alpha()
             self.body_bl = pygame.image.load('Graphics//body_tr3.png').convert_alpha()
             self.body_br = pygame.image.load('Graphics//body_tl3.png').convert_alpha()
+        elif sn_skin_slection == 4:
+            self.head_up = pygame.image.load('Graphics/head_u4.png').convert_alpha()
+            self.head_down = pygame.image.load('Graphics/head_d4.png').convert_alpha()
+            self.head_right = pygame.image.load('Graphics/head_r4.png').convert_alpha()
+            self.head_left = pygame.image.load('Graphics/head_l4.png').convert_alpha()
 
+            self.tail_up = pygame.image.load('Graphics/tail_d4.png').convert_alpha()
+            self.tail_down = pygame.image.load('Graphics/tail_u4.png').convert_alpha()
+            self.tail_right = pygame.image.load('Graphics/tail_l4.png').convert_alpha()
+            self.tail_left = pygame.image.load('Graphics/tail_r4.png').convert_alpha()
+
+            self.body_vertical = pygame.image.load('Graphics/body_v4.png').convert_alpha()
+            self.body_horizontal = pygame.image.load('Graphics/body_h4.png').convert_alpha()
+
+            self.body_tr = pygame.image.load('Graphics//body_br4.png').convert_alpha()
+            self.body_tl = pygame.image.load('Graphics//body_bl4.png').convert_alpha()
+            self.body_bl = pygame.image.load('Graphics//body_tr4.png').convert_alpha()
+            self.body_br = pygame.image.load('Graphics//body_tl4.png').convert_alpha()
+        elif sn_skin_slection == 5:
+            self.head_up = pygame.image.load('Graphics/head_u5.png').convert_alpha()
+            self.head_down = pygame.image.load('Graphics/head_d5.png').convert_alpha()
+            self.head_right = pygame.image.load('Graphics/head_r5.png').convert_alpha()
+            self.head_left = pygame.image.load('Graphics/head_l5.png').convert_alpha()
+
+            self.tail_up = pygame.image.load('Graphics/tail_d5.png').convert_alpha()
+            self.tail_down = pygame.image.load('Graphics/tail_u5.png').convert_alpha()
+            self.tail_right = pygame.image.load('Graphics/tail_l5.png').convert_alpha()
+            self.tail_left = pygame.image.load('Graphics/tail_r5.png').convert_alpha()
+
+            self.body_vertical = pygame.image.load('Graphics/body_v5.png').convert_alpha()
+            self.body_horizontal = pygame.image.load('Graphics/body_h5.png').convert_alpha()
+
+            self.body_tr = pygame.image.load('Graphics//body_br5.png').convert_alpha()
+            self.body_tl = pygame.image.load('Graphics//body_bl5.png').convert_alpha()
+            self.body_bl = pygame.image.load('Graphics//body_tr5.png').convert_alpha()
+            self.body_br = pygame.image.load('Graphics//body_tl5.png').convert_alpha()
+            
     def draw_snake(self):
         self.update_head_graphics()
         self.update_tail_graphics()
