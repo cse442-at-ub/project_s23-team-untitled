@@ -4,6 +4,7 @@ from game_elements import *
 from scoreboard import *
 from inventory import *
 
+
 def homepage():
     while True:
         screen.fill((179, 207, 178))
@@ -48,6 +49,6 @@ def homepage():
 
             if event.type == pygame.MOUSEBUTTONDOWN and inventory_button_rect.collidepoint(pos):
                 inventory()
-        
+                
         pygame.display.update()
         clock.tick(60)

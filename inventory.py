@@ -1,5 +1,4 @@
 from game_elements import *
-from food_src import fruit_source
 
 def inventory():
     class InventoryMenu:

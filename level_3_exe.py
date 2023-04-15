@@ -5,12 +5,20 @@ from pygame.math import Vector2
 from game_elements import *
 
 
+
+# sn_skin_slection = None
+# fr_skin_slection = None
+
+
+
 class SNAKE3:
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(0,0)
         self.new_block = False
         self.food_gain = 0
+
+        #///////////////////////////////////////////////////////#
 
         self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
         self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
@@ -474,6 +482,30 @@ class MAIN3:
                             self.snake.direction = Vector2(-1,0)
                 
             screen.fill((179,207,178))
+            with open('skin_selections.txt','r') as f:
+                lines = f.readlines()
+                if len(lines) == 2 :
+                    sn_skin_slection = int(lines[0])
+                    fr_skin_slection = int(lines[1])
+            global food_src
+            if fr_skin_slection == 1:
+                food_src = pygame.image.load('Graphics/fr1.png').convert_alpha()
+            elif fr_skin_slection == 2:
+                food_src = pygame.image.load('Graphics/fr2.png').convert_alpha()
+            elif fr_skin_slection == 3:
+                food_src = pygame.image.load('Graphics/fr3.png').convert_alpha()
+            elif fr_skin_slection == 4:
+                food_src = pygame.image.load('Graphics/fr4.png').convert_alpha()
+            elif fr_skin_slection == 5:
+                food_src = pygame.image.load('Graphics/fr5.png').convert_alpha()
+            elif fr_skin_slection == 6:
+                food_src = pygame.image.load('Graphics/fr6.png').convert_alpha()
+            elif fr_skin_slection == 7:
+                food_src = pygame.image.load('Graphics/fr7.png').convert_alpha()
+            elif fr_skin_slection == 8:
+                food_src = pygame.image.load('Graphics/fr8.png').convert_alpha()
+            elif fr_skin_slection == 9:
+                food_src = pygame.image.load('Graphics/fr9.png').convert_alpha()
             self.draw_elements()
             pygame.display.set_icon(icon)
             pygame.display.set_caption('Snaking')

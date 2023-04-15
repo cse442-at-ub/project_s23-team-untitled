@@ -1,1 +1,0 @@
-fruit_source = 'Graphics/apple_39.png'

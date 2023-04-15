@@ -437,6 +437,30 @@ class MAIN2:
                             self.snake.direction = Vector2(-1, 0)
 
             screen.fill((179, 207, 178))
+            with open('skin_selections.txt','r') as f:
+                lines = f.readlines()
+                if len(lines) == 2 :
+                    sn_skin_slection = int(lines[0])
+                    fr_skin_slection = int(lines[1])
+            global food_src
+            if fr_skin_slection == 1:
+                food_src = pygame.image.load('Graphics/fr1.png').convert_alpha()
+            elif fr_skin_slection == 2:
+                food_src = pygame.image.load('Graphics/fr2.png').convert_alpha()
+            elif fr_skin_slection == 3:
+                food_src = pygame.image.load('Graphics/fr3.png').convert_alpha()
+            elif fr_skin_slection == 4:
+                food_src = pygame.image.load('Graphics/fr4.png').convert_alpha()
+            elif fr_skin_slection == 5:
+                food_src = pygame.image.load('Graphics/fr5.png').convert_alpha()
+            elif fr_skin_slection == 6:
+                food_src = pygame.image.load('Graphics/fr6.png').convert_alpha()
+            elif fr_skin_slection == 7:
+                food_src = pygame.image.load('Graphics/fr7.png').convert_alpha()
+            elif fr_skin_slection == 8:
+                food_src = pygame.image.load('Graphics/fr8.png').convert_alpha()
+            elif fr_skin_slection == 9:
+                food_src = pygame.image.load('Graphics/fr9.png').convert_alpha()
             self.draw_elements()
             pygame.display.set_icon(icon)
             pygame.display.set_caption('Snaking')

@@ -191,9 +191,6 @@
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\email\\utils.py',
    'PYMODULE'),
-  ('food_src',
-   'D:\\MUS115\\exe-demo\\project_s23-team-untitled\\food_src.py',
-   'PYMODULE'),
   ('fractions',
    'C:\\Users\\Anton '
    'Yang\\AppData\\Local\\Programs\\python3.10\\lib\\fractions.py',

@@ -2,17 +2,16 @@ import random
 import sys
 import pygame
 from pygame.math import Vector2
-from food_src import fruit_source
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
+
 cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode(
     (cell_number * cell_size, cell_number*cell_size))
 icon = pygame.image.load('Graphics/snake.png')
 clock = pygame.time.Clock()
-food_src = pygame.image.load(fruit_source).convert_alpha()
 plate_src = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
 turtle_src = pygame.image.load('Graphics/turtle.png').convert_alpha()
 game_font = pygame.font.Font('Font/bahnschrift.ttf', 30)
@@ -25,6 +24,7 @@ return_button = pygame.image.load('Buttons/button_return.png')
 level1_button = pygame.image.load('Buttons/button_easy.png')
 level2_button = pygame.image.load('Buttons/button_medium.png')
 level3_button = pygame.image.load('Buttons/button_hard.png')
+
 
 def selection_background(screen):
     grass_color = (201, 223, 201)
