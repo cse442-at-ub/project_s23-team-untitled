@@ -1,110 +1,35 @@
-import pygame,sys,random
+import pygame
+import sys
+import random
 from pygame.math import Vector2
+from game_elements import *
 
-
-#global initialization
-pygame.mixer.pre_init(44100,-16,2,512)
-pygame.init()
-
-cell_size = 40
-cell_number = 20
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
-icon = pygame.image.load('Graphics/snake.png')
-clock = pygame.time.Clock()
-fr1 = pygame.image.load('Graphics/fr1.png').convert_alpha()
-fr2 = pygame.image.load('Graphics/fr2.png').convert_alpha()
-fr3 = pygame.image.load('Graphics/fr3.png').convert_alpha()
-fr4 = pygame.image.load('Graphics/fr4.png').convert_alpha()
-fr5 = pygame.image.load('Graphics/fr5.png').convert_alpha()
-fr6 = pygame.image.load('Graphics/fr6.png').convert_alpha()
-fr7 = pygame.image.load('Graphics/fr7.png').convert_alpha()
-fr8 = pygame.image.load('Graphics/fr8.png').convert_alpha()
-fr9 = pygame.image.load('Graphics/fr9.png').convert_alpha()
-game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
-wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
-turtle = pygame.image.load('Graphics/turtle.png').convert_alpha()
-fruit_plate = pygame.image.load('Graphics/fruit_plate.png').convert_alpha()
-score = pygame.image.load('Graphics/score.png').convert_alpha()
-
-highest_scores = []
-with open('scores_med.txt','r') as f:
-    lines = f.readlines()
-    for i in range(len(lines)-1):
-        highest_scores.append(int(lines[i].strip()))
-    # print(highest_scores)
-
-sn_skin_slection = None
-fr_skin_slection = None
-with open('skin_selections.txt','r') as f:
-    lines = f.readlines()
-    if len(lines) == 2 :
-        sn_skin_slection = int(lines[0])
-        fr_skin_slection = int(lines[1])
-
-class SNAKE:
+class SNAKE2:
     def __init__(self):
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(0,0)
         self.new_block = False
         self.food_gain = 0
-        self.load_skin()
 
-    def load_skin(self):
-        global sn_skin_slection
-        if sn_skin_slection == 1:
-            self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
-            self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
-            self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
-            self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
+        #///////////////////////////////////////////////////////#
 
-            self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
-            self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
-            self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
-            self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
+        self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
+        self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
+        self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
+        self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
 
-            self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
-            self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
+        self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
+        self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
+        self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
+        self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
 
-            self.body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
-            self.body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
-            self.body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
-            self.body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
-        elif sn_skin_slection == 2:
-            self.head_up = pygame.image.load('Graphics/head_u2.png').convert_alpha()
-            self.head_down = pygame.image.load('Graphics/head_d2.png').convert_alpha()
-            self.head_right = pygame.image.load('Graphics/head_r2.png').convert_alpha()
-            self.head_left = pygame.image.load('Graphics/head_l2.png').convert_alpha()
+        self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
+        self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
 
-            self.tail_up = pygame.image.load('Graphics/tail_d2.png').convert_alpha()
-            self.tail_down = pygame.image.load('Graphics/tail_u2.png').convert_alpha()
-            self.tail_right = pygame.image.load('Graphics/tail_l2.png').convert_alpha()
-            self.tail_left = pygame.image.load('Graphics/tail_r2.png').convert_alpha()
-
-            self.body_vertical = pygame.image.load('Graphics/body_v2.png').convert_alpha()
-            self.body_horizontal = pygame.image.load('Graphics/body_h2.png').convert_alpha()
-
-            self.body_tr = pygame.image.load('Graphics//body_br2.png').convert_alpha()
-            self.body_tl = pygame.image.load('Graphics//body_bl2.png').convert_alpha()
-            self.body_bl = pygame.image.load('Graphics//body_tr2.png').convert_alpha()
-            self.body_br = pygame.image.load('Graphics//body_tl2.png').convert_alpha()
-        elif sn_skin_slection == 3:
-            self.head_up = pygame.image.load('Graphics/head_u3.png').convert_alpha()
-            self.head_down = pygame.image.load('Graphics/head_d3.png').convert_alpha()
-            self.head_right = pygame.image.load('Graphics/head_r3.png').convert_alpha()
-            self.head_left = pygame.image.load('Graphics/head_l3.png').convert_alpha()
-
-            self.tail_up = pygame.image.load('Graphics/tail_d3.png').convert_alpha()
-            self.tail_down = pygame.image.load('Graphics/tail_u3.png').convert_alpha()
-            self.tail_right = pygame.image.load('Graphics/tail_l3.png').convert_alpha()
-            self.tail_left = pygame.image.load('Graphics/tail_r3.png').convert_alpha()
-
-            self.body_vertical = pygame.image.load('Graphics/body_v3.png').convert_alpha()
-            self.body_horizontal = pygame.image.load('Graphics/body_h3.png').convert_alpha()
-
-            self.body_tr = pygame.image.load('Graphics//body_br3.png').convert_alpha()
-            self.body_tl = pygame.image.load('Graphics//body_bl3.png').convert_alpha()
-            self.body_bl = pygame.image.load('Graphics//body_tr3.png').convert_alpha()
-            self.body_br = pygame.image.load('Graphics//body_tl3.png').convert_alpha()
+        self.body_tr = pygame.image.load('Graphics//body_br.png').convert_alpha()
+        self.body_tl = pygame.image.load('Graphics//body_bl.png').convert_alpha()
+        self.body_bl = pygame.image.load('Graphics//body_tr.png').convert_alpha()
+        self.body_br = pygame.image.load('Graphics//body_tl.png').convert_alpha()
 
     def draw_snake(self):
         self.update_head_graphics()
@@ -168,32 +93,14 @@ class SNAKE:
         self.body = [Vector2(5,10),Vector2(4,10),Vector2(3,10)]
         self.direction = Vector2(0,0)       
 
-class FRUIT:
+class FRUIT2:
     def __init__(self,snake):
         self.snake = snake
         self.randomize()
 
     def draw_fruit(self):
         fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size),cell_size,cell_size)
-        global fr_skin_slection
-        if fr_skin_slection == 1:
-            screen.blit(fr1,fruit_rec)
-        elif fr_skin_slection == 2:
-            screen.blit(fr2,fruit_rec)
-        elif fr_skin_slection == 3:
-            screen.blit(fr3,fruit_rec)
-        elif fr_skin_slection == 4:
-            screen.blit(fr4,fruit_rec)
-        elif fr_skin_slection == 5:
-            screen.blit(fr5,fruit_rec)
-        elif fr_skin_slection == 6:
-            screen.blit(fr6,fruit_rec)
-        elif fr_skin_slection == 7:
-            screen.blit(fr7,fruit_rec)
-        elif fr_skin_slection == 8:
-            screen.blit(fr8,fruit_rec)
-        elif fr_skin_slection == 9:
-            screen.blit(fr9,fruit_rec)
+        screen.blit(food_src,fruit_rec)
     
     def randomize(self):
         while True:
@@ -203,7 +110,7 @@ class FRUIT:
             if self.pos not in self.snake.body:
                 break
 
-class WALL:
+class WALL2:
     def __init__(self,snake,fruit):
         self.snake = snake
         self.fruit = fruit
@@ -264,7 +171,7 @@ class WALL:
             wall_suqre = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment,wall_suqre)
 
-class SlowdownPowerUp:
+class SlowdownPowerUp2:
     def __init__(self, snake,wall):
         self.snake = snake
         self.wall = wall
@@ -278,7 +185,7 @@ class SlowdownPowerUp:
         if not self.active and self.pos is not None:
 
             slow_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size),cell_size,cell_size)
-            screen.blit(turtle,slow_rec)
+            screen.blit(turtle_src,slow_rec)
 
     def randomize(self):
             while True:
@@ -303,7 +210,7 @@ class SlowdownPowerUp:
         self.limit = 0
         self.pos = None
 
-class FruitPlate:
+class FruitPlate2:
     def __init__(self, snake, wall):
         self.snake = snake
         self.wall = wall
@@ -314,7 +221,7 @@ class FruitPlate:
     def draw(self):
         if self.pos is not None:
             fruit_plate_rect = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
-            screen.blit(fruit_plate, fruit_plate_rect)
+            screen.blit(plate_src, fruit_plate_rect)
 
     def randomize(self):
         while True:
@@ -342,8 +249,7 @@ class FruitPlate:
         self.flag = False
         self.pos = None
 
-
-class ScreenUpdate:
+class ScreenUpdate2:
     def __init__(self,time):
         self.time = time
         self.screen_updates = pygame.USEREVENT
@@ -353,45 +259,44 @@ class ScreenUpdate:
         self.time = time
         pygame.time.set_timer(self.screen_updates, self.time)
     
-
-class MED_MAIN:
+class MAIN2:
     def __init__(self):
-        self.snake = SNAKE()
-        self.fruit = FRUIT(self.snake)
-        self.wall = WALL(self.snake,self.fruit)
-        self.slowpower = SlowdownPowerUp(self.snake,self.wall)
-        self.fruit_plate = FruitPlate(self.snake, self.wall)
+        self.snake = SNAKE2()
+        self.fruit = FRUIT2(self.snake)
+        self.wall = WALL2(self.snake,self.fruit)
+        self.slowpower = SlowdownPowerUp2(self.snake,self.wall)
+        self.fruit_plate = FruitPlate2(self.snake, self.wall)
         self.screen_parameter= 230
-        self.screen_update_in_main = ScreenUpdate(self.screen_parameter)
+        self.screen_update_in_main = ScreenUpdate2(self.screen_parameter)
         self.game_over_flag = False
         self.back_to_menu_flag = False
 
     def update(self):
-        self.game_over_screen()
+        # self.game_over_screen()
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
         self.slowpower.update()
-        self.fruit_plate.update()
-        
+        self.fruit_plate.update()    
 
     def draw_elements(self):
         self.draw_grass()
-        if not self.game_over_flag:
-            self.fruit.draw_fruit()
-            self.snake.draw_snake()
-            self.wall.draw_wall()
-            self.draw_score()
-            self.slowpower.draw()
-            self.fruit_plate.draw()
-        else:
-            self.game_over_screen()
+        # if not self.game_over_flag:
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+        self.wall.draw_wall()
+        self.draw_score()
+        self.slowpower.draw()
+        self.fruit_plate.draw()
+        # else:
+        #     self.game_over_screen()
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
                 self.fruit.randomize()
                 self.snake.add_block()
                 self.snake.food_gain += 1
+                #stop fruit from generating on wall segments
                 if self.fruit.pos in self.wall.wall_blocks:
                     self.fruit.randomize()
 
@@ -413,8 +318,6 @@ class MED_MAIN:
                 self.screen_update_in_main.set_update_time(self.screen_parameter)
                 self.slowpower.reset()
         
-            
-
         for block in self.snake.body[1:]:
             if block == self.fruit.pos:
                 self.fruit.randomize()
@@ -439,90 +342,88 @@ class MED_MAIN:
 
     def game_over_screen(self):
         global highest_scores
-        if self.game_over_flag:
-            highest_scores.append(self.snake.food_gain)
-            highest_scores.sort(reverse=True)
-            highest_scores = highest_scores[:5]
-            with open ('scores_med.txt','w') as f:
-                for score in highest_scores:
-                    # print(score)
-                    f.write(str(score) + '\n')
-            # Load game over image and resize it to fit background rectangle size
-            game_over_image = pygame.image.load('Graphics/game_over.png').convert_alpha()
-            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
-            bg_rect = game_over_rect.copy()
-            #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
-            game_over_rect.y -= 150 # Move the game over image up 
-             # Move the game over image to the right
+        # if self.game_over_flag:
+        highest_scores.append(self.snake.food_gain)
+        highest_scores.sort(reverse=True)
+        highest_scores = highest_scores[:5]
+        # Load game over image and resize it to fit background rectangle size
+        game_over_image = pygame.image.load('Graphics/game_over.png').convert_alpha()
+        game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+        bg_rect = game_over_rect.copy()
+        #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
+        game_over_rect.y -= 150 # Move the game over image up 
+        # Move the game over image to the right
 
+        # Load restart and main menu buttons
+        restart_button = pygame.image.load('Buttons/restart.png').convert_alpha()
+        restart_highlighted_button = pygame.image.load('Buttons/restart_highlight.png').convert_alpha()
+        restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+        restart_rect.y += 80  # Move the restart button down 
+        restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+        restart_highlighted = False
 
+        main_menu_button = pygame.image.load('Buttons/main_menu.png').convert_alpha()
+        main_menu_highlighted_button = pygame.image.load('Buttons/main_menu_hightlight.png').convert_alpha()
+        main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+        main_menu_rect.y += 200  # Move the main menu button down 
+        main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+        main_menu_highlighted = False
 
-            # Load restart and main menu buttons
-            restart_button = pygame.image.load('Buttons/restart.png').convert_alpha()
-            restart_highlighted_button = pygame.image.load('Buttons/restart_highlight.png').convert_alpha()
-            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
-            restart_rect.y += 80  # Move the restart button down 
-            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
-            restart_highlighted = False
+        # Create background rectangle
+        bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+        bg_rect.inflate_ip(70, 80)  # Expand the background rectangle to fit the buttons
+        bg_rect.center = screen.get_rect().center
 
-            main_menu_button = pygame.image.load('Buttons/main_menu.png').convert_alpha()
-            main_menu_highlighted_button = pygame.image.load('Buttons/main_menu_hightlight.png').convert_alpha()
-            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
-            main_menu_rect.y += 200  # Move the main menu button down 
-            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
-            main_menu_highlighted = False
+        # Draw background rectangle, game over image, and buttons
+        pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+        pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+        screen.blit(game_over_image, game_over_rect)
+        screen.blit(restart_button, restart_rect)
+        screen.blit(main_menu_button, main_menu_rect)
+        pygame.display.update()
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                    self.__init__()
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                    self.back_to_menu_flag = True
+                    return
+                
+                mouse_pos = pygame.mouse.get_pos()
+                if restart_rect.collidepoint(mouse_pos):
+                    restart_highlighted = True
+                else:
+                    restart_highlighted = False
 
-            # Create background rectangle
-            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
-            bg_rect.inflate_ip(70, 80)  # Expand the background rectangle to fit the buttons
-            bg_rect.center = screen.get_rect().center
+                if main_menu_rect.collidepoint(mouse_pos):
+                    main_menu_highlighted = True
+                else:
+                    main_menu_highlighted = False
+        
+                if restart_highlighted:
+                    screen.blit(restart_highlighted_button,restart_highlighted_rect)
+                else:
+                    screen.blit(restart_button, restart_rect)
 
-            # Draw background rectangle, game over image, and buttons
-            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
-            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
-            screen.blit(game_over_image, game_over_rect)
-            screen.blit(restart_button, restart_rect)
-            screen.blit(main_menu_button, main_menu_rect)
+                if main_menu_highlighted:
+                    screen.blit(main_menu_highlighted_button,main_menu_highlighted_button_rec)
+                else:
+                    screen.blit(main_menu_button, main_menu_rect)
+
             pygame.display.update()
-            
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    elif event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
-                        self.back_to_menu_flag = True
-                        return
-                    elif event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
-                        self.__init__()
-                        return
-                    
-                    mouse_pos = pygame.mouse.get_pos()
-                    if restart_rect.collidepoint(mouse_pos):
-                        restart_highlighted = True
-                    else:
-                        restart_highlighted = False
-
-                    if main_menu_rect.collidepoint(mouse_pos):
-                        main_menu_highlighted = True
-                    else:
-                        main_menu_highlighted = False
-              
-                    if restart_highlighted:
-                        screen.blit(restart_highlighted_button,restart_highlighted_rect)
-                    else:
-                        screen.blit(restart_button, restart_rect)
-
-                    if main_menu_highlighted:
-                        screen.blit(main_menu_highlighted_button,main_menu_highlighted_button_rec)
-                    else:
-                        screen.blit(main_menu_button, main_menu_rect)
-
-                pygame.display.update()
 
     def draw_grass(self):
         grass_color = (201,223,201)
         grass = [[grass_color if (row+col)%2==0 else (179,207,179) for col in range(cell_number)] for row in range(cell_number)]
+
+        # Change the color of the first row to (179,207,178)
+ #       grass[0] = [(179,207,178) for _ in range(cell_number)]
+
         grass_surface = pygame.Surface((cell_number*cell_size, cell_number*cell_size))
         for row, cols in enumerate(grass):
             for col, color in enumerate(cols):
@@ -547,17 +448,18 @@ class MED_MAIN:
         screen.blit(bg_surface, bg_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
-
-# main_game = MAIN()
-
     def game(self):
-        while not self.back_to_menu_flag:
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == self.screen_update_in_main.screen_updates:
                     self.update()
+                    if self.game_over_flag:
+                        self.game_over_screen()
+                        if self.back_to_menu_flag:
+                            return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         if self.snake.direction.y != 1:
@@ -573,9 +475,33 @@ class MED_MAIN:
                             self.snake.direction = Vector2(-1,0)
                 
             screen.fill((179,207,178))
+            with open('skin_selections.txt','r') as f:
+                lines = f.readlines()
+                if len(lines) == 2 :
+                    sn_skin_slection = int(lines[0])
+                    fr_skin_slection = int(lines[1])
+            global food_src
+            if fr_skin_slection == 1:
+                food_src = pygame.image.load('Graphics/fr1.png').convert_alpha()
+            elif fr_skin_slection == 2:
+                food_src = pygame.image.load('Graphics/fr2.png').convert_alpha()
+            elif fr_skin_slection == 3:
+                food_src = pygame.image.load('Graphics/fr3.png').convert_alpha()
+            elif fr_skin_slection == 4:
+                food_src = pygame.image.load('Graphics/fr4.png').convert_alpha()
+            elif fr_skin_slection == 5:
+                food_src = pygame.image.load('Graphics/fr5.png').convert_alpha()
+            elif fr_skin_slection == 6:
+                food_src = pygame.image.load('Graphics/fr6.png').convert_alpha()
+            elif fr_skin_slection == 7:
+                food_src = pygame.image.load('Graphics/fr7.png').convert_alpha()
+            elif fr_skin_slection == 8:
+                food_src = pygame.image.load('Graphics/fr8.png').convert_alpha()
+            elif fr_skin_slection == 9:
+                food_src = pygame.image.load('Graphics/fr9.png').convert_alpha()
             self.draw_elements()
             pygame.display.set_icon(icon)
             pygame.display.set_caption('Snaking')
             pygame.display.update()
-            clock.tick(60) 
- 
+            clock.tick(60)
+

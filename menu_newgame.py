@@ -1,6 +1,6 @@
 from easy import *
-from medium import *
-from hard import *
+from level_2 import *
+from level_3 import *
 
 #global initialization
 pygame.mixer.pre_init(44100,-16,2,512)
