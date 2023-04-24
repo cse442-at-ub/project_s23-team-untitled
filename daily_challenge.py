@@ -195,7 +195,7 @@ class POWERUP:
         self.pos = Vector2(self.x, self.y)
 
 
-class TASK:
+class TASK_EAT:
     def __init__(self, title, task):
         pygame.init()
         self.title = title
@@ -320,6 +320,9 @@ class MAIN:
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 
+tasks = {"get 5 points": TASK_EAT("daily_1", "get 5 points")}
+
+
 if __name__ == "__main__":
     pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()
@@ -341,7 +344,7 @@ if __name__ == "__main__":
 
     last_randomize_time = pygame.time.get_ticks()
 
-    TASK("Daily Task", "Complete 10 levels").popup()
+    current_task = tasks["get 5 points"]
 
     while True:
         for event in pygame.event.get():
