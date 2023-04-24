@@ -2,7 +2,7 @@ import random
 import sys
 import pygame
 from pygame.math import Vector2
-
+import time
 
 class WALL:
     def __init__(self, snake):
@@ -31,34 +31,6 @@ class WALL:
                         direction = random.choice([Vector2(1, 0), Vector2(0, 1)])
                         obstacle_pos = Vector2(start_x, start_y) + i * direction
                     self.wall_blocks.append(obstacle_pos)
-            #   "L_shape"
-            # else:
-            #     if direction == Vector2(1, 0):
-            #         for i in range(num_walls):
-            #             if i == 0:
-            #                 obstacle_pos = Vector2(start_x, start_y)
-            #             elif i == 1:
-            #                 obstacle_pos = Vector2(start_x, start_y + 1)
-            #             else:
-            #                 obstacle_pos = Vector2(start_x + i - 1, start_y + 1)
-            #             while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
-            #                 start_x = random.randint(1, cell_number - 3)
-            #                 start_y = random.randint(1, cell_number - 3)
-            #                 obstacle_pos = Vector2(start_x, start_y + 1)
-            #             self.wall_blocks.append(obstacle_pos)
-            #     else: # direction == Vector2(0, 1)
-            #         for i in range(num_walls):
-            #             if i == 0:
-            #                 obstacle_pos = Vector2(start_x, start_y)
-            #             elif i == 1:
-            #                 obstacle_pos = Vector2(start_x + 1, start_y)
-            #             else:
-            #                 obstacle_pos = Vector2(start_x + 1, start_y + i - 1)
-            #             while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
-            #                 start_x = random.randint(1, cell_number - 3)
-            #                 start_y = random.randint(1, cell_number - 3)
-            #                 obstacle_pos = Vector2(start_x + 1, start_y)
-            #             self.wall_blocks.append(obstacle_pos)
 
     def draw_wall(self):
         for block in self.wall_blocks:
@@ -231,12 +203,18 @@ class MAIN:
         self.powerup = POWERUP()
         self.score = 0
         self.if_powerup_exist = True
+        self.task_completed = False
 
     def update(self):
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
+        self.check_task()
 
+    def check_task(self):
+        if self.score >= 5 and not self.task_completed:
+            self.task_completed = True
+            TASK("Congratulations", "You have completed the task!").popup()
     def draw_elements(self):
         self.draw_grass()
         self.snake.draw_snake()
@@ -320,7 +298,10 @@ class MAIN:
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 
+
+
 if __name__ == "__main__":
+
     pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.init()
     cell_size = 40
@@ -341,7 +322,8 @@ if __name__ == "__main__":
 
     last_randomize_time = pygame.time.get_ticks()
 
-    TASK("Daily Task", "Complete 10 levels").popup()
+
+    TASK("Today's Task", "Get a score of 5").popup()
 
     while True:
         for event in pygame.event.get():
