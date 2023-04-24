@@ -196,11 +196,30 @@ class TASK:
             pygame.display.update()
 class TASK2:
     def __init__(self, title, description):
+        pygame.init()
         self.title = title
-        self.description = description
+        self.task = description
+        self.font = pygame.font.SysFont("Arial", 30)
+        self.width, self.height = 800, 800
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.popup()
 
     def popup(self):
-        print(f"{self.title}: {self.description}")
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    return False
+
+            self.screen.fill((255, 255, 255))
+            text_surface = self.font.render(self.title, True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 20))
+            text_surface = self.font.render(self.task, True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 70))
+
+            pygame.display.update()
 
 class MAIN:
     def __init__(self):
@@ -232,50 +251,45 @@ class MAIN:
             self.task2_completed = True
             TASK2("Congratulations", "You have completed Task 2!").popup()
 
+    def update_tasks(self):
+        self.check_switch_task()
+        self.check_switch_task("Get a score of 5", "Survive for 20 seconds without dying")
 
-    class MAIN:
+        current_time = pygame.time.get_ticks()
 
+        # 获取当前系统时间的分钟数
+        current_minute = datetime.datetime.now().minute
 
-        def update_tasks(self):
-            self.check_switch_task()
-            self.check_switch_task("Get a score of 5", "Survive for 20 seconds without dying")
+        # 检查分钟数是否为单数
+        is_odd_minute = current_minute % 2 == 1
 
-            current_time = pygame.time.get_ticks()
+        # Task 1: 玩家需要获得20分
+        if is_odd_minute and not self.task_completed:
+            if self.score >= 20:
+                self.task_completed = True
+                print("Task 1 completed!")
 
-            # 获取当前系统时间的分钟数
-            current_minute = datetime.datetime.now().minute
-
-            # 检查分钟数是否为单数
-            is_odd_minute = current_minute % 2 == 1
-
-            # Task 1: 玩家需要获得20分
-            if is_odd_minute and not self.task_completed:
-                if self.score >= 20:
-                    self.task_completed = True
-                    print("Task 1 completed!")
-
-            # Task 2: 玩家需要存活20秒不死亡
-            if not is_odd_minute and not self.task2_completed:
-                if current_time - self.start_time >= 20 * 1000:
-                    self.task2_completed = True
-                    print("Task 2 completed!")
+        # Task 2: 玩家需要存活20秒不死亡
+        if not is_odd_minute and not self.task2_completed:
+            if current_time - self.start_time >= 20 * 1000:
+                self.task2_completed = True
+                print("Task 2 completed!")
 
     def check_switch_task(self, task1_description, task2_description):
-        current_time = pygame.time.get_ticks()
-        if current_time - self.start_time >= self.task_switch_time:
-            self.start_time = current_time
-            self.task_completed = False
-            self.task2_completed = False
+        print("check_switch_task")
 
-            current_minute = datetime.datetime.now().minute
-            is_odd_minute = current_minute % 2 == 1
+        self.task_completed = False
+        self.task2_completed = False
 
-            if is_odd_minute:
+        current_minute = datetime.datetime.now().minute
+        is_odd_minute = current_minute % 2 == 1
 
-                TASK("Today's Task", task1_description).popup()
-            else:
-
-                TASK2("Today's Task 2", task2_description).popup()
+        if is_odd_minute:
+            print("Task 1")
+            TASK("Today's Task", task1_description).popup()
+        else:
+            print("Task 2")
+            TASK2("Today's Task 2", task2_description).popup()
 
 
 
@@ -383,11 +397,9 @@ if __name__ == "__main__":
     main_game = MAIN()
 
     last_randomize_time = pygame.time.get_ticks()
-    TASK2("Today's Task 2", "Survive for 20 seconds without dying").popup()
+    # TASK2("Today's Task 2", "Survive for 20 seconds without dying").popup()
 
-    TASK("Today's Task", "Get a score of 5").popup()
-
-
+    main_game.check_switch_task("Today's Task 1", "Today's Task 2")
 
     while True:
         for event in pygame.event.get():
