@@ -5,7 +5,7 @@ import sys
 import pygame
 from pygame.math import Vector2
 
-if not os.path.exists('scores_easy.bin') and os.path.exists('scores_medium.bin') and os.path.exists('scores_hard.bin'):
+if not (os.path.exists('scores_easy.bin') and os.path.exists('scores_medium.bin') and os.path.exists('scores_hard.bin')):
     # create binary score file
     with open('scores_easy.bin', 'wb') as file:
         pickle.dump([], file)

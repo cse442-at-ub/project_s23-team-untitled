@@ -195,6 +195,34 @@ class POWERUP:
         self.pos = Vector2(self.x, self.y)
 
 
+class TASK:
+    def __init__(self, title, task):
+        pygame.init()
+        self.title = title
+        self.task = task
+        self.font = pygame.font.SysFont("Arial", 30)
+        self.width, self.height = 800, 800
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.popup()
+
+    def popup(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.KEYDOWN:
+                    return False
+
+            self.screen.fill((255, 255, 255))
+            text_surface = self.font.render(self.title, True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 20))
+            text_surface = self.font.render(self.task, True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 70))
+
+            pygame.display.update()
+
+
 class MAIN:
     def __init__(self):
         self.snake = SNAKE()
@@ -313,6 +341,8 @@ if __name__ == "__main__":
 
     last_randomize_time = pygame.time.get_ticks()
 
+    TASK("Daily Task", "Complete 10 levels").popup()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -343,7 +373,7 @@ if __name__ == "__main__":
             main_game.fruit.draw_fruit()
 
         pygame.display.set_icon(icon)
-        pygame.display.set_caption('Snaking')
+        pygame.display.set_caption('Snake')
         pygame.display.update()
         clock.tick(60)
 

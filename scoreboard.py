@@ -1,4 +1,5 @@
 import csv
+import os.path
 import pickle
 import sys
 import random
@@ -42,16 +43,25 @@ score_medium = []
 score_hard = []
 
 # read scores from file
+if not os.path.exists('scores_easy.bin'):
+    with open('scores_easy.bin', 'wb') as file:
+        pickle.dump([], file)
 with open('scores_easy.bin', 'rb') as file:
     score_easy = [int(element[1]) for element in pickle.load(file)]
     score_easy.sort(reverse=True)
     print(score_easy)
 
+if not os.path.exists('scores_medium.bin'):
+    with open('scores_medium.bin', 'wb') as file:
+        pickle.dump([], file)
 with open('scores_medium.bin', 'rb') as file:
     score_medium = [int(element[1]) for element in pickle.load(file)]
     score_medium.sort(reverse=True)
     print(score_medium)
 
+if not os.path.exists('scores_hard.bin'):
+    with open('scores_hard.bin', 'wb') as file:
+        pickle.dump([], file)
 with open('scores_hard.bin', 'rb') as file:
     score_hard = [int(element[1]) for element in pickle.load(file)]
     score_hard.sort(reverse=True)
