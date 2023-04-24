@@ -298,8 +298,6 @@ class MAIN:
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
 
-
-
 if __name__ == "__main__":
 
     pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -321,7 +319,6 @@ if __name__ == "__main__":
     main_game = MAIN()
 
     last_randomize_time = pygame.time.get_ticks()
-
 
     TASK("Today's Task", "Get a score of 5").popup()
 
