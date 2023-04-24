@@ -237,8 +237,8 @@ class MAIN:
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
-        self.check_task()
-        self.check_task2()
+        # self.check_task()
+        # self.check_task2()
 
     def check_task(self):
         if self.score >= 5 and not self.task_completed:
@@ -252,8 +252,7 @@ class MAIN:
             TASK2("Congratulations", "You have completed Task 2!").popup()
 
     def update_tasks(self):
-        self.check_switch_task()
-        self.check_switch_task("Get a score of 5", "Survive for 20 seconds without dying")
+        # self.check_switch_task("Get a score of 5", "Survive for 20 seconds without dying")
 
         current_time = pygame.time.get_ticks()
 
@@ -265,15 +264,17 @@ class MAIN:
 
         # Task 1: 玩家需要获得20分
         if is_odd_minute and not self.task_completed:
-            if self.score >= 20:
+            if self.score >= 5:
                 self.task_completed = True
                 print("Task 1 completed!")
+                TASK("Congratulations", "You have completed the task1!").popup()
 
         # Task 2: 玩家需要存活20秒不死亡
         if not is_odd_minute and not self.task2_completed:
-            if current_time - self.start_time >= 20 * 1000:
+            if current_time - self.start_time >= 10 * 1000:
                 self.task2_completed = True
                 print("Task 2 completed!")
+                TASK2("Congratulations", "You have completed Task 2!").popup()
 
     def check_switch_task(self, task1_description, task2_description):
         print("check_switch_task")
@@ -289,7 +290,7 @@ class MAIN:
             TASK("Today's Task", task1_description).popup()
         else:
             print("Task 2")
-            TASK2("Today's Task 2", task2_description).popup()
+            TASK2("Today's Task 2", task2_description + "and starts now!!!!!!!!!!!!!!!!!!!!!!!!!").popup()
 
 
 
@@ -397,7 +398,6 @@ if __name__ == "__main__":
     main_game = MAIN()
 
     last_randomize_time = pygame.time.get_ticks()
-    # TASK2("Today's Task 2", "Survive for 20 seconds without dying").popup()
 
     main_game.check_switch_task("Today's Task 1", "Today's Task 2")
 
@@ -438,3 +438,5 @@ if __name__ == "__main__":
         if pygame.time.get_ticks() - last_randomize_time >= 5000:
             main_game.wall.randomize()
             last_randomize_time = pygame.time.get_ticks()
+
+        main_game.update_tasks()
