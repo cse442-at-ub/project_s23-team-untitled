@@ -3,6 +3,7 @@ import sys
 import pygame
 from pygame.math import Vector2
 import time
+import datetime
 
 class WALL:
     def __init__(self, snake):
@@ -193,7 +194,13 @@ class TASK:
             self.screen.blit(text_surface, (20, 70))
 
             pygame.display.update()
+class TASK2:
+    def __init__(self, title, description):
+        self.title = title
+        self.description = description
 
+    def popup(self):
+        print(f"{self.title}: {self.description}")
 
 class MAIN:
     def __init__(self):
@@ -202,19 +209,76 @@ class MAIN:
         self.wall = WALL(self.snake)
         self.powerup = POWERUP()
         self.score = 0
-        self.if_powerup_exist = True
+        self.start_time = pygame.time.get_ticks()
         self.task_completed = False
+        self.task2_completed = False
+        self.task_switch_time = 1 * 60 * 1000  # 10分钟
 
     def update(self):
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
         self.check_task()
+        self.check_task2()
 
     def check_task(self):
         if self.score >= 5 and not self.task_completed:
             self.task_completed = True
-            TASK("Congratulations", "You have completed the task!").popup()
+            TASK("Congratulations", "You have completed the task1!").popup()
+
+    def check_task2(self):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.start_time >= 20 * 1000 and not self.task2_completed:
+            self.task2_completed = True
+            TASK2("Congratulations", "You have completed Task 2!").popup()
+
+
+    class MAIN:
+
+
+        def update_tasks(self):
+            self.check_switch_task()
+            self.check_switch_task("Get a score of 5", "Survive for 20 seconds without dying")
+
+            current_time = pygame.time.get_ticks()
+
+            # 获取当前系统时间的分钟数
+            current_minute = datetime.datetime.now().minute
+
+            # 检查分钟数是否为单数
+            is_odd_minute = current_minute % 2 == 1
+
+            # Task 1: 玩家需要获得20分
+            if is_odd_minute and not self.task_completed:
+                if self.score >= 20:
+                    self.task_completed = True
+                    print("Task 1 completed!")
+
+            # Task 2: 玩家需要存活20秒不死亡
+            if not is_odd_minute and not self.task2_completed:
+                if current_time - self.start_time >= 20 * 1000:
+                    self.task2_completed = True
+                    print("Task 2 completed!")
+
+    def check_switch_task(self, task1_description, task2_description):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.start_time >= self.task_switch_time:
+            self.start_time = current_time
+            self.task_completed = False
+            self.task2_completed = False
+
+            current_minute = datetime.datetime.now().minute
+            is_odd_minute = current_minute % 2 == 1
+
+            if is_odd_minute:
+
+                TASK("Today's Task", task1_description).popup()
+            else:
+
+                TASK2("Today's Task 2", task2_description).popup()
+
+
+
     def draw_elements(self):
         self.draw_grass()
         self.snake.draw_snake()
@@ -321,9 +385,12 @@ if __name__ == "__main__":
     main_game = MAIN()
 
     last_randomize_time = pygame.time.get_ticks()
+    TASK2("Today's Task 2", "Survive for 20 seconds without dying").popup()
 
 
     TASK("Today's Task", "Get a score of 5").popup()
+
+
 
     while True:
         for event in pygame.event.get():
