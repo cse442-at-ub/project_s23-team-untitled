@@ -1,4 +1,5 @@
 import pygame,sys,random
+import time
 from pygame.math import Vector2
 #global initialization
 pygame.mixer.pre_init(44100,-16,2,512)
@@ -6,7 +7,9 @@ pygame.init()
 saved = None
 cell_size = 40
 cell_number = 20
-screen = pygame.display.set_mode((cell_number * cell_size, cell_number*cell_size))
+screen_width = cell_number * cell_size
+screen_height = cell_number*cell_size
+screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 game_font = pygame.font.Font('Font/bahnschrift.ttf',25)
 icon = pygame.image.load('Graphics/snake.png')
@@ -71,7 +74,39 @@ class InventoryMenu:
         # Set initial button state
         self.buttons_visible = False
         self.saved_selections = False
-        
+        distance = 10
+              # Draw snake skin options
+        self.sn_skin1_rect = self.sn_skin1_image.get_rect(center=(80, 230))
+        self.sn_skin2_rect = self.sn_skin2_image.get_rect(center=(self.sn_skin1_rect.right + distance + self.sn_skin1_rect.width/2, 230))
+        self.sn_skin3_rect = self.sn_skin3_image.get_rect(center=(self.sn_skin2_rect.right + distance + self.sn_skin2_rect.width/2, 230))
+        self.sn_skin4_rect = self.sn_skin4_image.get_rect(center=(self.sn_skin3_rect.right + distance + self.sn_skin3_rect.width/2, 230))
+        self.sn_skin5_rect = self.sn_skin5_image.get_rect(center=(self.sn_skin4_rect.right + distance + self.sn_skin4_rect.width/2, 230))
+
+        self.unlock_sn_button_rect2= self.unlock_sn_button.get_rect(center = self.sn_skin2_rect.center)
+        self.unlock_sn_button_rect3= self.unlock_sn_button.get_rect(center = self.sn_skin3_rect.center)
+        self.unlock_sn_button_rect4= self.unlock_sn_button.get_rect(center = self.sn_skin4_rect.center)
+        self.unlock_sn_button_rect5= self.unlock_sn_button.get_rect(center = self.sn_skin5_rect.center)
+
+        distance =20 
+        self.fr_skin1_rect = self.fr_skin1_image.get_rect(center=(100, 450))
+        self.fr_skin2_rect = self.fr_skin2_image.get_rect(center=(self.fr_skin1_rect.right + distance + self.fr_skin1_rect.width/2, 450))
+        self.fr_skin3_rect = self.fr_skin3_image.get_rect(center=(self.fr_skin2_rect.right + distance + self.fr_skin2_rect.width/2, 450))
+        self.fr_skin4_rect = self.fr_skin4_image.get_rect(center=(self.fr_skin3_rect.right + distance + self.fr_skin3_rect.width/2, 450))
+        self.fr_skin5_rect = self.fr_skin5_image.get_rect(center=(self.fr_skin4_rect.right + distance + self.fr_skin4_rect.width/2, 450))
+        self.fr_skin6_rect = self.fr_skin6_image.get_rect(center=(self.fr_skin5_rect.right + distance + self.fr_skin5_rect.width/2, 450))
+        self.fr_skin7_rect = self.fr_skin7_image.get_rect(center=(self.fr_skin6_rect.right + distance + self.fr_skin6_rect.width/2, 450))
+        self.fr_skin8_rect = self.fr_skin8_image.get_rect(center=(self.fr_skin7_rect.right + distance + self.fr_skin7_rect.width/2, 450))
+        self.fr_skin9_rect = self.fr_skin9_image.get_rect(center=(self.fr_skin8_rect.right + distance + self.fr_skin8_rect.width/2, 450))
+
+        self.unlock_fr_button_rect2= self.unlock_fr_button.get_rect(center = (self.fr_skin2_rect.centerx - 7, self.fr_skin2_rect.centery +2))
+        self.unlock_fr_button_rect3= self.unlock_fr_button.get_rect(center = (self.fr_skin3_rect.centerx - 7, self.fr_skin3_rect.centery +2))
+        self.unlock_fr_button_rect4= self.unlock_fr_button.get_rect(center = (self.fr_skin4_rect.centerx - 7, self.fr_skin4_rect.centery +2))
+        self.unlock_fr_button_rect5= self.unlock_fr_button.get_rect(center = (self.fr_skin5_rect.centerx - 7, self.fr_skin5_rect.centery +2))
+        self.unlock_fr_button_rect6= self.unlock_fr_button.get_rect(center = (self.fr_skin6_rect.centerx - 7, self.fr_skin6_rect.centery +2))
+        self.unlock_fr_button_rect7= self.unlock_fr_button.get_rect(center = (self.fr_skin7_rect.centerx - 7, self.fr_skin7_rect.centery +2))
+        self.unlock_fr_button_rect8= self.unlock_fr_button.get_rect(center = (self.fr_skin8_rect.centerx - 7, self.fr_skin8_rect.centery +2))
+        self.unlock_fr_button_rect9= self.unlock_fr_button.get_rect(center = (self.fr_skin9_rect.centerx - 7, self.fr_skin9_rect.centery +2))
+
 
 
     def load_skin_selections(self):
@@ -125,35 +160,27 @@ class InventoryMenu:
         self.undo_button_rect = self.undo_button.get_rect(center=(title_rect.right + distance*1.5, 70 ))
         self.coin_rect = self.coin.get_rect(center = (title_rect.left - distance*7, 70))
 
-        # Draw snake skin options
-        sn_skin1_rect = self.sn_skin1_image.get_rect(center=(80, 230))
-        sn_skin2_rect = self.sn_skin2_image.get_rect(center=(sn_skin1_rect.right + distance + sn_skin1_rect.width/2, 230))
-        sn_skin3_rect = self.sn_skin3_image.get_rect(center=(sn_skin2_rect.right + distance + sn_skin2_rect.width/2, 230))
-        sn_skin4_rect = self.sn_skin4_image.get_rect(center=(sn_skin3_rect.right + distance + sn_skin3_rect.width/2, 230))
-        sn_skin5_rect = self.sn_skin5_image.get_rect(center=(sn_skin4_rect.right + distance + sn_skin4_rect.width/2, 230))
+  
 
-        screen.blit(self.sn_skin1_image, sn_skin1_rect)
-        screen.blit(self.sn_skin2_image, sn_skin2_rect)
-        screen.blit(self.sn_skin3_image, sn_skin3_rect)
-        screen.blit(self.sn_skin4_image, sn_skin4_rect)
-        screen.blit(self.sn_skin5_image, sn_skin5_rect)
+        screen.blit(self.sn_skin1_image, self.sn_skin1_rect)
+        screen.blit(self.sn_skin2_image, self.sn_skin2_rect)
+        screen.blit(self.sn_skin3_image, self.sn_skin3_rect)
+        screen.blit(self.sn_skin4_image, self.sn_skin4_rect)
+        screen.blit(self.sn_skin5_image, self.sn_skin5_rect)
 
-        sn_skin1_checkbox_center_x = sn_skin1_rect.centerx
-        sn_skin2_checkbox_center_x = sn_skin2_rect.centerx
-        sn_skin3_checkbox_center_x = sn_skin3_rect.centerx
-        sn_skin4_checkbox_center_x = sn_skin4_rect.centerx
-        sn_skin5_checkbox_center_x = sn_skin5_rect.centerx
+        sn_skin1_checkbox_center_x = self.sn_skin1_rect.centerx
+        sn_skin2_checkbox_center_x = self.sn_skin2_rect.centerx
+        sn_skin3_checkbox_center_x = self.sn_skin3_rect.centerx
+        sn_skin4_checkbox_center_x = self.sn_skin4_rect.centerx
+        sn_skin5_checkbox_center_x = self.sn_skin5_rect.centerx
 
-        unlock_sn_button_rect2= self.unlock_sn_button.get_rect(center = sn_skin2_rect.center)
-        unlock_sn_button_rect3= self.unlock_sn_button.get_rect(center = sn_skin3_rect.center)
-        unlock_sn_button_rect4= self.unlock_sn_button.get_rect(center = sn_skin4_rect.center)
-        unlock_sn_button_rect5= self.unlock_sn_button.get_rect(center = sn_skin5_rect.center)
+
         
-        sn_skin1_checkbox_center_y = sn_skin1_rect.centery + sn_skin1_rect.height // 2 + distance + self.sn_skin1_checkbox.height // 2
-        sn_skin2_checkbox_center_y = sn_skin2_rect.centery + sn_skin2_rect.height // 2 + distance + self.sn_skin2_checkbox.height // 2
-        sn_skin3_checkbox_center_y = sn_skin3_rect.centery + sn_skin3_rect.height // 2 + distance + self.sn_skin3_checkbox.height // 2
-        sn_skin4_checkbox_center_y = sn_skin4_rect.centery + sn_skin4_rect.height // 2 + distance + self.sn_skin4_checkbox.height // 2
-        sn_skin5_checkbox_center_y = sn_skin5_rect.centery + sn_skin5_rect.height // 2 + distance + self.sn_skin5_checkbox.height // 2
+        sn_skin1_checkbox_center_y = self.sn_skin1_rect.centery + self.sn_skin1_rect.height // 2 + distance + self.sn_skin1_checkbox.height // 2
+        sn_skin2_checkbox_center_y = self.sn_skin2_rect.centery + self.sn_skin2_rect.height // 2 + distance + self.sn_skin2_checkbox.height // 2
+        sn_skin3_checkbox_center_y = self.sn_skin3_rect.centery + self.sn_skin3_rect.height // 2 + distance + self.sn_skin3_checkbox.height // 2
+        sn_skin4_checkbox_center_y = self.sn_skin4_rect.centery + self.sn_skin4_rect.height // 2 + distance + self.sn_skin4_checkbox.height // 2
+        sn_skin5_checkbox_center_y = self.sn_skin5_rect.centery + self.sn_skin5_rect.height // 2 + distance + self.sn_skin5_checkbox.height // 2
 
         self.sn_skin1_checkbox.center = (sn_skin1_checkbox_center_x, sn_skin1_checkbox_center_y)
         self.sn_skin2_checkbox.center = (sn_skin2_checkbox_center_x, sn_skin2_checkbox_center_y)
@@ -165,30 +192,27 @@ class InventoryMenu:
         if self.sn_unlock[0]:
             pygame.draw.rect(screen, (255, 255, 255), self.sn_skin2_checkbox, 2)
         else:
-            screen.blit(self.unlock_sn_button,unlock_sn_button_rect2)
+            screen.blit(self.unlock_sn_button,self.unlock_sn_button_rect2)
         
         if self.sn_unlock[1]:
             pygame.draw.rect(screen, (255, 255, 255), self.sn_skin3_checkbox, 2)
         else:
-            screen.blit(self.unlock_sn_button,unlock_sn_button_rect3)
+            screen.blit(self.unlock_sn_button,self.unlock_sn_button_rect3)
         
         if self.sn_unlock[2]:
             pygame.draw.rect(screen, (255, 255, 255), self.sn_skin4_checkbox, 2)
         else:
-            screen.blit(self.unlock_sn_button,unlock_sn_button_rect4)
+            screen.blit(self.unlock_sn_button,self.unlock_sn_button_rect4)
         
         if self.sn_unlock[3]:
              pygame.draw.rect(screen, (255, 255, 255), self.sn_skin5_checkbox, 2)
         else:
-            screen.blit(self.unlock_sn_button,unlock_sn_button_rect5)
+            screen.blit(self.unlock_sn_button,self.unlock_sn_button_rect5)
             
         
         pygame.draw.rect(screen, (255, 255, 255), self.sn_skin1_checkbox, 2)
         
         
-        
-        
-
         if self.sn_skin_selection == 1:
             pygame.draw.circle(screen, (0, 0, 0), self.sn_skin1_checkbox.center, 10)
         elif self.sn_skin_selection == 2:
@@ -201,56 +225,40 @@ class InventoryMenu:
             pygame.draw.circle(screen, (0, 0, 0), self.sn_skin5_checkbox.center, 10)
 
         # Draw fruit skin options
-        distance =20 
-        fr_skin1_rect = self.fr_skin1_image.get_rect(center=(100, 450))
-        fr_skin2_rect = self.fr_skin2_image.get_rect(center=(fr_skin1_rect.right + distance + fr_skin1_rect.width/2, 450))
-        fr_skin3_rect = self.fr_skin3_image.get_rect(center=(fr_skin2_rect.right + distance + fr_skin2_rect.width/2, 450))
-        fr_skin4_rect = self.fr_skin4_image.get_rect(center=(fr_skin3_rect.right + distance + fr_skin3_rect.width/2, 450))
-        fr_skin5_rect = self.fr_skin5_image.get_rect(center=(fr_skin4_rect.right + distance + fr_skin4_rect.width/2, 450))
-        fr_skin6_rect = self.fr_skin6_image.get_rect(center=(fr_skin5_rect.right + distance + fr_skin5_rect.width/2, 450))
-        fr_skin7_rect = self.fr_skin7_image.get_rect(center=(fr_skin6_rect.right + distance + fr_skin6_rect.width/2, 450))
-        fr_skin8_rect = self.fr_skin8_image.get_rect(center=(fr_skin7_rect.right + distance + fr_skin7_rect.width/2, 450))
-        fr_skin9_rect = self.fr_skin9_image.get_rect(center=(fr_skin8_rect.right + distance + fr_skin8_rect.width/2, 450))
 
-        screen.blit(self.fr_skin1_image, fr_skin1_rect)
-        screen.blit(self.fr_skin2_image, fr_skin2_rect)
-        screen.blit(self.fr_skin3_image, fr_skin3_rect)
-        screen.blit(self.fr_skin4_image, fr_skin4_rect)
-        screen.blit(self.fr_skin5_image, fr_skin5_rect)
-        screen.blit(self.fr_skin6_image, fr_skin6_rect)
-        screen.blit(self.fr_skin7_image, fr_skin7_rect)
-        screen.blit(self.fr_skin8_image, fr_skin8_rect)
-        screen.blit(self.fr_skin9_image, fr_skin9_rect)
 
-        unlock_fr_button_rect2= self.unlock_fr_button.get_rect(center = (fr_skin2_rect.centerx - 7, fr_skin2_rect.centery +2))
-        unlock_fr_button_rect3= self.unlock_fr_button.get_rect(center = (fr_skin3_rect.centerx - 7, fr_skin3_rect.centery +2))
-        unlock_fr_button_rect4= self.unlock_fr_button.get_rect(center = (fr_skin4_rect.centerx - 7, fr_skin4_rect.centery +2))
-        unlock_fr_button_rect5= self.unlock_fr_button.get_rect(center = (fr_skin5_rect.centerx - 7, fr_skin5_rect.centery +2))
-        unlock_fr_button_rect6= self.unlock_fr_button.get_rect(center = (fr_skin6_rect.centerx - 7, fr_skin6_rect.centery +2))
-        unlock_fr_button_rect7= self.unlock_fr_button.get_rect(center = (fr_skin7_rect.centerx - 7, fr_skin7_rect.centery +2))
-        unlock_fr_button_rect8= self.unlock_fr_button.get_rect(center = (fr_skin8_rect.centerx - 7, fr_skin8_rect.centery +2))
-        unlock_fr_button_rect9= self.unlock_fr_button.get_rect(center = (fr_skin9_rect.centerx - 7, fr_skin9_rect.centery +2))
+        screen.blit(self.fr_skin1_image, self.fr_skin1_rect)
+        screen.blit(self.fr_skin2_image, self.fr_skin2_rect)
+        screen.blit(self.fr_skin3_image, self.fr_skin3_rect)
+        screen.blit(self.fr_skin4_image, self.fr_skin4_rect)
+        screen.blit(self.fr_skin5_image, self.fr_skin5_rect)
+        screen.blit(self.fr_skin6_image, self.fr_skin6_rect)
+        screen.blit(self.fr_skin7_image, self.fr_skin7_rect)
+        screen.blit(self.fr_skin8_image, self.fr_skin8_rect)
+        screen.blit(self.fr_skin9_image, self.fr_skin9_rect)
+
+
 
         checkbox_distance = 10
-        fr_skin1_checkbox_center_x = fr_skin1_rect.centerx-8
-        fr_skin2_checkbox_center_x = fr_skin2_rect.centerx-8
-        fr_skin3_checkbox_center_x = fr_skin3_rect.centerx-8
-        fr_skin4_checkbox_center_x = fr_skin4_rect.centerx-8
-        fr_skin5_checkbox_center_x = fr_skin5_rect.centerx-8
-        fr_skin6_checkbox_center_x = fr_skin6_rect.centerx-8
-        fr_skin7_checkbox_center_x = fr_skin7_rect.centerx-8
-        fr_skin8_checkbox_center_x = fr_skin8_rect.centerx-8
-        fr_skin9_checkbox_center_x = fr_skin9_rect.centerx-8
+        fr_skin1_checkbox_center_x = self.fr_skin1_rect.centerx-8
+        fr_skin2_checkbox_center_x = self.fr_skin2_rect.centerx-8
+        fr_skin3_checkbox_center_x = self.fr_skin3_rect.centerx-8
+        fr_skin4_checkbox_center_x = self.fr_skin4_rect.centerx-8
+        fr_skin5_checkbox_center_x = self.fr_skin5_rect.centerx-8
+        fr_skin6_checkbox_center_x = self.fr_skin6_rect.centerx-8
+        fr_skin7_checkbox_center_x = self.fr_skin7_rect.centerx-8
+        fr_skin8_checkbox_center_x = self.fr_skin8_rect.centerx-8
+        fr_skin9_checkbox_center_x = self.fr_skin9_rect.centerx-8
 
-        fr_skin1_checkbox_center_y = fr_skin1_rect.centery + fr_skin1_rect.height // 2 + checkbox_distance + self.fr_skin1_checkbox.height // 2
-        fr_skin2_checkbox_center_y = fr_skin2_rect.centery + fr_skin2_rect.height // 2 + checkbox_distance + self.fr_skin2_checkbox.height // 2
-        fr_skin3_checkbox_center_y = fr_skin3_rect.centery + fr_skin3_rect.height // 2 + checkbox_distance + self.fr_skin3_checkbox.height // 2
-        fr_skin4_checkbox_center_y = fr_skin4_rect.centery + fr_skin4_rect.height // 2 + checkbox_distance + self.fr_skin4_checkbox.height // 2
-        fr_skin5_checkbox_center_y = fr_skin5_rect.centery + fr_skin5_rect.height // 2 + checkbox_distance + self.fr_skin5_checkbox.height // 2
-        fr_skin6_checkbox_center_y = fr_skin6_rect.centery + fr_skin6_rect.height // 2 + checkbox_distance + self.fr_skin6_checkbox.height // 2
-        fr_skin7_checkbox_center_y = fr_skin7_rect.centery + fr_skin7_rect.height // 2 + checkbox_distance + self.fr_skin7_checkbox.height // 2
-        fr_skin8_checkbox_center_y = fr_skin8_rect.centery + fr_skin8_rect.height // 2 + checkbox_distance + self.fr_skin8_checkbox.height // 2
-        fr_skin9_checkbox_center_y = fr_skin9_rect.centery + fr_skin9_rect.height // 2 + checkbox_distance + self.fr_skin9_checkbox.height // 2
+        fr_skin1_checkbox_center_y = self.fr_skin1_rect.centery + self.fr_skin1_rect.height // 2 + checkbox_distance + self.fr_skin1_checkbox.height // 2
+        fr_skin2_checkbox_center_y = self.fr_skin2_rect.centery + self.fr_skin2_rect.height // 2 + checkbox_distance + self.fr_skin2_checkbox.height // 2
+        fr_skin3_checkbox_center_y = self.fr_skin3_rect.centery + self.fr_skin3_rect.height // 2 + checkbox_distance + self.fr_skin3_checkbox.height // 2
+        fr_skin4_checkbox_center_y = self.fr_skin4_rect.centery + self.fr_skin4_rect.height // 2 + checkbox_distance + self.fr_skin4_checkbox.height // 2
+        fr_skin5_checkbox_center_y = self.fr_skin5_rect.centery + self.fr_skin5_rect.height // 2 + checkbox_distance + self.fr_skin5_checkbox.height // 2
+        fr_skin6_checkbox_center_y = self.fr_skin6_rect.centery + self.fr_skin6_rect.height // 2 + checkbox_distance + self.fr_skin6_checkbox.height // 2
+        fr_skin7_checkbox_center_y = self.fr_skin7_rect.centery + self.fr_skin7_rect.height // 2 + checkbox_distance + self.fr_skin7_checkbox.height // 2
+        fr_skin8_checkbox_center_y = self.fr_skin8_rect.centery + self.fr_skin8_rect.height // 2 + checkbox_distance + self.fr_skin8_checkbox.height // 2
+        fr_skin9_checkbox_center_y = self.fr_skin9_rect.centery + self.fr_skin9_rect.height // 2 + checkbox_distance + self.fr_skin9_checkbox.height // 2
 
         self.fr_skin1_checkbox.center = (fr_skin1_checkbox_center_x, fr_skin1_checkbox_center_y)
         self.fr_skin2_checkbox.center = (fr_skin2_checkbox_center_x, fr_skin2_checkbox_center_y)
@@ -267,42 +275,42 @@ class InventoryMenu:
         if self.fr_unlock[0]:
             pygame.draw.rect(screen, (255, 255, 255), self.fr_skin2_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect2)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect2)
         
         if self.fr_unlock[1]:
             pygame.draw.rect(screen, (255, 255, 255), self.fr_skin3_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect3)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect3)
         
         if self.fr_unlock[2]:
             pygame.draw.rect(screen, (255, 255, 255), self.fr_skin4_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect4)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect4)
         
         if self.fr_unlock[3]:
              pygame.draw.rect(screen, (255, 255, 255), self.fr_skin5_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect5)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect5)
 
         if self.fr_unlock[4]:
              pygame.draw.rect(screen, (255, 255, 255), self.fr_skin6_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect6)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect6)
 
         if self.fr_unlock[5]:
              pygame.draw.rect(screen, (255, 255, 255), self.fr_skin7_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect7)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect7)
 
         if self.fr_unlock[6]:
              pygame.draw.rect(screen, (255, 255, 255), self.fr_skin8_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect8)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect8)
 
         if self.fr_unlock[7]:
              pygame.draw.rect(screen, (255, 255, 255), self.fr_skin9_checkbox, 2)
         else:
-            screen.blit(self.unlock_fr_button,unlock_fr_button_rect9)
+            screen.blit(self.unlock_fr_button,self.unlock_fr_button_rect9)
 
 
         if self.fr_skin_selection == 1:
@@ -379,17 +387,29 @@ class InventoryMenu:
     def hide_buttons(self):
         self.buttons_visible = False
         
+    def unlock_skin(self):
+        self.coin_amn -= 10
+
+
+
 
 
 class MAIN:
     def __init__(self):
         self.screen_parameter= 230
         self.inventory_menu = InventoryMenu()
+        self.oops = False
+        self.oops_start_time = 0
 
     def draw_elements(self):
         self.draw_grass()
         self.inventory_menu.draw_elements()
         self.draw_coin_amn()
+        if self.oops:
+            self.oops_message()
+            if pygame.time.get_ticks() - self.oops_start_time > 1000:  # hide message after 2 seconds
+                self.oops = False
+
         
 
     def draw_grass(self):
@@ -408,6 +428,14 @@ class MAIN:
         coin_amn_rect = coin_am_surface.get_rect(center = (self.inventory_menu.coin_rect.right + 10, 70))
         screen.blit(coin_am_surface,coin_amn_rect)
 
+    def oops_message(self):
+        font = pygame.font.Font(None, 36)  # choose a font and size
+        text = font.render("Not enough coin", True, (255, 0, 0))  # create a text surface
+        global screen_width, screen_height
+        text_rect = text.get_rect(center=(screen_width//2, screen_height//2))  # position the text at the center of the screen
+        screen.blit(text, text_rect)  # draw the text surface onto the screen
+        
+
 main_game = MAIN()
 
 while True:
@@ -421,33 +449,164 @@ while True:
             mouse_pos = pygame.mouse.get_pos()
             if main_game.inventory_menu.sn_skin1_checkbox.collidepoint(mouse_pos):
                 main_game.inventory_menu.sn_skin_selection = 1
-            elif main_game.inventory_menu.sn_skin2_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[0]:
+            
+            if main_game.inventory_menu.sn_skin2_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[0]:
                 main_game.inventory_menu.sn_skin_selection = 2
-            elif main_game.inventory_menu.sn_skin3_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[1]:
+            elif main_game.inventory_menu.unlock_sn_button_rect2.collidepoint(mouse_pos) and not main_game.inventory_menu.sn_unlock[0]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.sn_unlock[0] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+                    
+                    
+
+            if main_game.inventory_menu.sn_skin3_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[1]:
                 main_game.inventory_menu.sn_skin_selection = 3
-            elif main_game.inventory_menu.sn_skin4_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[2]:
+            elif main_game.inventory_menu.unlock_sn_button_rect3.collidepoint(mouse_pos) and not main_game.inventory_menu.sn_unlock[1]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.sn_unlock[1] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+                    
+                    
+            if main_game.inventory_menu.sn_skin4_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[2]:
                 main_game.inventory_menu.sn_skin_selection = 4
-            elif main_game.inventory_menu.sn_skin5_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[3]:
+            elif main_game.inventory_menu.unlock_sn_button_rect4.collidepoint(mouse_pos) and not main_game.inventory_menu.sn_unlock[2]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.sn_unlock[2] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+                    
+
+
+            if main_game.inventory_menu.sn_skin5_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.sn_unlock[3]:
                 main_game.inventory_menu.sn_skin_selection = 5
-            elif main_game.inventory_menu.fr_skin1_checkbox.collidepoint(mouse_pos):
+            elif main_game.inventory_menu.unlock_sn_button_rect5.collidepoint(mouse_pos) and not main_game.inventory_menu.sn_unlock[3]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.sn_unlock[3] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+                    
+
+
+            if main_game.inventory_menu.fr_skin1_checkbox.collidepoint(mouse_pos):
                 main_game.inventory_menu.fr_skin_selection = 1
-            elif main_game.inventory_menu.fr_skin2_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[0]:
+            
+
+            if main_game.inventory_menu.fr_skin2_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[0]:
                 main_game.inventory_menu.fr_skin_selection = 2
-            elif main_game.inventory_menu.fr_skin3_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[1]:
+            elif main_game.inventory_menu.unlock_fr_button_rect2.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[0]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[0] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin3_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[1]:
                 main_game.inventory_menu.fr_skin_selection = 3
-            elif main_game.inventory_menu.fr_skin4_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[2]:
+            elif main_game.inventory_menu.unlock_fr_button_rect3.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[1]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[1] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin4_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[2]:
                 main_game.inventory_menu.fr_skin_selection = 4
-            elif main_game.inventory_menu.fr_skin5_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[3]:
+            elif main_game.inventory_menu.unlock_fr_button_rect4.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[2]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[2] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin5_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[3]:
                 main_game.inventory_menu.fr_skin_selection = 5
-            elif main_game.inventory_menu.fr_skin6_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[4]:
+            elif main_game.inventory_menu.unlock_fr_button_rect5.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[3]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[3] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin6_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[4]:
                 main_game.inventory_menu.fr_skin_selection = 6
-            elif main_game.inventory_menu.fr_skin7_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[5]:
+            elif main_game.inventory_menu.unlock_fr_button_rect6.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[4]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[4] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin7_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[5]:
                 main_game.inventory_menu.fr_skin_selection = 7
-            elif main_game.inventory_menu.fr_skin8_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[6]:
+            elif main_game.inventory_menu.unlock_fr_button_rect7.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[5]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[5] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin8_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[6]:
                 main_game.inventory_menu.fr_skin_selection = 8
-            elif main_game.inventory_menu.fr_skin9_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[7]:
+            elif main_game.inventory_menu.unlock_fr_button_rect8.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[6]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[6] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.fr_skin9_checkbox.collidepoint(mouse_pos) and main_game.inventory_menu.fr_unlock[7]:
                 main_game.inventory_menu.fr_skin_selection = 9
-            elif main_game.inventory_menu.save_button_rect.collidepoint(mouse_pos):
+            elif main_game.inventory_menu.unlock_fr_button_rect9.collidepoint(mouse_pos) and not main_game.inventory_menu.fr_unlock[7]:
+                if main_game.inventory_menu.coin_amn - 5 >= 0:
+                    main_game.inventory_menu.fr_unlock[7] = True
+                    main_game.inventory_menu.coin_amn -= 5
+                else:
+                    main_game.oops = True
+                    main_game.oops_start_time = pygame.time.get_ticks()
+                    main_game.inventory_menu.save_changes()
+                    pygame.display.update()
+
+            if main_game.inventory_menu.save_button_rect.collidepoint(mouse_pos):
                 # Handle save button click
                 # Draw the highlighted save button
                 main_game.inventory_menu.handle_save_click()
@@ -459,9 +618,7 @@ while True:
             elif main_game.inventory_menu.return_button_rect.collidepoint(mouse_pos):
                 # Handle return button click
                 pass
-            else:
-                 # Draw the regular save button
-                 pass
+
             main_game.inventory_menu.update_button_states()
             if main_game.inventory_menu.saved_selections:
                 main_game.inventory_menu.hide_buttons()
