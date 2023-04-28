@@ -42,8 +42,9 @@ def selection_background(screen):
                         col * cell_size, row * cell_size, cell_size, cell_size)
                     pygame.draw.rect(screen, grass_color, grass_rec)
 
-SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 200)
+# SCREEN_UPDATE = pygame.USEREVENT
+# pygame.time.set_timer(SCREEN_UPDATE, 200)
+
 
 # for inventory
 saved = None
