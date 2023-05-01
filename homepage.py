@@ -6,6 +6,9 @@ from inventory import *
 
 
 def homepage():
+    with open('sound.bin', 'wb') as f:
+        pickle.dump(True, f)
+        
     sound_on_button = pygame.image.load(
         'Buttons/sound_on.png').convert_alpha()
     sound_off_button = pygame.image.load(
@@ -114,9 +117,13 @@ def homepage():
                 inventory()
             if event.type == pygame.MOUSEBUTTONDOWN and default_sound_rect.collidepoint(pos):
                 if default_sound_button == sound_on_button:
+                    with open('sound.bin', 'wb') as f:
+                        pickle.dump(False, f)
                     default_sound_button = sound_off_button
                     default_sound_rect = sound_off_rect
                 elif default_sound_button == sound_off_button:
+                    with open('sound.bin', 'wb') as f:
+                        pickle.dump(True, f)
                     default_sound_button = sound_on_button
                     default_sound_rect = sound_on_rect
 

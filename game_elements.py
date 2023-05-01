@@ -1,10 +1,16 @@
 import random
 import sys
+import os
+import pickle
 import pygame
 from pygame.math import Vector2
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
+
+fruit_sound = pygame.mixer.Sound('Sounds/sound_fruit.mp3')
+fruit_plate_sound = pygame.mixer.Sound('Sounds/sound_fruit_plate.mp3')
+turtle_sound = pygame.mixer.Sound('Sounds/sound_turtle.mp3')
 
 cell_size = 40
 cell_number = 20

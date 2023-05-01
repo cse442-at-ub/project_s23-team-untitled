@@ -4,7 +4,6 @@ import random
 from pygame.math import Vector2
 from game_elements import *
 
-sound_hard = True
 
 
 class SNAKE3:
@@ -457,6 +456,11 @@ class MAIN3:
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
+            if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(fruit_sound)
             self.fruit.randomize()
             self.snake.add_block()
             self.snake.food_gain += 1
@@ -465,6 +469,11 @@ class MAIN3:
                 self.fruit.randomize()
 
         elif self.slowpower.pos == self.snake.body[0] and not self.slowpower.active:
+            if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(turtle_sound)
             self.slowpower.active = True
             self.slowpower.pos = None
             self.slowpower.start_time = pygame.time.get_ticks()
@@ -473,6 +482,11 @@ class MAIN3:
 
         # New condition to handle fruit_plate collision
         elif self.fruit_plate.pos == self.snake.body[0]:
+            if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(fruit_plate_sound)
             self.snake.food_gain += 3
             self.fruit_plate.reset()
 
