@@ -290,6 +290,14 @@ class MAIN2:
             lines = f.readlines()
             if len(lines) == 2:
                 sn_skin_slection = int(lines[0])
+
+        if os.path.exists("sound.bin"):
+            with open("sound.bin", "rb") as f:
+                sound_flag = pickle.load(f)
+            if sound_flag:
+                pygame.mixer.music.load(game_sound)
+                pygame.mixer.music.play(-1)
+
         if sn_skin_slection == 1:
             head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
             head_down = pygame.image.load(
@@ -661,6 +669,7 @@ class MAIN2:
                 if event.type == self.screen_update_in_main.screen_updates:
                     self.update()
                     if self.game_over_flag:
+                        pygame.mixer.music.stop()
                         self.game_over_screen()
                         if self.back_to_menu_flag:
                             return
