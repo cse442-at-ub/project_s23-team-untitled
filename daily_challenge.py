@@ -198,6 +198,37 @@ class TASK:
 
             pygame.display.update()
 
+    def continue_or_not(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if 150 < event.pos[0] < 300 and 400 < event.pos[1] < 450:
+                        # 点击“退出”按钮
+                        pygame.quit()
+                        quit()
+                    elif 500 < event.pos[0] < 650 and 400 < event.pos[1] < 450:
+                        # 点击“继续”按钮
+                        return True
+
+            self.screen.fill((255, 255, 255))
+            text_surface = self.font.render("Continue or not?", True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 200))
+
+            # 绘制“退出”按钮
+            pygame.draw.rect(self.screen, (255, 0, 0), (150, 400, 150, 50))
+            text_surface = self.font.render("Exit", True, (255, 255, 255))
+            self.screen.blit(text_surface, (175, 410))
+
+            # 绘制“继续”按钮
+            pygame.draw.rect(self.screen, (0, 255, 0), (500, 400, 150, 50))
+            text_surface = self.font.render("Continue", True, (255, 255, 255))
+            self.screen.blit(text_surface, (515, 410))
+
+            pygame.display.update()
+
 
 class TASK2:
     def __init__(self, title, description):
@@ -284,7 +315,7 @@ class MAIN:
             if self.score >= 5:
                 self.task_completed = True
                 print("Task 1 completed!")
-                TASK("Congratulations", "You have completed the task1!").popup()
+                TASK("Congratulations", "You have completed the task1!").continue_or_not()
 
         # Task 2: player needs to survive for 5 seconds
         if not is_odd_minute and not self.task2_completed:
