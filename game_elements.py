@@ -12,6 +12,8 @@ fruit_sound = pygame.mixer.Sound('Sounds/sound_fruit.mp3')
 fruit_plate_sound = pygame.mixer.Sound('Sounds/sound_fruit_plate.mp3')
 turtle_sound = pygame.mixer.Sound('Sounds/sound_turtle.mp3')
 game_over_sound = pygame.mixer.Sound('Sounds/sound_game_over.mp3')
+game_sound = 'Sounds/sound_game.mp3'
+hard_game_sound = 'Sounds/sound_hard_game.mp3'
 
 cell_size = 40
 cell_number = 20
