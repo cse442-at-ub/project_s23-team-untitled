@@ -178,7 +178,6 @@ class TASK:
         self.font = pygame.font.SysFont("Arial", 30)
         self.width, self.height = 800, 800
         self.screen = pygame.display.set_mode((self.width, self.height))
-        global game_started
 
     def popup(self):
         while True:
@@ -187,6 +186,8 @@ class TASK:
                     pygame.quit()
                     quit()
                 if event.type == pygame.KEYDOWN:
+                    global game_started
+                    game_started = True
                     return False
 
             self.screen.fill((255, 255, 255))
@@ -272,20 +273,22 @@ class MAIN:
         print("Current time: ", self.current_time)
 
         # record the current minute
-        current_minute = datetime.datetime.now().minute
+        current_minute = datetime.datetime.now().day
 
         # check if the current minute is odd
         is_odd_minute = current_minute % 2 == 1
 
         # Task 1: player needs to get a score of 5
-        # if is_odd_minute and not self.task_completed:
-        #     if self.score >= 5:
-        #         self.task_completed = True
-        #         print("Task 1 completed!")
-        #         TASK("Congratulations", "You have completed the task1!").popup()
+        if is_odd_minute and not self.task_completed:
+            print("Task 1")
+            if self.score >= 5:
+                self.task_completed = True
+                print("Task 1 completed!")
+                TASK("Congratulations", "You have completed the task1!").popup()
 
         # Task 2: player needs to survive for 5 seconds
         if not is_odd_minute and not self.task2_completed:
+            print("Task 2")
             print(pygame.time.get_ticks() - self.current_time)
             if pygame.time.get_ticks() - self.current_time >= 5 * 1000:
                 self.task2_completed = True
@@ -298,12 +301,12 @@ class MAIN:
         self.task_completed = False
         self.task2_completed = False
 
-        current_minute = datetime.datetime.now().minute
+        current_minute = datetime.datetime.now().day
         is_odd_minute = current_minute % 2 == 1
 
         if is_odd_minute:
             print("Task 1")
-            TASK2("Today's Task", task1_description).popup()
+            TASK("Today's Task", task1_description).popup()
         else:
             print("Task 2")
             TASK2("Today's Task 2", task2_description).popup()
