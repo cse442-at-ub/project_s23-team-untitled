@@ -5,6 +5,7 @@ from pygame.math import Vector2
 import time
 import datetime
 
+
 class WALL:
     def __init__(self, snake):
         self.snake = snake
@@ -194,6 +195,8 @@ class TASK:
             self.screen.blit(text_surface, (20, 70))
 
             pygame.display.update()
+
+
 class TASK2:
     def __init__(self, title, description):
         pygame.init()
@@ -220,6 +223,7 @@ class TASK2:
             self.screen.blit(text_surface, (20, 70))
 
             pygame.display.update()
+
 
 class MAIN:
     def __init__(self):
@@ -262,16 +266,17 @@ class MAIN:
         # 检查分钟数是否为单数
         is_odd_minute = current_minute % 2 == 1
 
-        # Task 1: 玩家需要获得20分
+        # Task 1: Get 5 points
         if is_odd_minute and not self.task_completed:
             if self.score >= 5:
                 self.task_completed = True
                 print("Task 1 completed!")
                 TASK("Congratulations", "You have completed the task1!").popup()
 
-        # Task 2: 玩家需要存活20秒不死亡
+        # Task 2: Survive for 5 seconds
         if not is_odd_minute and not self.task2_completed:
             if current_time - self.start_time >= 10 * 1000:
+                print("current time = " + str(current_time) + ", start time = " + str(self.start_time))
                 self.task2_completed = True
                 print("Task 2 completed!")
                 TASK2("Congratulations", "You have completed Task 2!").popup()
@@ -287,12 +292,11 @@ class MAIN:
 
         if is_odd_minute:
             print("Task 1")
-            TASK("Today's Task", task1_description).popup()
+            # TASK("Today's Task", task1_description).popup()
+            TASK2("Today's Task 2", task2_description).popup()
         else:
             print("Task 2")
-            TASK2("Today's Task 2", task2_description + "and starts now!!!!!!!!!!!!!!!!!!!!!!!!!").popup()
-
-
+            TASK2("Today's Task 2", task2_description).popup()
 
     def draw_elements(self):
         self.draw_grass()
@@ -399,7 +403,7 @@ if __name__ == "__main__":
 
     last_randomize_time = pygame.time.get_ticks()
 
-    main_game.check_switch_task("Today's Task 1", "Today's Task 2")
+    main_game.check_switch_task("Today's Task 1:", "Today's Task 2")
 
     while True:
         for event in pygame.event.get():
