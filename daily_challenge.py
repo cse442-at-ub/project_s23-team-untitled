@@ -403,9 +403,9 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
     icon = pygame.image.load('Graphics/snake.png')
     clock = pygame.time.Clock()
-    apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
-    fruit_plate = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
-    score = pygame.image.load('Graphics/score.png').convert_alpha()
+    apple = pygame.image.load('Graphics/coin.png').convert_alpha()
+    fruit_plate = pygame.image.load('Graphics/new3coins.png').convert_alpha()
+    score = pygame.image.load('Graphics/coin.png').convert_alpha()
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
     wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 
