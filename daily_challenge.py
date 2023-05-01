@@ -1,3 +1,5 @@
+import os
+import pickle
 import random
 import sys
 import pygame
@@ -6,6 +8,13 @@ import time
 import datetime
 
 game_started = False
+coins = 0
+
+if not (os.path.exists('coins.bin')):
+    # create binary coins file
+    with open('coins.bin', 'wb') as file:
+        pickle.dump(0, file)
+
 
 class WALL:
     def __init__(self, snake):
@@ -199,6 +208,11 @@ class TASK:
             pygame.display.update()
 
     def continue_or_not(self):
+
+        coins = main_game.read_bin('coins.bin') + 5
+        main_game.write_bin('coins.bin', coins)
+        print(coins)
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -216,6 +230,12 @@ class TASK:
             self.screen.fill((255, 255, 255))
             text_surface = self.font.render("Continue or not?", True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 200))
+
+            text_surface = self.font.render("Current coins:" + str(5), True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 250))
+
+            text_surface = self.font.render("Total coins:" + str(coins), True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 300))
 
             # 绘制“退出”按钮
             pygame.draw.rect(self.screen, (255, 0, 0), (150, 400, 150, 50))
@@ -293,7 +313,7 @@ class MAIN:
 
     def update_tasks(self):
 
-        print("Updating tasks")
+        # print("Updating tasks")
 
         if not self.got_current_time:
             self.current_time = pygame.time.get_ticks()
@@ -301,7 +321,7 @@ class MAIN:
         else:
             current_time = self.current_time
 
-        print("Current time: ", self.current_time)
+        # print("Current time: ", self.current_time)
 
         # record the current minute
         current_minute = datetime.datetime.now().day
@@ -311,7 +331,7 @@ class MAIN:
 
         # Task 1: player needs to get a score of 5
         if is_odd_minute and not self.task_completed:
-            print("Task 1")
+            # print("Task 1")
             if self.score >= 5:
                 self.task_completed = True
                 print("Task 1 completed!")
@@ -319,8 +339,8 @@ class MAIN:
 
         # Task 2: player needs to survive for 5 seconds
         if not is_odd_minute and not self.task2_completed:
-            print("Task 2")
-            print(pygame.time.get_ticks() - self.current_time)
+            # print("Task 2")
+            # print(pygame.time.get_ticks() - self.current_time)
             if pygame.time.get_ticks() - self.current_time >= 5 * 1000:
                 self.task2_completed = True
                 print("Task 2 completed!")
@@ -423,7 +443,15 @@ class MAIN:
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
-#1
+
+    def read_bin(self, filename):
+        with open(filename, 'rb') as file:
+            return pickle.load(file)
+
+    def write_bin(self, filename, data):
+        with open(filename, 'wb') as file:
+            pickle.dump(data, file)
+
 
 if __name__ == "__main__":
 
@@ -488,5 +516,4 @@ if __name__ == "__main__":
             last_randomize_time = pygame.time.get_ticks()
 
         if game_started:
-            print("Game Started")
             main_game.update_tasks()
