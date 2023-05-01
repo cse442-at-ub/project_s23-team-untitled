@@ -392,7 +392,7 @@ class MAIN:
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
-
+#1
 
 if __name__ == "__main__":
 
