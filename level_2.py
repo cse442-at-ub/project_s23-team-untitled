@@ -521,6 +521,11 @@ class MAIN2:
                 self.game_over_flag = True
 
     def game_over_screen(self):
+        if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(game_over_sound)
         global highest_scores
         # if self.game_over_flag:
         highest_scores.append(self.snake.food_gain)
