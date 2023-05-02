@@ -1,8 +1,6 @@
-import csv
 import os.path
 import pickle
 import sys
-import random
 import pygame
 
 # Initial
@@ -45,27 +43,27 @@ score_hard = []
 # read scores from file
 if not os.path.exists('scores_easy.bin'):
     with open('scores_easy.bin', 'wb') as file:
-        pickle.dump([], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
 with open('scores_easy.bin', 'rb') as file:
     score_easy = [int(element[1]) for element in pickle.load(file)]
     score_easy.sort(reverse=True)
-    print(score_easy)
+    print("easy: " + str(score_easy))
 
 if not os.path.exists('scores_medium.bin'):
     with open('scores_medium.bin', 'wb') as file:
-        pickle.dump([], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
 with open('scores_medium.bin', 'rb') as file:
     score_medium = [int(element[1]) for element in pickle.load(file)]
     score_medium.sort(reverse=True)
-    print(score_medium)
+    print("medium: " + str(score_medium))
 
 if not os.path.exists('scores_hard.bin'):
     with open('scores_hard.bin', 'wb') as file:
-        pickle.dump([], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
 with open('scores_hard.bin', 'rb') as file:
     score_hard = [int(element[1]) for element in pickle.load(file)]
     score_hard.sort(reverse=True)
-    print(score_hard)
+    print("hard: " + str(score_hard))
 
 scores = score_easy
 
@@ -103,7 +101,7 @@ class SETTINGS:
     def draw_scoreboard(self):
         y = 170
         x = 300
-        for i, score in enumerate(scores):
+        for i, score in enumerate(scores[:5]):
             text = f'{i + 1}     {score}'
             surface = settings.font.render(text, True, settings.black)
             screen.blit(surface, (x, y))

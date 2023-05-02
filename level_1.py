@@ -2,19 +2,20 @@ import os
 import pickle
 import random
 import sys
+
 import pygame
 from pygame.math import Vector2
 
 if not (os.path.exists('scores_easy.bin') and os.path.exists('scores_medium.bin') and os.path.exists('scores_hard.bin')):
     # create binary score file
     with open('scores_easy.bin', 'wb') as file:
-        pickle.dump([], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
 
     with open('scores_medium.bin', 'wb') as file:
-        pickle.dump([], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
 
     with open('scores_hard.bin', 'wb') as file:
-        pickle.dump([], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
 
 
 class WALL:
@@ -275,10 +276,10 @@ class MAIN:
 
     def game_over(self):
         self.snake.reset()
-        if self.score_stored == False:
+        if not self.score_stored:
             self.score_list.append(self.score)
             self.score_stored = True
-            print(self.score_list)
+            print("score_list: " + str(self.score_list))
         self.score = 0
 
     def draw_grass(self):

@@ -1,11 +1,11 @@
+import datetime
 import os
 import pickle
 import random
 import sys
+
 import pygame
 from pygame.math import Vector2
-import time
-import datetime
 
 game_started = False
 coins = 0
@@ -297,19 +297,6 @@ class MAIN:
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
-        # self.check_task()
-        # self.check_task2()
-
-    # def check_task(self):
-    #     if self.score >= 5 and not self.task_completed:
-    #         self.task_completed = True
-    #         TASK("Congratulations", "You have completed the task1!").popup()
-    #
-    # def check_task2(self):
-    #     current_time = pygame.time.get_ticks()
-    #     if current_time - self.start_time >= 20 * 1000 and not self.task2_completed:
-    #         self.task2_completed = True
-    #         TASK2("Congratulations", "You have completed Task 2!").popup()
 
     def update_tasks(self):
 
