@@ -24,14 +24,39 @@ def scoreboard():
     image_score4 = pygame.transform.scale(image_score4, (100, 100))
     image_score5 = pygame.image.load("Graphics/score_5.png")
     image_score5 = pygame.transform.scale(image_score5, (100, 100))
-
-
-
     rect_1 = pygame.Rect(265, 10, 300, 100)
 
-    score_easy = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
-    score_medium = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
-    score_hard = sorted([random.randint(0, 100) for _ in range(5)], reverse=True)
+    score_easy = []
+    score_medium = []
+    score_hard = []
+    # read scores from file
+    if not os.path.exists('scores_easy.bin'):
+        with open('scores_easy.bin', 'wb') as file:
+            pickle.dump([], file)
+    with open('scores_easy.bin', 'rb') as file:
+        score_easy = [int(element[1]) for element in pickle.load(file)]
+        score_easy.sort(reverse=True)
+        score_easy = score_easy[:5]
+        print(score_easy)
+
+    if not os.path.exists('scores_medium.bin'):
+        with open('scores_medium.bin', 'wb') as file:
+            pickle.dump([], file)
+    with open('scores_medium.bin', 'rb') as file:
+        score_medium = [int(element[1]) for element in pickle.load(file)]
+        score_medium.sort(reverse=True)
+        score_medium = score_medium[:5]
+        print(score_medium)
+
+    if not os.path.exists('scores_hard.bin'):
+        with open('scores_hard.bin', 'wb') as file:
+            pickle.dump([], file)
+    with open('scores_hard.bin', 'rb') as file:
+        score_hard = [int(element[1]) for element in pickle.load(file)]
+        score_hard.sort(reverse=True)
+        score_hard = score_hard[:5]
+        print(score_hard)
+
     scores = score_easy
 
 

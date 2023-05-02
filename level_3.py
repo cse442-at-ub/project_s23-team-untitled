@@ -441,6 +441,7 @@ class MAIN3:
         self.screen_update_in_main = ScreenUpdate3(self.screen_parameter)
         self.game_over_flag = False
         self.back_to_menu_flag = False
+        self.score_list = []
 
     def update(self):
         # self.game_over_screen()
@@ -527,17 +528,27 @@ class MAIN3:
             if block == self.snake.body[0]:
                 self.game_over_flag = True
 
+    def read_bin(self, filename):
+        with open(filename, 'rb') as file:
+            return pickle.load(file)
+
+    def write_bin(self, filename, data):
+        with open(filename, 'wb') as file:
+            pickle.dump(data, file)
+
     def game_over_screen(self):
         if os.path.exists("sound.bin"):
                 with open("sound.bin", "rb") as f:
                     sound_flag = pickle.load(f)
                 if sound_flag:
                     pygame.mixer.Sound.play(game_over_sound)
-        global highest_scores
-        # if self.game_over_flag:
-        highest_scores.append(self.snake.food_gain)
-        highest_scores.sort(reverse=True)
-        highest_scores = highest_scores[:5]
+                    
+        self.score_list.append(self.snake.food_gain)
+        # store the score in a file
+        score_data = self.read_bin("scores_hard.bin")
+        for score in self.score_list:
+                score_data.append(['player', score])
+        self.write_bin('scores_hard.bin', score_data)
         # Load game over image and resize it to fit background rectangle size
         game_over_image = pygame.image.load(
             'Graphics/game_over.png').convert_alpha()

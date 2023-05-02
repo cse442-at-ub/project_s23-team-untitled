@@ -6,15 +6,28 @@ from inventory import *
 
 
 def homepage():
+    if not (os.path.exists('scores_easy.bin') and os.path.exists('scores_medium.bin') and os.path.exists('scores_hard.bin')):
+    # create binary score file
+        with open('scores_easy.bin', 'wb') as file:
+            pickle.dump([], file)
+
+        with open('scores_medium.bin', 'wb') as file:
+            pickle.dump([], file)
+
+        with open('scores_hard.bin', 'wb') as file:
+            pickle.dump([], file)
+
     with open('sound.bin', 'wb') as f:
         pickle.dump(True, f)
         
     sound_on_button = pygame.image.load(
-        'Buttons/sound_on.png').convert_alpha()
+        'Buttons/button_daily.png').convert_alpha()
     sound_off_button = pygame.image.load(
-        'Buttons/sound_off.png').convert_alpha()
-    sound_on_rect = sound_on_button.get_rect(topleft=(20, 20))
-    sound_off_rect = sound_on_button.get_rect(topleft=(20, 20))
+        'Buttons/button_inventory.png').convert_alpha()
+    sound_on_rect = sound_on_button.get_rect(
+            center=(screen.get_rect().centerx, 670))
+    sound_off_rect = sound_on_button.get_rect(
+            center=(screen.get_rect().centerx, 670))
     default_sound_button = sound_on_button
     default_sound_rect = sound_on_rect
     while True:
@@ -48,10 +61,10 @@ def homepage():
 
         daily_rect = daily_challenge_button.get_rect(
             center=(screen.get_rect().centerx, 150))
-        game_rect = game_button.get_rect(center=(daily_rect.centerx, 300))
-        scores_rect = scores_button.get_rect(center=(game_rect.centerx, 450))
+        game_rect = game_button.get_rect(center=(daily_rect.centerx, 280))
+        scores_rect = scores_button.get_rect(center=(game_rect.centerx, 410))
         inventory_rect = inventory_button.get_rect(
-            center=(scores_rect.centerx, 600))
+            center=(scores_rect.centerx, 540))
 
         daily_rect_highlight = daily_challenge_highlight.get_rect(
             center=daily_rect.center)
