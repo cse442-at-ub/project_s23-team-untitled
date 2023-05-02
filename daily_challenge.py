@@ -228,8 +228,8 @@ class TASK:
                         return True
 
             self.screen.fill((255, 255, 255))
-            text_surface = self.font.render("Continue or not?", True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 200))
+            text_surface = self.font.render("Congratulations! You have completed the task1!", True, (0, 0, 0))
+            self.screen.blit(text_surface, (100, 200))
 
             text_surface = self.font.render("Current coins:" + str(5), True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 250))
@@ -462,7 +462,7 @@ if __name__ == "__main__":
 
     last_randomize_time = pygame.time.get_ticks()
 
-    main_game.check_switch_task("Today's Task 1", "Today's Task 2")
+    main_game.check_switch_task("Get 5 coins", "survive for 5 seconds")
 
     while True:
         for event in pygame.event.get():
