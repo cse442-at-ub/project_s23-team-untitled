@@ -1,10 +1,13 @@
-import pygame,sys,random
-import time
+import pygame,sys
+import datetime
+import os
+import pickle
 from pygame.math import Vector2
 #global initialization
 pygame.mixer.pre_init(44100,-16,2,512)
 pygame.init()
 saved = None
+coin_have = 0
 cell_size = 40
 cell_number = 20
 screen_width = cell_number * cell_size
@@ -113,11 +116,10 @@ class InventoryMenu:
         try:
             with open('skin_selections.txt', 'r') as f:
                 lines = f.readlines()
-                if len(lines) == 5:
+                if len(lines) == 4:
                     self.sn_skin_selection = int(lines[0])
                     self.fr_skin_selection = int(lines[1])
-                    self.coin_amn = int(lines[2])
-                    temp_list1 = lines[3].strip().split(',')
+                    temp_list1 = lines[2].strip().split(',')
                     # print(temp_list)
                     for value in temp_list1:
                         #print(value)
@@ -128,14 +130,21 @@ class InventoryMenu:
                         else :
                             self.sn_unlock.append(False)
                         # print(self.sn_unlock)
-                    temp_list2 = lines[4].strip().split(',')
+                    temp_list2 = lines[3].strip().split(',')
                     for value in temp_list2:
                         if value == 'True':
                             self.fr_unlock.append(True)
                         else :
                             self.fr_unlock.append(False)
                         # print(self.fr_unlock)
-            
+            if not (os.path.exists('coins.bin')):
+                # create binary coins file
+                with open('coins.bin', 'wb') as file:
+                    pickle.dump(0, file)
+            else:
+                with open('coins.bin', 'rb') as file:
+                    self.coin_amn = pickle.load(file)
+                print(self.coin_amn)
             # print(lines[3])
             # print(lines[4])
             global saved
@@ -363,14 +372,17 @@ class InventoryMenu:
         with open('skin_selections.txt', 'w') as f:
             f.write(str(self.sn_skin_selection) + '\n')
             f.write(str(self.fr_skin_selection) + '\n')
-            f.write(str(self.coin_amn) + '\n')
             f.write((','.join(str(i) for i in self.sn_unlock)) + '\n')
-            
             f.write((','.join(str(i) for i in self.fr_unlock)) + '\n')
-            
+
+        with open('coins.bin', 'wb') as file:
+            pickle.dump(self.coin_amn, file)
+
         global saved
         saved = (self.sn_skin_selection, self.fr_skin_selection)
-        
+
+    
+
 
     def undo_skin_selections(self):
         with open('skin_selections.txt', 'r') as f:
@@ -392,14 +404,13 @@ class InventoryMenu:
 
 
 
-
-
 class MAIN:
     def __init__(self):
         self.screen_parameter= 230
         self.inventory_menu = InventoryMenu()
         self.oops = False
         self.oops_start_time = 0
+
 
     def draw_elements(self):
         self.draw_grass()
@@ -434,7 +445,8 @@ class MAIN:
         global screen_width, screen_height
         text_rect = text.get_rect(center=(screen_width//2, screen_height//2))  # position the text at the center of the screen
         screen.blit(text, text_rect)  # draw the text surface onto the screen
-        
+    
+
 
 main_game = MAIN()
 
