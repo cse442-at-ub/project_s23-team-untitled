@@ -215,16 +215,51 @@ class TASK:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
                     global game_started
                     game_started = True
                     return False
+
+
+            # self.screen.fill((255, 255, 255))
+            # text_surface = self.font.render(self.title, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 20))
+            # text_surface = self.font.render(self.task, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 70))
+
+            game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            game_over_rect.y -= 150
+
+            restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_rect.y += 80
+            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted = False
+            main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
+            main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_rect.y += 200
+            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            main_menu_highlighted = False
+
+            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+            bg_rect.inflate_ip(70, 80)
+            bg_rect.center = screen.get_rect().center
+
+            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            screen.blit(game_over_image, game_over_rect)
+            screen.blit(restart_button, restart_rect)
+            screen.blit(main_menu_button, main_menu_rect)
 
             # screen.fill((179, 207, 178))
             text_surface = self.font.render(self.title, True, (0, 0, 0))
             self.screen.blit(text_surface, (20, 20))
             text_surface = self.font.render(self.task, True, (0, 0, 0))
             self.screen.blit(text_surface, (20, 70))
+
 
             pygame.display.update()
 
