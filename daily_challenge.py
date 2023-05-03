@@ -336,7 +336,8 @@ class TASK:
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
             #screen.blit(text, (170, 250))
-            text_surface = self.font.render("Current coins:" + str(5), True, (0, 0, 0))
+            global todays_goal_coin
+            text_surface = self.font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 250))
 
             text_surface = self.font.render("Total coins:" + str(coins), True, (0, 0, 0))
