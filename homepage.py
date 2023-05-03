@@ -7,7 +7,7 @@ from inventory import *
 
 def homepage():
     if not (os.path.exists('scores_easy.bin') and os.path.exists('scores_medium.bin') and os.path.exists('scores_hard.bin')):
-    # create binary score file
+        # create binary score file
         with open('scores_easy.bin', 'wb') as file:
             pickle.dump([], file)
 
@@ -19,17 +19,17 @@ def homepage():
 
     with open('sound.bin', 'wb') as f:
         pickle.dump(True, f)
-        
+
     sound_on_button = pygame.image.load(
         'Buttons/sound_on.png').convert_alpha()
     sound_off_button = pygame.image.load(
         'Buttons/sound_off.png').convert_alpha()
-    sound_on_button = pygame.transform.scale(sound_on_button, (296, 82))
-    sound_off_button = pygame.transform.scale(sound_off_button, (296, 82))
+    # sound_on_button = pygame.transform.scale(sound_on_button, (296, 82))
+    # sound_off_button = pygame.transform.scale(sound_off_button, (296, 82))
     sound_on_rect = sound_on_button.get_rect(
-            center=(screen.get_rect().centerx, 670))
+        center=(screen.get_rect().centerx, 670))
     sound_off_rect = sound_on_button.get_rect(
-            center=(screen.get_rect().centerx, 670))
+        center=(screen.get_rect().centerx, 670))
     default_sound_button = sound_on_button
     default_sound_rect = sound_on_rect
     while True:
