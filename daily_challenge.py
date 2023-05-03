@@ -187,9 +187,30 @@ class TASK:
         self.font = pygame.font.SysFont("Arial", 30)
         self.width, self.height = 800, 800
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.cell_number = 20
+        self.cell_size = 40
+
+    def draw_grass(self):
+        grass_color = (201, 223, 201)
+        for row in range(self.cell_number):
+            if row % 2 == 0:
+                for col in range(self.cell_number):
+                    if col % 2 == 0:
+                        grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
+                                                self.cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rec)
+            else:
+                for col in range(self.cell_number):
+                    if col % 2 != 0:
+                        grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
+                                                self.cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rec)
+
 
     def popup(self):
         while True:
+            screen.fill((179, 207, 178))
+            self.draw_grass()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -199,7 +220,7 @@ class TASK:
                     game_started = True
                     return False
 
-            self.screen.fill((255, 255, 255))
+            # screen.fill((179, 207, 178))
             text_surface = self.font.render(self.title, True, (0, 0, 0))
             self.screen.blit(text_surface, (20, 20))
             text_surface = self.font.render(self.task, True, (0, 0, 0))
