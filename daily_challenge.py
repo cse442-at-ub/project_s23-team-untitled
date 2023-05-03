@@ -191,6 +191,17 @@ class TASK:
         self.cell_size = 40
         self.description = ""
 
+        # retrieve the current date
+        now = datetime.datetime.now()
+
+        # retrieve the current month and day
+        month = now.month
+        day = now.day
+
+        # multiply the month by the day
+        result = month * day
+
+        self.description = "Today's task is to get " + str(result) + " coins"
 
 
     def draw_grass(self):
@@ -257,7 +268,7 @@ class TASK:
             # screen.blit(game_over_image, game_over_rect)
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
-            screen.blit(text, (250, 250))
+            screen.blit(text, (170, 250))
 
             # screen.fill((179, 207, 178))
             text_surface = self.font.render(self.title, True, (0, 0, 0))
