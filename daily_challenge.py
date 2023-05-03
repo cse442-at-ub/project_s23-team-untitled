@@ -247,7 +247,7 @@ class TASK:
             game_over_rect.y -= 150
 
             restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
-            restart_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
             restart_rect = restart_button.get_rect(center=screen.get_rect().center)
             restart_rect.y += 80
             restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
@@ -281,43 +281,69 @@ class TASK:
 
     def continue_or_not(self):
 
+
         coins = main_game.read_bin('coins.bin') + 5
         main_game.write_bin('coins.bin', coins)
         print(coins)
 
         while True:
+            screen.fill((179, 207, 178))
+            self.draw_grass()
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
                     pygame.quit()
                     quit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if 150 < event.pos[0] < 300 and 400 < event.pos[1] < 450:
-                        # 点击“退出”按钮
-                        pygame.quit()
-                        quit()
-                    elif 500 < event.pos[0] < 650 and 400 < event.pos[1] < 450:
-                        # 点击“继续”按钮
-                        return True
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                    global game_started
+                    game_started = True
+                    return False
 
-            self.screen.fill((255, 255, 255))
-            text_surface = self.font.render("Congratulations! You have completed the task1!", True, (0, 0, 0))
-            self.screen.blit(text_surface, (100, 200))
+            # self.screen.fill((255, 255, 255))
+            # text_surface = self.font.render(self.title, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 20))
+            # text_surface = self.font.render(self.task, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 70))
 
+            game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            text = bo_font.render(self.description, True, (0, 0, 0))
+
+            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            game_over_rect.y -= 150
+
+            restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_rect.y += 80
+            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted = False
+            main_menu_button = pygame.image.load('Buttons/button_return.png').convert_alpha()
+            main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_rect.y += 200
+            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            main_menu_highlighted = False
+
+            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+            bg_rect.inflate_ip(70, 80)
+            bg_rect.center = screen.get_rect().center
+
+            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            # screen.blit(game_over_image, game_over_rect)
+            screen.blit(restart_button, restart_rect)
+            screen.blit(main_menu_button, main_menu_rect)
+            #screen.blit(text, (170, 250))
             text_surface = self.font.render("Current coins:" + str(5), True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 250))
 
             text_surface = self.font.render("Total coins:" + str(coins), True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 300))
 
-            # 绘制“退出”按钮
-            pygame.draw.rect(self.screen, (255, 0, 0), (150, 400, 150, 50))
-            text_surface = self.font.render("Exit", True, (255, 255, 255))
-            self.screen.blit(text_surface, (175, 410))
-
-            # 绘制“继续”按钮
-            pygame.draw.rect(self.screen, (0, 255, 0), (500, 400, 150, 50))
-            text_surface = self.font.render("Continue", True, (255, 255, 255))
-            self.screen.blit(text_surface, (515, 410))
+            # screen.fill((179, 207, 178))
+            text_surface = self.font.render(self.title, True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 20))
+            text_surface = self.font.render(self.task, True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 70))
 
             pygame.display.update()
 
