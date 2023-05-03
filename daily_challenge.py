@@ -9,6 +9,7 @@ from pygame.math import Vector2
 
 game_started = False
 coins = 0
+todays_goal_coin = 0
 
 if not (os.path.exists('coins.bin')):
     # create binary coins file
@@ -201,6 +202,9 @@ class TASK:
         # multiply the month by the day
         result = month * day
 
+        global todays_goal_coin
+        todays_goal_coin = result
+
         self.description = "Today's task is to get " + str(result) + " coins"
 
 
@@ -275,7 +279,6 @@ class TASK:
             self.screen.blit(text_surface, (20, 20))
             text_surface = self.font.render(self.task, True, (0, 0, 0))
             self.screen.blit(text_surface, (20, 70))
-
 
             pygame.display.update()
 
@@ -392,19 +395,20 @@ class MAIN:
         # Task 1: player needs to get a score of 5
         if is_odd_minute and not self.task_completed:
             # print("Task 1")
-            if self.score >= 5:
+            global todays_goal_coin
+            if self.score >= todays_goal_coin:
                 self.task_completed = True
                 print("Task 1 completed!")
                 TASK("Congratulations", "You have completed the task1!").continue_or_not()
 
         # Task 2: player needs to survive for 5 seconds
-        if not is_odd_minute and not self.task2_completed:
-            # print("Task 2")
-            # print(pygame.time.get_ticks() - self.current_time)
-            if pygame.time.get_ticks() - self.current_time >= 5 * 1000:
-                self.task2_completed = True
-                print("Task 2 completed!")
-                TASK2("Congratulations", "You have completed Task 2!").popup()
+        # if not is_odd_minute and not self.task2_completed:
+        #     # print("Task 2")
+        #     # print(pygame.time.get_ticks() - self.current_time)
+        #     if pygame.time.get_ticks() - self.current_time >= 5 * 1000:
+        #         self.task2_completed = True
+        #         print("Task 2 completed!")
+        #         TASK2("Congratulations", "You have completed Task 2!").popup()
 
     def check_switch_task(self, task1_description, task2_description):
         print("check_switch_task")
