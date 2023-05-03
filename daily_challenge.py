@@ -251,6 +251,7 @@ class TASK:
             game_over_rect.y -= 150
 
             restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_button = pygame.transform.scale(restart_button, (300, 85))
             restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
             restart_rect = restart_button.get_rect(center=screen.get_rect().center)
             restart_rect.y += 80
@@ -272,19 +273,17 @@ class TASK:
             # screen.blit(game_over_image, game_over_rect)
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
-            screen.blit(text, (170, 250))
+            screen.blit(text, (250, 250))
 
             # screen.fill((179, 207, 178))
-            text_surface = self.font.render(self.title, True, (0, 0, 0))
-            self.screen.blit(text_surface, (20, 20))
-            text_surface = self.font.render(self.task, True, (0, 0, 0))
-            self.screen.blit(text_surface, (20, 70))
+            # text_surface = self.font.render(self.title, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 20))
+            # text_surface = self.font.render(self.task, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 70))
 
             pygame.display.update()
 
     def continue_or_not(self):
-
-
         coins = main_game.read_bin('coins.bin') + 5
         main_game.write_bin('coins.bin', coins)
         print(coins)
@@ -314,17 +313,18 @@ class TASK:
             game_over_rect.y -= 150
 
             restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_button = pygame.transform.scale(restart_button, (300, 85))
             restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
             restart_rect = restart_button.get_rect(center=screen.get_rect().center)
             restart_rect.y += 80
             restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
             restart_highlighted = False
-            main_menu_button = pygame.image.load('Buttons/button_return.png').convert_alpha()
-            main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
+            # main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
             main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
             main_menu_rect.y += 200
-            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
-            main_menu_highlighted = False
+            # main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            # main_menu_highlighted = False
 
             bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
             bg_rect.inflate_ip(70, 80)
@@ -337,17 +337,17 @@ class TASK:
             screen.blit(main_menu_button, main_menu_rect)
             #screen.blit(text, (170, 250))
             global todays_goal_coin
-            text_surface = self.font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 250))
+            text_surface = bo_font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 275))
 
-            text_surface = self.font.render("Total coins:" + str(coins), True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 300))
+            text_surface = bo_font.render("Total coins:" + str(coins), True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 325))
 
             # screen.fill((179, 207, 178))
-            text_surface = self.font.render(self.title, True, (0, 0, 0))
-            self.screen.blit(text_surface, (20, 20))
-            text_surface = self.font.render(self.task, True, (0, 0, 0))
-            self.screen.blit(text_surface, (20, 70))
+            text_surface = bo_font.render(self.title, True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 175))
+            text_surface = bo_font.render(self.task, True, (0, 0, 0))
+            self.screen.blit(text_surface, (250, 225))
 
             pygame.display.update()
 
@@ -557,7 +557,7 @@ if __name__ == "__main__":
     fruit_plate = pygame.image.load('Graphics/new3coins.png').convert_alpha()
     score = pygame.image.load('Graphics/coin.png').convert_alpha()
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
-    bo_font = pygame.font.Font('Font/bo.ttf', 60)
+    bo_font = pygame.font.Font('Font/bo.ttf', 40)
     wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 
     SCREEN_UPDATE = pygame.USEREVENT
