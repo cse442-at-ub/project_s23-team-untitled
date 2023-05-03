@@ -21,9 +21,11 @@ def homepage():
         pickle.dump(True, f)
         
     sound_on_button = pygame.image.load(
-        'Buttons/button_daily.png').convert_alpha()
+        'Buttons/sound_on.png').convert_alpha()
     sound_off_button = pygame.image.load(
-        'Buttons/button_inventory.png').convert_alpha()
+        'Buttons/sound_off.png').convert_alpha()
+    sound_on_button = pygame.transform.scale(sound_on_button, (296, 82))
+    sound_off_button = pygame.transform.scale(sound_off_button, (296, 82))
     sound_on_rect = sound_on_button.get_rect(
             center=(screen.get_rect().centerx, 670))
     sound_off_rect = sound_on_button.get_rect(

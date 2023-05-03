@@ -20,10 +20,6 @@ def scoreboard():
     image_score2 = pygame.transform.scale(image_score2, (100, 100))
     image_score3 = pygame.image.load("Graphics/score_3.png")
     image_score3 = pygame.transform.scale(image_score3, (100, 100))
-    image_score4 = pygame.image.load("Graphics/score_4.png")
-    image_score4 = pygame.transform.scale(image_score4, (100, 100))
-    image_score5 = pygame.image.load("Graphics/score_5.png")
-    image_score5 = pygame.transform.scale(image_score5, (100, 100))
     rect_1 = pygame.Rect(265, 10, 300, 100)
 
     score_easy = []
@@ -143,8 +139,6 @@ def scoreboard():
         screen.blit(image_score1, (269, 145))
         screen.blit(image_score2, (269, 145+90))
         screen.blit(image_score3, (269, 145+90*2))
-        # screen.blit(image_score4, (250, 445))
-        # screen.blit(image_score5, (250, 545))
 
         # Update display
         pygame.display.update()
