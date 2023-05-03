@@ -189,6 +189,9 @@ class TASK:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.cell_number = 20
         self.cell_size = 40
+        self.description = ""
+
+
 
     def draw_grass(self):
         grass_color = (201, 223, 201)
@@ -205,7 +208,6 @@ class TASK:
                         grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
                                                 self.cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rec)
-
 
     def popup(self):
         while True:
@@ -228,6 +230,8 @@ class TASK:
             # self.screen.blit(text_surface, (20, 70))
 
             game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            text = bo_font.render(self.description, True, (0, 0, 0))
+
             game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
             game_over_rect.y -= 150
 
@@ -250,9 +254,10 @@ class TASK:
 
             pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
             pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
-            screen.blit(game_over_image, game_over_rect)
+            # screen.blit(game_over_image, game_over_rect)
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
+            screen.blit(text, (250, 250))
 
             # screen.fill((179, 207, 178))
             text_surface = self.font.render(self.title, True, (0, 0, 0))
@@ -314,6 +319,7 @@ class TASK2:
         self.font = pygame.font.SysFont("Arial", 30)
         self.width, self.height = 800, 800
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.description = "survive for 5 seconds"
 
     def popup(self):
         while True:
@@ -400,10 +406,10 @@ class MAIN:
 
         if is_odd_minute:
             print("Task 1")
-            TASK("Today's Task", task1_description).popup()
+            TASK("Today's Task:", task1_description).popup()
         else:
             print("Task 2")
-            TASK2("Today's Task 2", task2_description).popup()
+            TASK2("Today's Task:", task2_description).popup()
 
     def draw_elements(self):
         self.draw_grass()
@@ -509,6 +515,7 @@ if __name__ == "__main__":
     fruit_plate = pygame.image.load('Graphics/new3coins.png').convert_alpha()
     score = pygame.image.load('Graphics/coin.png').convert_alpha()
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
+    bo_font = pygame.font.Font('Font/bo.ttf', 60)
     wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 
     SCREEN_UPDATE = pygame.USEREVENT
