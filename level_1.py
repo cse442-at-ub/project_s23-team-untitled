@@ -9,13 +9,16 @@ from pygame.math import Vector2
 if not (os.path.exists('scores_easy.bin') and os.path.exists('scores_medium.bin') and os.path.exists('scores_hard.bin')):
     # create binary score file
     with open('scores_easy.bin', 'wb') as file:
-        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0],
+                    ['player', 0], ['player', 0]], file)
 
     with open('scores_medium.bin', 'wb') as file:
-        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0],
+                    ['player', 0], ['player', 0]], file)
 
     with open('scores_hard.bin', 'wb') as file:
-        pickle.dump([['player', 0], ['player', 0], ['player', 0], ['player', 0], ['player', 0]], file)
+        pickle.dump([['player', 0], ['player', 0], ['player', 0],
+                    ['player', 0], ['player', 0]], file)
 
 
 class WALL:
@@ -42,8 +45,10 @@ class WALL:
                     while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
                         start_x = random.randint(1, cell_number - 3)
                         start_y = random.randint(1, cell_number - 3)
-                        direction = random.choice([Vector2(1, 0), Vector2(0, 1)])
-                        obstacle_pos = Vector2(start_x, start_y) + i * direction
+                        direction = random.choice(
+                            [Vector2(1, 0), Vector2(0, 1)])
+                        obstacle_pos = Vector2(
+                            start_x, start_y) + i * direction
                     self.wall_blocks.append(obstacle_pos)
             #   "L_shape"
             # else:
@@ -76,7 +81,8 @@ class WALL:
 
     def draw_wall(self):
         for block in self.wall_blocks:
-            wall_square = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
+            wall_square = pygame.Rect(
+                int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment, wall_square)
 
 
@@ -87,22 +93,34 @@ class SNAKE:
         self.new_block = False
 
         self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
-        self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
-        self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
-        self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
+        self.head_down = pygame.image.load(
+            'Graphics/head_d.png').convert_alpha()
+        self.head_right = pygame.image.load(
+            'Graphics/head_r.png').convert_alpha()
+        self.head_left = pygame.image.load(
+            'Graphics/head_l.png').convert_alpha()
 
         self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
-        self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
-        self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
-        self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
+        self.tail_down = pygame.image.load(
+            'Graphics/tail_u.png').convert_alpha()
+        self.tail_right = pygame.image.load(
+            'Graphics/tail_l.png').convert_alpha()
+        self.tail_left = pygame.image.load(
+            'Graphics/tail_r.png').convert_alpha()
 
-        self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
+        self.body_vertical = pygame.image.load(
+            'Graphics/body_v.png').convert_alpha()
+        self.body_horizontal = pygame.image.load(
+            'Graphics/body_h.png').convert_alpha()
 
-        self.body_tr = pygame.image.load('Graphics/body_br.png').convert_alpha()
-        self.body_tl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
-        self.body_bl = pygame.image.load('Graphics/body_tr.png').convert_alpha()
-        self.body_br = pygame.image.load('Graphics/body_tl.png').convert_alpha()
+        self.body_tr = pygame.image.load(
+            'Graphics/body_br.png').convert_alpha()
+        self.body_tl = pygame.image.load(
+            'Graphics/body_bl.png').convert_alpha()
+        self.body_bl = pygame.image.load(
+            'Graphics/body_tr.png').convert_alpha()
+        self.body_br = pygame.image.load(
+            'Graphics/body_tl.png').convert_alpha()
 
     def draw_snake(self):
         # for block in self.body:
@@ -186,7 +204,8 @@ class FRUIT:
         self.randomize()
 
     def draw_fruit(self):
-        fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        fruit_rec = pygame.Rect(
+            int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         screen.blit(apple, fruit_rec)
 
     def randomize(self):
@@ -200,7 +219,8 @@ class POWERUP:
         self.randomize()
 
     def draw_powerup(self):
-        powerup_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        powerup_rec = pygame.Rect(
+            int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         screen.blit(fruit_plate, powerup_rec)
 
     def randomize(self):
@@ -288,12 +308,14 @@ class MAIN:
             if row % 2 == 0:
                 for col in range(cell_number):
                     if col % 2 == 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        grass_rec = pygame.Rect(
+                            col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rec)
             else:
                 for col in range(cell_number):
                     if col % 2 != 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        grass_rec = pygame.Rect(
+                            col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rec)
 
     def draw_score(self):
@@ -301,16 +323,16 @@ class MAIN:
         # print(score_text)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 700)
-        score_y = int(cell_size * cell_number -750)
+        score_y = int(cell_size * cell_number - 750)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
-        apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
+        apple_rect = score.get_rect(
+            midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
                               apple_rect.height)
         pygame.draw.rect(screen, (201, 223, 201), bg_rect)
         screen.blit(score_surface, score_rect)
         screen.blit(score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
-
 
     def read_bin(self, filename):
         with open(filename, 'rb') as file:
@@ -326,14 +348,17 @@ if __name__ == "__main__":
     pygame.init()
     cell_size = 40
     cell_number = 20
-    screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
+    screen = pygame.display.set_mode(
+        (cell_number * cell_size, cell_number * cell_size))
     icon = pygame.image.load('Graphics/snake.png')
     clock = pygame.time.Clock()
-    apple = pygame.image.load('Graphics/apple_39.png').convert_alpha()
-    fruit_plate = pygame.image.load('Graphics/fruit_basket.png').convert_alpha()
+    apple = pygame.image.load('Graphics/fr1.png').convert_alpha()
+    fruit_plate = pygame.image.load(
+        'Graphics/fruit_basket.png').convert_alpha()
     score = pygame.image.load('Graphics/score.png').convert_alpha()
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
-    wall_segment =pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+    wall_segment = pygame.image.load(
+        'Graphics/wall_segment.png').convert_alpha()
 
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 150)

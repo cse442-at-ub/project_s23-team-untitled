@@ -41,13 +41,16 @@ class WALL:
                     while obstacle_pos in self.wall_blocks or obstacle_pos in self.snake.body:
                         start_x = random.randint(1, cell_number - 3)
                         start_y = random.randint(1, cell_number - 3)
-                        direction = random.choice([Vector2(1, 0), Vector2(0, 1)])
-                        obstacle_pos = Vector2(start_x, start_y) + i * direction
+                        direction = random.choice(
+                            [Vector2(1, 0), Vector2(0, 1)])
+                        obstacle_pos = Vector2(
+                            start_x, start_y) + i * direction
                     self.wall_blocks.append(obstacle_pos)
 
     def draw_wall(self):
         for block in self.wall_blocks:
-            wall_square = pygame.Rect(int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
+            wall_square = pygame.Rect(
+                int(block.x * cell_size), int(block.y * cell_size), cell_size, cell_size)
             screen.blit(wall_segment, wall_square)
 
 
@@ -58,22 +61,34 @@ class SNAKE:
         self.new_block = False
 
         self.head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
-        self.head_down = pygame.image.load('Graphics/head_d.png').convert_alpha()
-        self.head_right = pygame.image.load('Graphics/head_r.png').convert_alpha()
-        self.head_left = pygame.image.load('Graphics/head_l.png').convert_alpha()
+        self.head_down = pygame.image.load(
+            'Graphics/head_d.png').convert_alpha()
+        self.head_right = pygame.image.load(
+            'Graphics/head_r.png').convert_alpha()
+        self.head_left = pygame.image.load(
+            'Graphics/head_l.png').convert_alpha()
 
         self.tail_up = pygame.image.load('Graphics/tail_d.png').convert_alpha()
-        self.tail_down = pygame.image.load('Graphics/tail_u.png').convert_alpha()
-        self.tail_right = pygame.image.load('Graphics/tail_l.png').convert_alpha()
-        self.tail_left = pygame.image.load('Graphics/tail_r.png').convert_alpha()
+        self.tail_down = pygame.image.load(
+            'Graphics/tail_u.png').convert_alpha()
+        self.tail_right = pygame.image.load(
+            'Graphics/tail_l.png').convert_alpha()
+        self.tail_left = pygame.image.load(
+            'Graphics/tail_r.png').convert_alpha()
 
-        self.body_vertical = pygame.image.load('Graphics/body_v.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('Graphics/body_h.png').convert_alpha()
+        self.body_vertical = pygame.image.load(
+            'Graphics/body_v.png').convert_alpha()
+        self.body_horizontal = pygame.image.load(
+            'Graphics/body_h.png').convert_alpha()
 
-        self.body_tr = pygame.image.load('Graphics/body_br.png').convert_alpha()
-        self.body_tl = pygame.image.load('Graphics/body_bl.png').convert_alpha()
-        self.body_bl = pygame.image.load('Graphics/body_tr.png').convert_alpha()
-        self.body_br = pygame.image.load('Graphics/body_tl.png').convert_alpha()
+        self.body_tr = pygame.image.load(
+            'Graphics/body_br.png').convert_alpha()
+        self.body_tl = pygame.image.load(
+            'Graphics/body_bl.png').convert_alpha()
+        self.body_bl = pygame.image.load(
+            'Graphics/body_tr.png').convert_alpha()
+        self.body_br = pygame.image.load(
+            'Graphics/body_tl.png').convert_alpha()
 
     def draw_snake(self):
         # for block in self.body:
@@ -157,7 +172,8 @@ class FRUIT:
         self.randomize()
 
     def draw_fruit(self):
-        fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        fruit_rec = pygame.Rect(
+            int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         screen.blit(apple, fruit_rec)
 
     def randomize(self):
@@ -171,7 +187,8 @@ class POWERUP:
         self.randomize()
 
     def draw_powerup(self):
-        powerup_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
+        powerup_rec = pygame.Rect(
+            int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
         screen.blit(fruit_plate, powerup_rec)
 
     def randomize(self):
@@ -207,7 +224,6 @@ class TASK:
 
         self.description = "Today's task is to get " + str(result) + " coins"
 
-
     def draw_grass(self):
         grass_color = (201, 223, 201)
         for row in range(self.cell_number):
@@ -237,39 +253,50 @@ class TASK:
                     game_started = True
                     return False
 
-
             # self.screen.fill((255, 255, 255))
             # text_surface = self.font.render(self.title, True, (0, 0, 0))
             # self.screen.blit(text_surface, (20, 20))
             # text_surface = self.font.render(self.task, True, (0, 0, 0))
             # self.screen.blit(text_surface, (20, 70))
 
-            game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            game_over_image = pygame.image.load(
+                'Buttons/button_daily.png').convert_alpha()
             text = bo_font.render(self.description, True, (0, 0, 0))
 
-            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            game_over_rect = game_over_image.get_rect(
+                center=screen.get_rect().center)
             game_over_rect.y -= 150
 
-            restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_button = pygame.image.load(
+                'Buttons/button_play.png').convert_alpha()
             restart_button = pygame.transform.scale(restart_button, (300, 85))
-            restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
-            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_highlighted_button = pygame.image.load(
+                'Buttons/button_play_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(
+                center=screen.get_rect().center)
             restart_rect.y += 80
-            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted_rect = restart_highlighted_button.get_rect(
+                center=restart_rect.center)
             restart_highlighted = False
-            main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
-            main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
-            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_button = pygame.image.load(
+                'Buttons/button_exit_to_desktop.png').convert_alpha()
+            main_menu_highlighted_button = pygame.image.load(
+                'Buttons/button_return_highlight.png').convert_alpha()
+            main_menu_rect = main_menu_button.get_rect(
+                center=screen.get_rect().center)
             main_menu_rect.y += 200
-            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(
+                center=main_menu_rect.center)
             main_menu_highlighted = False
 
             bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
             bg_rect.inflate_ip(70, 80)
             bg_rect.center = screen.get_rect().center
 
-            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
-            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            pygame.draw.rect(screen, (160, 198, 160),
+                             bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect,
+                             border_radius=30, width=3)
             # screen.blit(game_over_image, game_over_rect)
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
@@ -307,22 +334,30 @@ class TASK:
             # text_surface = self.font.render(self.task, True, (0, 0, 0))
             # self.screen.blit(text_surface, (20, 70))
 
-            game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            game_over_image = pygame.image.load(
+                'Buttons/button_daily.png').convert_alpha()
             text = bo_font.render(self.description, True, (0, 0, 0))
 
-            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            game_over_rect = game_over_image.get_rect(
+                center=screen.get_rect().center)
             game_over_rect.y -= 150
 
-            restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_button = pygame.image.load(
+                'Buttons/button_play.png').convert_alpha()
             restart_button = pygame.transform.scale(restart_button, (300, 85))
-            restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
-            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_highlighted_button = pygame.image.load(
+                'Buttons/button_play_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(
+                center=screen.get_rect().center)
             restart_rect.y += 80
-            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted_rect = restart_highlighted_button.get_rect(
+                center=restart_rect.center)
             restart_highlighted = False
-            main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
+            main_menu_button = pygame.image.load(
+                'Buttons/button_exit_to_desktop.png').convert_alpha()
             # main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
-            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_rect = main_menu_button.get_rect(
+                center=screen.get_rect().center)
             main_menu_rect.y += 200
             # main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
             # main_menu_highlighted = False
@@ -331,16 +366,20 @@ class TASK:
             bg_rect.inflate_ip(70, 80)
             bg_rect.center = screen.get_rect().center
 
-            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
-            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            pygame.draw.rect(screen, (160, 198, 160),
+                             bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect,
+                             border_radius=30, width=3)
             # screen.blit(game_over_image, game_over_rect)
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
             #screen.blit(text, (170, 250))
-            text_surface = bo_font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
+            text_surface = bo_font.render(
+                "Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 275))
 
-            text_surface = bo_font.render("Total coins:" + str(coins), True, (0, 0, 0))
+            text_surface = bo_font.render(
+                "Total coins:" + str(coins), True, (0, 0, 0))
             self.screen.blit(text_surface, (250, 325))
 
             # screen.fill((179, 207, 178))
@@ -426,7 +465,8 @@ class MAIN:
             if self.score >= todays_goal_coin:
                 self.task_completed = True
                 print("Task 1 completed!")
-                TASK("Congratulations", "You have completed the task1!").continue_or_not()
+                TASK("Congratulations",
+                     "You have completed the task1!").continue_or_not()
 
         # Task 2: player needs to survive for 5 seconds
         # if not is_odd_minute and not self.task2_completed:
@@ -512,12 +552,14 @@ class MAIN:
             if row % 2 == 0:
                 for col in range(cell_number):
                     if col % 2 == 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        grass_rec = pygame.Rect(
+                            col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rec)
             else:
                 for col in range(cell_number):
                     if col % 2 != 0:
-                        grass_rec = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
+                        grass_rec = pygame.Rect(
+                            col * cell_size, row * cell_size, cell_size, cell_size)
                         pygame.draw.rect(screen, grass_color, grass_rec)
 
     def draw_score(self):
@@ -527,7 +569,8 @@ class MAIN:
         score_x = int(cell_size * cell_number - 700)
         score_y = int(cell_size * cell_number - 750)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
-        apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
+        apple_rect = score.get_rect(
+            midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
                               apple_rect.height)
         pygame.draw.rect(screen, (201, 223, 201), bg_rect)
@@ -550,7 +593,8 @@ if __name__ == "__main__":
     pygame.init()
     cell_size = 40
     cell_number = 20
-    screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
+    screen = pygame.display.set_mode(
+        (cell_number * cell_size, cell_number * cell_size))
     icon = pygame.image.load('Graphics/snake.png')
     clock = pygame.time.Clock()
     apple = pygame.image.load('Graphics/coin.png').convert_alpha()
@@ -558,7 +602,8 @@ if __name__ == "__main__":
     score = pygame.image.load('Graphics/coin.png').convert_alpha()
     game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
     bo_font = pygame.font.Font('Font/bo.ttf', 40)
-    wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+    wall_segment = pygame.image.load(
+        'Graphics/wall_segment.png').convert_alpha()
 
     SCREEN_UPDATE = pygame.USEREVENT
     pygame.time.set_timer(SCREEN_UPDATE, 150)
