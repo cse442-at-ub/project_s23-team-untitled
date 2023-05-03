@@ -284,7 +284,8 @@ class TASK:
             pygame.display.update()
 
     def continue_or_not(self):
-        coins = main_game.read_bin('coins.bin') + 5
+        global todays_goal_coin
+        coins = main_game.read_bin('coins.bin') + todays_goal_coin
         main_game.write_bin('coins.bin', coins)
         print(coins)
 
