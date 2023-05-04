@@ -13,6 +13,7 @@ fruit_plate_sound = pygame.mixer.Sound('Sounds/sound_fruit_plate.mp3')
 turtle_sound = pygame.mixer.Sound('Sounds/sound_turtle.mp3')
 game_over_sound = pygame.mixer.Sound('Sounds/sound_game_over.mp3')
 coin_sound = pygame.mixer.Sound('Sounds/sound_coin.mp3')
+congra_sound = pygame.mixer.Sound('Sounds/sound_congra.mp3')
 game_sound = 'Sounds/sound_game.mp3'
 hard_game_sound = 'Sounds/sound_hard_game.mp3'
 
