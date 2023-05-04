@@ -3,9 +3,9 @@ import os
 import pickle
 import random
 import sys
-
 import pygame
 from pygame.math import Vector2
+from game_elements import *
 
 game_started = False
 coins = 0
@@ -158,7 +158,7 @@ class FRUIT:
 
     def draw_fruit(self):
         fruit_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
-        screen.blit(apple, fruit_rec)
+        screen.blit(coin_single, fruit_rec)
 
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)
@@ -172,7 +172,7 @@ class POWERUP:
 
     def draw_powerup(self):
         powerup_rec = pygame.Rect(int(self.pos.x * cell_size), int(self.pos.y * cell_size), cell_size, cell_size)
-        screen.blit(fruit_plate, powerup_rec)
+        screen.blit(coin_plate, powerup_rec)
 
     def randomize(self):
         self.x = random.randint(0, cell_number - 1)
@@ -182,15 +182,15 @@ class POWERUP:
 
 class TASK:
     def __init__(self, title, task):
-        pygame.init()
-        self.title = title
-        self.task = task
-        self.font = pygame.font.SysFont("Arial", 30)
-        self.width, self.height = 800, 800
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.cell_number = 20
-        self.cell_size = 40
-        self.description = ""
+        # pygame.init()
+        # self.title = title
+        # self.task = task
+        # self.font = pygame.font.SysFont("Arial", 30)
+        # self.width, self.height = 800, 800
+        # self.screen = pygame.display.set_mode((self.width, self.height))
+        # self.cell_number = 20
+        # self.cell_size = 40
+        # self.description = ""
 
         # retrieve the current date
         now = datetime.datetime.now()
@@ -200,7 +200,7 @@ class TASK:
         day = now.day
 
         # multiply the month by the day
-        result = month * day
+        result = int(month * day / 2)
 
         global todays_goal_coin
         todays_goal_coin = result
@@ -208,26 +208,26 @@ class TASK:
         self.description = "Today's task is to get " + str(result) + " coins"
 
 
-    def draw_grass(self):
-        grass_color = (201, 223, 201)
-        for row in range(self.cell_number):
-            if row % 2 == 0:
-                for col in range(self.cell_number):
-                    if col % 2 == 0:
-                        grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
-                                                self.cell_size)
-                        pygame.draw.rect(screen, grass_color, grass_rec)
-            else:
-                for col in range(self.cell_number):
-                    if col % 2 != 0:
-                        grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
-                                                self.cell_size)
-                        pygame.draw.rect(screen, grass_color, grass_rec)
+    # def draw_grass(self):
+    #     grass_color = (201, 223, 201)
+    #     for row in range(self.cell_number):
+    #         if row % 2 == 0:
+    #             for col in range(self.cell_number):
+    #                 if col % 2 == 0:
+    #                     grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
+    #                                             self.cell_size)
+    #                     pygame.draw.rect(screen, grass_color, grass_rec)
+    #         else:
+    #             for col in range(self.cell_number):
+    #                 if col % 2 != 0:
+    #                     grass_rec = pygame.Rect(col * self.cell_size, row * self.cell_size, self.cell_size,
+    #                                             self.cell_size)
+    #                     pygame.draw.rect(screen, grass_color, grass_rec)
 
     def popup(self):
         while True:
             screen.fill((179, 207, 178))
-            self.draw_grass()
+            selection_background(screen)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -235,7 +235,9 @@ class TASK:
                 if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
                     global game_started
                     game_started = True
-                    return False
+                    
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                    return
 
 
             # self.screen.fill((255, 255, 255))
@@ -285,13 +287,18 @@ class TASK:
 
     def continue_or_not(self):
         global todays_goal_coin
-        coins = main_game.read_bin('coins.bin') + todays_goal_coin
-        main_game.write_bin('coins.bin', coins)
+        # load the coins
+        with open('coins.bin', 'rb') as file:
+            coins = pickle.load(file) + todays_goal_coin
+        # save the coins
+        with open('coins.bin', 'wb') as file:
+            pickle.dump(coins, file)
+
         print(coins)
 
         while True:
             screen.fill((179, 207, 178))
-            self.draw_grass()
+            selection_background(screen)
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
                     pygame.quit()
@@ -308,7 +315,7 @@ class TASK:
             # self.screen.blit(text_surface, (20, 70))
 
             game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
-            text = bo_font.render(self.description, True, (0, 0, 0))
+            # text = bo_font.render(self.description, True, (0, 0, 0))
 
             game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
             game_over_rect.y -= 150
@@ -338,48 +345,48 @@ class TASK:
             screen.blit(main_menu_button, main_menu_rect)
             #screen.blit(text, (170, 250))
             text_surface = bo_font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 275))
+            screen.blit(text_surface, (250, 275))
 
             text_surface = bo_font.render("Total coins:" + str(coins), True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 325))
+            screen.blit(text_surface, (250, 325))
 
             # screen.fill((179, 207, 178))
-            text_surface = bo_font.render(self.title, True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 175))
-            text_surface = bo_font.render(self.task, True, (0, 0, 0))
-            self.screen.blit(text_surface, (250, 225))
+            text_surface = bo_font.render("Congratulations", True, (0, 0, 0))
+            screen.blit(text_surface, (250, 175))
+            text_surface = bo_font.render("You have completed the task1!", True, (0, 0, 0))
+            screen.blit(text_surface, (250, 225))
 
             pygame.display.update()
 
 
-class TASK2:
-    def __init__(self, title, description):
-        pygame.init()
-        self.title = title
-        self.task = description
-        self.font = pygame.font.SysFont("Arial", 30)
-        self.width, self.height = 800, 800
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.description = "survive for 5 seconds"
+# class TASK2:
+#     def __init__(self, title, description):
+#         pygame.init()
+#         self.title = title
+#         self.task = description
+#         self.font = pygame.font.SysFont("Arial", 30)
+#         self.width, self.height = 800, 800
+#         self.screen = pygame.display.set_mode((self.width, self.height))
+#         self.description = "survive for 5 seconds"
 
-    def popup(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                if event.type == pygame.KEYDOWN:
-                    global game_started
-                    game_started = True
-                    return False
+#     def popup(self):
+#         while True:
+#             for event in pygame.event.get():
+#                 if event.type == pygame.QUIT:
+#                     pygame.quit()
+#                     quit()
+#                 if event.type == pygame.KEYDOWN:
+#                     global game_started
+#                     game_started = True
+#                     return False
 
-            self.screen.fill((255, 255, 255))
-            text_surface = self.font.render(self.title, True, (0, 0, 0))
-            self.screen.blit(text_surface, (20, 20))
-            text_surface = self.font.render(self.task, True, (0, 0, 0))
-            self.screen.blit(text_surface, (20, 70))
+#             self.screen.fill((255, 255, 255))
+#             text_surface = self.font.render(self.title, True, (0, 0, 0))
+#             self.screen.blit(text_surface, (20, 20))
+#             text_surface = self.font.render(self.task, True, (0, 0, 0))
+#             self.screen.blit(text_surface, (20, 70))
 
-            pygame.display.update()
+#             pygame.display.update()
 
 
 class MAIN:
@@ -392,41 +399,54 @@ class MAIN:
         self.start_time = pygame.time.get_ticks()
         self.task_completed = False
         self.task2_completed = False
-        self.task_switch_time = 1 * 60 * 1000  # 10分钟
+        self.task_switch_time = 1 * 60 * 1000 # 10 mins
         self.got_current_time = False
         self.current_time = 0
+        self.game_over_flag = False
+        self.back_to_menu_flag = False
+        self.btm_after_task_flag = False
+
+        if os.path.exists("sound.bin"):
+            with open("sound.bin", "rb") as f:
+                sound_flag = pickle.load(f)
+            if sound_flag:
+                pygame.mixer.music.load(game_sound)
+                pygame.mixer.music.play(-1)
 
     def update(self):
         self.snake.move_snake()
         self.check_collision()
         self.check_fail()
 
-    def update_tasks(self):
+    # def update_tasks(self):
 
-        # print("Updating tasks")
+    #     # print("Updating tasks")
 
-        if not self.got_current_time:
-            self.current_time = pygame.time.get_ticks()
-            self.got_current_time = True
-        else:
-            current_time = self.current_time
+    #     if not self.got_current_time:
+    #         self.current_time = pygame.time.get_ticks()
+    #         self.got_current_time = True
+    #     else:
+    #         current_time = self.current_time
 
-        # print("Current time: ", self.current_time)
+    #     # print("Current time: ", self.current_time)
 
-        # record the current minute
-        current_minute = datetime.datetime.now().day
+    #     # record the current minute
+    #     current_minute = datetime.datetime.now().day
 
-        # check if the current minute is odd
-        is_odd_minute = current_minute % 2 == 1
+    #     # check if the current minute is odd
+    #     is_odd_minute = current_minute % 2 == 1
 
-        # Task 1: player needs to get a score of 5
-        if is_odd_minute and not self.task_completed:
-            # print("Task 1")
-            global todays_goal_coin
-            if self.score >= todays_goal_coin:
-                self.task_completed = True
-                print("Task 1 completed!")
-                TASK("Congratulations", "You have completed the task1!").continue_or_not()
+    #     # Task 1: player needs to get a score of 5
+    #     if is_odd_minute and not self.task_completed:
+    #         # print("Task 1")
+    #         global todays_goal_coin
+    #         if self.score >= todays_goal_coin:
+    #             self.task_completed = True
+    #             # print("Task 1 completed!")
+    #             # TASK("Congratulations", "You have completed the task1!").continue_or_not()
+    #             self.continue_or_not()
+
+                
 
         # Task 2: player needs to survive for 5 seconds
         # if not is_odd_minute and not self.task2_completed:
@@ -437,21 +457,17 @@ class MAIN:
         #         print("Task 2 completed!")
         #         TASK2("Congratulations", "You have completed Task 2!").popup()
 
-    def check_switch_task(self, task1_description, task2_description):
-        print("check_switch_task")
+    # def check_switch_task(self, task1_description):
+    #     print("check_switch_task")
 
-        self.task_completed = False
-        self.task2_completed = False
+    #     self.task_completed = False
+    #     self.task2_completed = False
 
-        current_minute = datetime.datetime.now().day
-        is_odd_minute = current_minute % 2 == 1
+    #     # current_minute = datetime.datetime.now().day
+    #     # is_odd_minute = current_minute % 2 == 1
 
-        if is_odd_minute:
-            print("Task 1")
-            TASK("Today's Task:", task1_description).popup()
-        else:
-            print("Task 2")
-            TASK2("Today's Task:", task2_description).popup()
+    #     TASK("Today's Task:", task1_description).popup()
+    
 
     def draw_elements(self):
         self.draw_grass()
@@ -464,6 +480,11 @@ class MAIN:
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
+            if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(coin_sound)
             self.fruit.randomize()
             self.snake.add_block()
             self.score += 1
@@ -474,6 +495,11 @@ class MAIN:
                 self.fruit.randomize()
 
         if self.powerup.pos == self.snake.body[0]:
+            if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(coin_sound)
             self.powerup.randomize()
             self.snake.add_block()
             self.score += 3
@@ -492,19 +518,17 @@ class MAIN:
 
     def check_fail(self):
         if (not 0 <= self.snake.body[0].x < cell_number) or (not 0 <= self.snake.body[0].y < cell_number):
-            self.game_over()
-
+            self.game_over_flag = True
+            
         for block in self.snake.body[1:]:
             if block == self.snake.body[0]:
-                self.game_over()
+                if self.score >=1:
+                    self.game_over_flag = True
+                self.snake.reset()
 
         for block in self.wall.wall_blocks:
             if block == self.snake.body[0]:
-                self.game_over()
-
-    def game_over(self):
-        self.snake.reset()
-        self.score = 0
+                self.game_over_flag = True
 
     def draw_grass(self):
         grass_color = (201, 223, 201)
@@ -532,80 +556,403 @@ class MAIN:
                               apple_rect.height)
         pygame.draw.rect(screen, (201, 223, 201), bg_rect)
         screen.blit(score_surface, score_rect)
-        screen.blit(score, apple_rect)
+        screen.blit(coin_score, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
 
-    def read_bin(self, filename):
-        with open(filename, 'rb') as file:
-            return pickle.load(file)
+    # def read_bin(self, filename):
+    #     with open(filename, 'rb') as file:
+    #         return pickle.load(file)
 
-    def write_bin(self, filename, data):
-        with open(filename, 'wb') as file:
-            pickle.dump(data, file)
+    # def write_bin(self, filename, data):
+    #     with open(filename, 'wb') as file:
+    #         pickle.dump(data, file)
+    
+    def game_over_screen(self):
+        if os.path.exists("sound.bin"):
+                with open("sound.bin", "rb") as f:
+                    sound_flag = pickle.load(f)
+                if sound_flag:
+                    pygame.mixer.Sound.play(game_over_sound)
+        # global highest_scores
+        # if self.game_over_flag:
+        # highest_scores.append(self.snake.food_gain)
+        # highest_scores.sort(reverse=True)
+        # highest_scores = highest_scores[:5]
+        # Load game over image and resize it to fit background rectangle size
 
+        game_over_image = pygame.image.load(
+            'Graphics/game_over.png').convert_alpha()
+        game_over_rect = game_over_image.get_rect(
+            center=screen.get_rect().center)
+        bg_rect = game_over_rect.copy()
+        #game_over_image = pygame.transform.scale(game_over_image, (bg_rect.w, bg_rect.h))
+        game_over_rect.y -= 150  # Move the game over image up
+        # Move the game over image to the right
 
-if __name__ == "__main__":
+        # Load restart and main menu buttons
+        restart_button = pygame.image.load(
+            'Buttons/restart.png').convert_alpha()
+        restart_highlighted_button = pygame.image.load(
+            'Buttons/restart_highlight.png').convert_alpha()
+        restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+        restart_rect.y += 80  # Move the restart button down
+        restart_highlighted_rect = restart_highlighted_button.get_rect(
+            center=restart_rect.center)
+        restart_highlighted = False
 
-    pygame.mixer.pre_init(44100, -16, 2, 512)
-    pygame.init()
-    cell_size = 40
-    cell_number = 20
-    screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
-    icon = pygame.image.load('Graphics/snake.png')
-    clock = pygame.time.Clock()
-    apple = pygame.image.load('Graphics/coin.png').convert_alpha()
-    fruit_plate = pygame.image.load('Graphics/new3coins.png').convert_alpha()
-    score = pygame.image.load('Graphics/coin.png').convert_alpha()
-    game_font = pygame.font.Font('Font/bahnschrift.ttf', 25)
-    bo_font = pygame.font.Font('Font/bo.ttf', 40)
-    wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
+        main_menu_button = pygame.image.load(
+            'Buttons/main_menu.png').convert_alpha()
+        main_menu_highlighted_button = pygame.image.load(
+            'Buttons/main_menu_hightlight.png').convert_alpha()
+        main_menu_rect = main_menu_button.get_rect(
+            center=screen.get_rect().center)
+        main_menu_rect.y += 200  # Move the main menu button down
+        main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(
+            center=main_menu_rect.center)
+        main_menu_highlighted = False
 
-    SCREEN_UPDATE = pygame.USEREVENT
-    pygame.time.set_timer(SCREEN_UPDATE, 150)
+        # Create background rectangle
+        bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+        # Expand the background rectangle to fit the buttons
+        bg_rect.inflate_ip(70, 80)
+        bg_rect.center = screen.get_rect().center
 
-    main_game = MAIN()
-
-    last_randomize_time = pygame.time.get_ticks()
-
-    main_game.check_switch_task("Get 5 coins", "survive for 5 seconds")
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == SCREEN_UPDATE:
-                main_game.update()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    if main_game.snake.direction.y != 1:
-                        main_game.snake.direction = Vector2(0, -1)
-                if event.key == pygame.K_RIGHT:
-                    if main_game.snake.direction.x != -1:
-                        main_game.snake.direction = Vector2(1, 0)
-                if event.key == pygame.K_DOWN:
-                    if main_game.snake.direction.y != -1:
-                        main_game.snake.direction = Vector2(0, 1)
-                if event.key == pygame.K_LEFT:
-                    if main_game.snake.direction.x != 1:
-                        main_game.snake.direction = Vector2(-1, 0)
-
-        screen.fill((179, 207, 178))
-        main_game.draw_elements()
-
-        if main_game.score % 5 == 0:
-            main_game.powerup.draw_powerup()
-        else:
-            main_game.fruit.draw_fruit()
-
-        pygame.display.set_icon(icon)
-        pygame.display.set_caption('Snake')
+        # Draw background rectangle, game over image, and buttons
+        pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+        pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+        screen.blit(game_over_image, game_over_rect)
+        screen.blit(restart_button, restart_rect)
+        screen.blit(main_menu_button, main_menu_rect)
         pygame.display.update()
-        clock.tick(60)
 
-        if pygame.time.get_ticks() - last_randomize_time >= 5000:
-            main_game.wall.randomize()
-            last_randomize_time = pygame.time.get_ticks()
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                    self.__init__()
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                    self.back_to_menu_flag = True
+                    pygame.mixer.music.stop()
+                    return
 
-        if game_started:
-            main_game.update_tasks()
+                mouse_pos = pygame.mouse.get_pos()
+                if restart_rect.collidepoint(mouse_pos):
+                    restart_highlighted = True
+                else:
+                    restart_highlighted = False
+
+                if main_menu_rect.collidepoint(mouse_pos):
+                    main_menu_highlighted = True
+                else:
+                    main_menu_highlighted = False
+
+                if restart_highlighted:
+                    screen.blit(restart_highlighted_button,
+                                restart_highlighted_rect)
+                else:
+                    screen.blit(restart_button, restart_rect)
+
+                if main_menu_highlighted:
+                    screen.blit(main_menu_highlighted_button,
+                                main_menu_highlighted_button_rec)
+                else:
+                    screen.blit(main_menu_button, main_menu_rect)
+
+            pygame.display.update()
+
+    def popup(self):
+        now = datetime.datetime.now()
+
+        # retrieve the current month and day
+        month = now.month
+        day = now.day
+
+        # multiply the month by the day
+        result = int(month + day)
+
+        global todays_goal_coin
+        todays_goal_coin = result
+        task_description = "Today's task is to get " + str(result) + " coins"
+        SCREEN_UPDATE = pygame.USEREVENT
+        pygame.time.set_timer(SCREEN_UPDATE, 150)
+        while True:
+            screen.fill((179, 207, 178))
+            selection_background(screen)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == SCREEN_UPDATE:
+                    if self.back_to_menu_flag or self.btm_after_task_flag:
+                        return
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                    # play
+                    global game_started
+                    game_started = True
+                    self.game()
+                    
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                    # exit to main menu
+                    pygame.mixer.music.stop()
+                    return
+
+
+            # self.screen.fill((255, 255, 255))
+            # text_surface = self.font.render(self.title, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 20))
+            # text_surface = self.font.render(self.task, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 70))
+
+            game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            text = bo_font.render(task_description, True, (0, 0, 0))
+
+            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            game_over_rect.y -= 150
+
+            restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_button = pygame.transform.scale(restart_button, (300, 85))
+            restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_rect.y += 80
+            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted = False
+            main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
+            main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_rect.y += 200
+            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            main_menu_highlighted = False
+
+            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+            bg_rect.inflate_ip(70, 80)
+            bg_rect.center = screen.get_rect().center
+
+            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            # screen.blit(game_over_image, game_over_rect)
+            screen.blit(restart_button, restart_rect)
+            screen.blit(main_menu_button, main_menu_rect)
+            screen.blit(text, (250, 250))
+
+            # screen.fill((179, 207, 178))
+            # text_surface = self.font.render(self.title, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 20))
+            # text_surface = self.font.render(self.task, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 70))
+
+            pygame.display.update()
+        
+
+    def game(self):
+        SCREEN_UPDATE = pygame.USEREVENT
+        pygame.time.set_timer(SCREEN_UPDATE, 150)
+        last_randomize_time = pygame.time.get_ticks()
+        # self.check_switch_task("Get 5 coins", "survive for 5 seconds")
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == SCREEN_UPDATE:
+                    self.update()
+                    if game_started:
+                        global todays_goal_coin
+                        if self.score >= todays_goal_coin and self.task_completed == False:
+                            self.task_completed = True
+                            # print("Task 1 completed!")
+                            # TASK("Congratulations", "You have completed the task1!").continue_or_not()
+                            self.continue_or_not()
+                            # self.update_tasks()
+                    if self.game_over_flag:
+                        pygame.mixer.music.stop()
+                        self.game_over_screen()
+                        if self.back_to_menu_flag:
+                            return
+                    if self.btm_after_task_flag:
+                        return
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        if self.snake.direction.y != 1:
+                            self.snake.direction = Vector2(0, -1)
+                    if event.key == pygame.K_RIGHT:
+                        if self.snake.direction.x != -1:
+                            self.snake.direction = Vector2(1, 0)
+                    if event.key == pygame.K_DOWN:
+                        if self.snake.direction.y != -1:
+                            self.snake.direction = Vector2(0, 1)
+                    if event.key == pygame.K_LEFT:
+                        if self.snake.direction.x != 1:
+                            self.snake.direction = Vector2(-1, 0)
+
+            screen.fill((179, 207, 178))
+            self.draw_elements()
+
+            if self.score % 5 == 0:
+                self.powerup.draw_powerup()
+            else:
+                self.fruit.draw_fruit()
+
+            pygame.display.set_icon(icon)
+            pygame.display.set_caption('Snake')
+            pygame.display.update()
+            clock.tick(60)
+
+            if pygame.time.get_ticks() - last_randomize_time >= 5000:
+                self.wall.randomize()
+                last_randomize_time = pygame.time.get_ticks()
+
+            # if game_started:
+            #     self.update_tasks()
+
+
+    def continue_or_not(self):
+        global todays_goal_coin
+        # load the coins
+        with open('coins.bin', 'rb') as file:
+            coins = pickle.load(file) + todays_goal_coin
+        # save the coins
+        with open('coins.bin', 'wb') as file:
+            pickle.dump(coins, file)
+
+        print(coins)
+        # SCREEN_UPDATE = pygame.USEREVENT
+        # pygame.time.set_timer(SCREEN_UPDATE, 150)
+        while True:
+            screen.fill((179, 207, 178))
+            selection_background(screen)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN and main_menu_rect.collidepoint(event.pos):
+                    # back to mainmenu
+                    pygame.mixer.music.stop()
+                    self.btm_after_task_flag = True
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
+                    # play the game
+                    global game_started
+                    game_started = True
+                    return 
+
+            # self.screen.fill((255, 255, 255))
+            # text_surface = self.font.render(self.title, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 20))
+            # text_surface = self.font.render(self.task, True, (0, 0, 0))
+            # self.screen.blit(text_surface, (20, 70))
+
+            game_over_image = pygame.image.load('Buttons/button_daily.png').convert_alpha()
+            # text = bo_font.render(self.description, True, (0, 0, 0))
+
+            game_over_rect = game_over_image.get_rect(center=screen.get_rect().center)
+            game_over_rect.y -= 150
+
+            restart_button = pygame.image.load('Buttons/button_play.png').convert_alpha()
+            restart_button = pygame.transform.scale(restart_button, (300, 85))
+            restart_highlighted_button = pygame.image.load('Buttons/button_play_highlight.png').convert_alpha()
+            restart_rect = restart_button.get_rect(center=screen.get_rect().center)
+            restart_rect.y += 80
+            restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
+            restart_highlighted = False
+            main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
+            # main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
+            main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
+            main_menu_rect.y += 200
+            # main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
+            # main_menu_highlighted = False
+
+            bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
+            bg_rect.inflate_ip(70, 80)
+            bg_rect.center = screen.get_rect().center
+
+            pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
+            # screen.blit(game_over_image, game_over_rect)
+            screen.blit(restart_button, restart_rect)
+            screen.blit(main_menu_button, main_menu_rect)
+            #screen.blit(text, (170, 250))
+            text_surface = bo_font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
+            screen.blit(text_surface, (250, 275))
+
+            text_surface = bo_font.render("Total coins:" + str(coins), True, (0, 0, 0))
+            screen.blit(text_surface, (250, 325))
+
+            # screen.fill((179, 207, 178))
+            text_surface = bo_font.render("Congratulations", True, (0, 0, 0))
+            screen.blit(text_surface, (250, 175))
+            text_surface = bo_font.render("You have completed the task1!", True, (0, 0, 0))
+            screen.blit(text_surface, (250, 225))
+
+            pygame.display.update()
+        
+
+
+
+
+
+# pygame.mixer.pre_init(44100, -16, 2, 512)
+# pygame.init()
+# cell_size = 40
+# cell_number = 20
+# screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
+# icon = pygame.image.load('Graphics/snake.png')
+# clock = pygame.time.Clock()
+# apple = pygame.image.load('Graphics/coin.png').convert_alpha()
+# fruit_plate = pygame.image.load('Graphics/new3coins.png').convert_alpha()
+# coin_score = pygame.image.load('Graphics/coin.png').convert_alpha()
+# game_font = pygame.font.Font('Font/bahnschrift.ttf', 30)
+# bo_font = pygame.font.Font('Font/bo.ttf', 40)
+
+
+# SCREEN_UPDATE = pygame.USEREVENT
+# pygame.time.set_timer(SCREEN_UPDATE, 150)
+
+# main_game = MAIN()
+
+# last_randomize_time = pygame.time.get_ticks()
+
+# main_game.check_switch_task("Get 5 coins", "survive for 5 seconds")
+
+# while True:
+#     for event in pygame.event.get():
+#         if event.type == pygame.QUIT:
+#             pygame.quit()
+#             sys.exit()
+#         if event.type == SCREEN_UPDATE:
+#             main_game.update()
+#         if event.type == pygame.KEYDOWN:
+#             if event.key == pygame.K_UP:
+#                 if main_game.snake.direction.y != 1:
+#                     main_game.snake.direction = Vector2(0, -1)
+#             if event.key == pygame.K_RIGHT:
+#                 if main_game.snake.direction.x != -1:
+#                     main_game.snake.direction = Vector2(1, 0)
+#             if event.key == pygame.K_DOWN:
+#                 if main_game.snake.direction.y != -1:
+#                     main_game.snake.direction = Vector2(0, 1)
+#             if event.key == pygame.K_LEFT:
+#                 if main_game.snake.direction.x != 1:
+#                     main_game.snake.direction = Vector2(-1, 0)
+
+#     screen.fill((179, 207, 178))
+#     main_game.draw_elements()
+
+#     if main_game.score % 5 == 0:
+#         main_game.powerup.draw_powerup()
+#     else:
+#         main_game.fruit.draw_fruit()
+
+#     pygame.display.set_icon(icon)
+#     pygame.display.set_caption('Snake')
+#     pygame.display.update()
+#     clock.tick(60)
+
+#     if pygame.time.get_ticks() - last_randomize_time >= 5000:
+#         main_game.wall.randomize()
+#         last_randomize_time = pygame.time.get_ticks()
+
+#     if game_started:
+#         main_game.update_tasks()

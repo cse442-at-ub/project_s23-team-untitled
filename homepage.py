@@ -3,6 +3,7 @@ from level_select import *
 from game_elements import *
 from scoreboard import *
 from inventory import *
+from daily_challenge import *
 
 
 def homepage():
@@ -123,7 +124,8 @@ def homepage():
                 selection()
 
             if event.type == pygame.MOUSEBUTTONDOWN and daily_rect.collidepoint(pos):
-                pass
+                main_game = MAIN()
+                main_game.popup()
 
             if event.type == pygame.MOUSEBUTTONDOWN and scores_rect.collidepoint(pos):
                 scoreboard()
