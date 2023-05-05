@@ -636,11 +636,8 @@ class MAIN:
             restart_highlighted_rect = restart_highlighted_button.get_rect(center=restart_rect.center)
             restart_highlighted = False
             main_menu_button = pygame.image.load('Buttons/button_exit_to_desktop.png').convert_alpha()
-            main_menu_highlighted_button = pygame.image.load('Buttons/button_return_highlight.png').convert_alpha()
             main_menu_rect = main_menu_button.get_rect(center=screen.get_rect().center)
             main_menu_rect.y += 200
-            main_menu_highlighted_button_rec = main_menu_highlighted_button.get_rect(center=main_menu_rect.center)
-            main_menu_highlighted = False
 
             bg_rect = game_over_rect.union(restart_rect).union(main_menu_rect)
             bg_rect.inflate_ip(70, 80)
@@ -652,6 +649,20 @@ class MAIN:
             screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
             screen.blit(text, (250, 250))
+
+            mouse_pos = pygame.mouse.get_pos()
+
+            if restart_rect.collidepoint(mouse_pos):
+                restart_highlighted = True   
+            else:
+                restart_highlighted = False
+                # screen.blit(button_easy_highlight, level1_rect)
+
+            if restart_highlighted:
+                screen.blit(restart_highlighted_button, restart_highlighted_rect)
+            else:
+                screen.blit(restart_button, restart_rect)
+            
 
             # screen.fill((179, 207, 178))
             # text_surface = self.font.render(self.title, True, (0, 0, 0))
@@ -801,6 +812,19 @@ class MAIN:
             screen.blit(text_surface, (250, 175))
             text_surface = bo_font.render("You have completed the task1!", True, (0, 0, 0))
             screen.blit(text_surface, (250, 225))
+
+            mouse_pos = pygame.mouse.get_pos()
+
+            if restart_rect.collidepoint(mouse_pos):
+                restart_highlighted = True   
+            else:
+                restart_highlighted = False
+                # screen.blit(button_easy_highlight, level1_rect)
+
+            if restart_highlighted:
+                screen.blit(restart_highlighted_button, restart_highlighted_rect)
+            else:
+                screen.blit(restart_button, restart_rect)
 
             pygame.display.update()
         

@@ -6,7 +6,7 @@ from level_3 import *
 
 
 def scoreboard():
-    image_return = pygame.transform.scale(pygame.image.load("Graphics/button_return.png"), (50, 50))
+    image_return = pygame.image.load('Buttons/button_return.png').convert_alpha()
     image_easy = pygame.image.load("Graphics/title_score_easy.png")
     image_easy = pygame.transform.scale(image_easy, (int(image_easy.get_width()/2), int(image_easy.get_height())/2))
     image_medium = pygame.image.load("Graphics/title_score_medium.png")
@@ -129,7 +129,7 @@ def scoreboard():
         settings.draw_scoreboard()
 
         # Draw return button
-        screen.blit(image_return, (10, 10))
+        screen.blit(image_return, (20, 20))
 
         # Draw title
         # pygame.draw.rect(screen, settings.white, rect_1)
