@@ -153,7 +153,9 @@ class SNAKE:
 
 
 class FRUIT:
-    def __init__(self):
+    def __init__(self, snake, wall):
+        self.snake = snake
+        self.wall = wall
         self.randomize()
 
     def draw_fruit(self):
@@ -167,7 +169,9 @@ class FRUIT:
 
 
 class POWERUP:
-    def __init__(self):
+    def __init__(self,snake,wall):
+        self.snake = snake
+        self.wall = wall
         self.randomize()
 
     def draw_powerup(self):
@@ -216,8 +220,7 @@ class MAIN:
         global head_up, head_down, head_right, head_left, tail_up, tail_down, tail_right, tail_left, body_vertical, body_horizontal, body_tr, body_tl, body_bl, body_br
         with open('skin_selections.txt', 'r') as f:
             lines = f.readlines()
-            if len(lines) == 2:
-                sn_skin_slection = int(lines[0])
+            sn_skin_slection = int(lines[0])
 
         if sn_skin_slection == 1:
             head_up = pygame.image.load('Graphics/head_u.png').convert_alpha()
@@ -355,9 +358,9 @@ class MAIN:
             body_br = pygame.image.load(
                 'Graphics//body_tl5.png').convert_alpha()
         self.snake = SNAKE()
-        self.fruit = FRUIT()
         self.wall = WALL(self.snake)
-        self.powerup = POWERUP()
+        self.fruit = FRUIT(self.snake, self.wall)
+        self.powerup = POWERUP(self.snake, self.wall)
         self.score = 0
         self.start_time = pygame.time.get_ticks()
         self.task_completed = False
@@ -380,104 +383,52 @@ class MAIN:
 
     def update(self):
         self.snake.move_snake()
-        self.check_collision()
+        if self.score % 5 == 0:
+            self.check_collision_coins()
+        else:
+            self.check_collision_coin()
         self.check_fail()
 
-    # def update_tasks(self):
-
-    #     # print("Updating tasks")
-
-    #     if not self.got_current_time:
-    #         self.current_time = pygame.time.get_ticks()
-    #         self.got_current_time = True
-    #     else:
-    #         current_time = self.current_time
-
-    #     # print("Current time: ", self.current_time)
-
-    #     # record the current minute
-    #     current_minute = datetime.datetime.now().day
-
-    #     # check if the current minute is odd
-    #     is_odd_minute = current_minute % 2 == 1
-
-    #     # Task 1: player needs to get a score of 5
-    #     if is_odd_minute and not self.task_completed:
-    #         # print("Task 1")
-    #         global todays_goal_coin
-    #         if self.score >= todays_goal_coin:
-    #             self.task_completed = True
-    #             # print("Task 1 completed!")
-    #             # TASK("Congratulations", "You have completed the task1!").continue_or_not()
-    #             self.continue_or_not()
-
-                
-
-        # Task 2: player needs to survive for 5 seconds
-        # if not is_odd_minute and not self.task2_completed:
-        #     # print("Task 2")
-        #     # print(pygame.time.get_ticks() - self.current_time)
-        #     if pygame.time.get_ticks() - self.current_time >= 5 * 1000:
-        #         self.task2_completed = True
-        #         print("Task 2 completed!")
-        #         TASK2("Congratulations", "You have completed Task 2!").popup()
-
-    # def check_switch_task(self, task1_description):
-    #     print("check_switch_task")
-
-    #     self.task_completed = False
-    #     self.task2_completed = False
-
-    #     # current_minute = datetime.datetime.now().day
-    #     # is_odd_minute = current_minute % 2 == 1
-
-    #     TASK("Today's Task:", task1_description).popup()
-    
 
     def draw_elements(self):
         self.draw_grass()
+        if self.score % 5 == 0:
+            self.powerup.draw_powerup()
+        else:
+            self.fruit.draw_fruit()
         self.snake.draw_snake()
         self.draw_score()
         self.wall.draw_wall()
 
-    def draw_powerup(self):
-        self.powerup.draw_powerup()
-
-    def check_collision(self):
+    def check_collision_coin(self):
         if self.fruit.pos == self.snake.body[0]:
             if os.path.exists("sound.bin"):
                 with open("sound.bin", "rb") as f:
                     sound_flag = pickle.load(f)
                 if sound_flag:
                     pygame.mixer.Sound.play(coin_sound)
+            self.score += 1
             self.fruit.randomize()
             self.snake.add_block()
-            self.score += 1
-            # self.random_num = random.random()
 
-        for block in self.snake.body[1:]:
+        combine_list = self.snake.body[1:] + self.wall.wall_blocks
+        for block in combine_list:
             if block == self.fruit.pos:
                 self.fruit.randomize()
 
+
+    def check_collision_coins(self):
         if self.powerup.pos == self.snake.body[0]:
             if os.path.exists("sound.bin"):
                 with open("sound.bin", "rb") as f:
                     sound_flag = pickle.load(f)
                 if sound_flag:
                     pygame.mixer.Sound.play(coin_sound)
+            self.score += 3
             self.powerup.randomize()
             self.snake.add_block()
-            self.score += 3
-
-        for block in self.snake.body[1:]:
-            if block == self.powerup.pos:
-                self.powerup.randomize()
-
-        # eat on the wall, NO
-        for block in self.wall.wall_blocks:
-            if block == self.fruit.pos:
-                self.fruit.randomize()
-        for block in self.wall.wall_blocks:
+        combine_list = self.snake.body[1:] + self.wall.wall_blocks
+        for block in combine_list:
             if block == self.powerup.pos:
                 self.powerup.randomize()
 
@@ -514,7 +465,7 @@ class MAIN:
         # print(score_text)
         score_surface = game_font.render(score_text, True, (56, 74, 12))
         score_x = int(cell_size * cell_number - 700)
-        score_y = int(cell_size * cell_number - 750)
+        score_y = int(cell_size * cell_number - 760)
         score_rect = score_surface.get_rect(center=(score_x, score_y))
         apple_rect = score.get_rect(midright=(score_rect.left, score_rect.centery))
         bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + score_rect.width + 6,
@@ -754,12 +705,6 @@ class MAIN:
 
             screen.fill((179, 207, 178))
             self.draw_elements()
-
-            if self.score % 5 == 0:
-                self.powerup.draw_powerup()
-            else:
-                self.fruit.draw_fruit()
-
             pygame.display.set_icon(icon)
             pygame.display.set_caption('Snake')
             pygame.display.update()

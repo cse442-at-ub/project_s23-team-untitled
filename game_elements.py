@@ -30,9 +30,12 @@ wall_segment = pygame.image.load('Graphics/wall_segment.png').convert_alpha()
 score = pygame.image.load('Graphics/score.png').convert_alpha()
 # for daily challenge
 bo_font = pygame.font.Font('Font/bo.ttf', 40)
-coin_score = pygame.image.load('Graphics/coin.png').convert_alpha()
+coin_score = pygame.image.load('Graphics/new3coins.png').convert_alpha()
 coin_single = pygame.image.load('Graphics/coin.png').convert_alpha()
 coin_plate = pygame.image.load('Graphics/new3coins.png').convert_alpha()
+# for inventory
+screen_width = cell_number * cell_size
+screen_height = cell_number*cell_size
 
 highest_scores = []
 # return button

@@ -258,8 +258,7 @@ class MAIN1:
         global head_up, head_down, head_right, head_left, tail_up, tail_down, tail_right, tail_left, body_vertical, body_horizontal, body_tr, body_tl, body_bl, body_br
         with open('skin_selections.txt', 'r') as f:
             lines = f.readlines()
-            if len(lines) == 2:
-                sn_skin_slection = int(lines[0])
+            sn_skin_slection = int(lines[0])
         
         if os.path.exists("sound.bin"):
             with open("sound.bin", "rb") as f:
@@ -677,8 +676,7 @@ class MAIN1:
             screen.fill((179, 207, 178))
             with open('skin_selections.txt', 'r') as f:
                 lines = f.readlines()
-                if len(lines) == 2:
-                    fr_skin_slection = int(lines[1])
+                fr_skin_slection = int(lines[1])
             global food_src
             if fr_skin_slection == 1:
                 food_src = pygame.image.load(
