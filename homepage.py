@@ -21,6 +21,11 @@ def homepage():
     with open('sound.bin', 'wb') as f:
         pickle.dump(True, f)
 
+    if not (os.path.exists('daily.bin')):
+    # create binary day count file
+        with open('daily.bin', 'wb') as file:
+            pickle.dump(0, file)
+
     sound_on_button = pygame.image.load(
         'Buttons/sound_on.png').convert_alpha()
     sound_off_button = pygame.image.load(
@@ -33,6 +38,8 @@ def homepage():
         center=(screen.get_rect().centerx, 670))
     default_sound_button = sound_on_button
     default_sound_rect = sound_on_rect
+
+    show_dc_text = False
     while True:
         screen.fill((179, 207, 178))
         selection_background(screen)
@@ -124,8 +131,15 @@ def homepage():
                 selection()
 
             if event.type == pygame.MOUSEBUTTONDOWN and daily_rect.collidepoint(pos):
-                main_game = MAIN()
-                main_game.popup()
+                today = datetime.date.today()
+                with open("daily.bin", "rb") as f:
+                    dc_flag = pickle.load(f)
+                if dc_flag == today:
+                    show_dc_text = True
+                    start_ticks = pygame.time.get_ticks()
+                else:
+                    main_game = MAIN()
+                    main_game.popup()
 
             if event.type == pygame.MOUSEBUTTONDOWN and scores_rect.collidepoint(pos):
                 scoreboard()
@@ -143,6 +157,12 @@ def homepage():
                         pickle.dump(True, f)
                     default_sound_button = sound_on_button
                     default_sound_rect = sound_on_rect
+        
+        dc_text = bo_font.render("You've finished today's task. Please try tomorrow.", True, (0, 0, 0))
+        if show_dc_text:
+            screen.blit(dc_text, (150, 30))
+            if pygame.time.get_ticks() - start_ticks > 2000:
+                show_dc_text = False
 
         screen.blit(default_sound_button, default_sound_rect)
         pygame.display.update()

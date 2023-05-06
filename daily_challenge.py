@@ -744,7 +744,9 @@ class MAIN:
             if sound_flag:
                 pygame.mixer.Sound.play(congra_sound)
 
-        print(coins)
+        today = datetime.date.today()
+        with open('daily.bin', 'wb') as file:
+            pickle.dump(today, file)
         # SCREEN_UPDATE = pygame.USEREVENT
         # pygame.time.set_timer(SCREEN_UPDATE, 150)
         while True:
@@ -761,9 +763,7 @@ class MAIN:
                     return
                 if event.type == pygame.MOUSEBUTTONDOWN and restart_rect.collidepoint(event.pos):
                     # play the game
-                    global game_started
-                    game_started = True
-                    return 
+                    pass
 
             # self.screen.fill((255, 255, 255))
             # text_surface = self.font.render(self.title, True, (0, 0, 0))
@@ -798,7 +798,7 @@ class MAIN:
             pygame.draw.rect(screen, (160, 198, 160), bg_rect, border_radius=30)
             pygame.draw.rect(screen, (0, 0, 0), bg_rect, border_radius=30, width=3)
             # screen.blit(game_over_image, game_over_rect)
-            screen.blit(restart_button, restart_rect)
+            # screen.blit(restart_button, restart_rect)
             screen.blit(main_menu_button, main_menu_rect)
             #screen.blit(text, (170, 250))
             text_surface = bo_font.render("Current coins:" + str(todays_goal_coin), True, (0, 0, 0))
@@ -813,18 +813,18 @@ class MAIN:
             text_surface = bo_font.render("You have completed the task1!", True, (0, 0, 0))
             screen.blit(text_surface, (250, 225))
 
-            mouse_pos = pygame.mouse.get_pos()
+            # mouse_pos = pygame.mouse.get_pos()
 
-            if restart_rect.collidepoint(mouse_pos):
-                restart_highlighted = True   
-            else:
-                restart_highlighted = False
-                # screen.blit(button_easy_highlight, level1_rect)
+            # if restart_rect.collidepoint(mouse_pos):
+            #     restart_highlighted = True   
+            # else:
+            #     restart_highlighted = False
+            #     # screen.blit(button_easy_highlight, level1_rect)
 
-            if restart_highlighted:
-                screen.blit(restart_highlighted_button, restart_highlighted_rect)
-            else:
-                screen.blit(restart_button, restart_rect)
+            # if restart_highlighted:
+            #     screen.blit(restart_highlighted_button, restart_highlighted_rect)
+            # else:
+            #     screen.blit(restart_button, restart_rect)
 
             pygame.display.update()
         
