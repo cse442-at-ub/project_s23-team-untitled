@@ -1,3 +1,3 @@
 ([('main',
-   '/Users/UB/Spring 2023/CSE 442/0505/project_s23-team-untitled/dist/main',
+   '/Users/UB/Spring 2023/CSE 442/0505mac/project_s23-team-untitled/dist/main',
    'EXECUTABLE')],)
