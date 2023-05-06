@@ -471,6 +471,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 5 >= 0:
                         main_game.inventory_menu.sn_unlock[0] = True
                         main_game.inventory_menu.coin_amn -= 5
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -486,6 +487,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 20 >= 0:
                         main_game.inventory_menu.sn_unlock[1] = True
                         main_game.inventory_menu.coin_amn -= 20
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -499,6 +501,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 50 >= 0:
                         main_game.inventory_menu.sn_unlock[2] = True
                         main_game.inventory_menu.coin_amn -= 50
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -513,6 +516,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 100 >= 0:
                         main_game.inventory_menu.sn_unlock[3] = True
                         main_game.inventory_menu.coin_amn -= 100
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -531,6 +535,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 5 >= 0:
                         main_game.inventory_menu.fr_unlock[0] = True
                         main_game.inventory_menu.coin_amn -= 5
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -543,6 +548,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 15 >= 0:
                         main_game.inventory_menu.fr_unlock[1] = True
                         main_game.inventory_menu.coin_amn -= 15
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -555,6 +561,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 25 >= 0:
                         main_game.inventory_menu.fr_unlock[2] = True
                         main_game.inventory_menu.coin_amn -= 25
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -567,6 +574,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 35 >= 0:
                         main_game.inventory_menu.fr_unlock[3] = True
                         main_game.inventory_menu.coin_amn -= 35
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -579,6 +587,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 45 >= 0:
                         main_game.inventory_menu.fr_unlock[4] = True
                         main_game.inventory_menu.coin_amn -= 45
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -591,6 +600,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 45 >= 0:
                         main_game.inventory_menu.fr_unlock[5] = True
                         main_game.inventory_menu.coin_amn -= 45
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -603,6 +613,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 45 >= 0:
                         main_game.inventory_menu.fr_unlock[6] = True
                         main_game.inventory_menu.coin_amn -= 45
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
@@ -615,6 +626,7 @@ def inventory():
                     if main_game.inventory_menu.coin_amn - 65 >= 0:
                         main_game.inventory_menu.fr_unlock[7] = True
                         main_game.inventory_menu.coin_amn -= 65
+                        main_game.inventory_menu.handle_save_click()
                     else:
                         main_game.oops = True
                         main_game.oops_start_time = pygame.time.get_ticks()
